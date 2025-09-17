@@ -148,7 +148,7 @@ def change_basis_p (
     under periodic padding.
 
     At input time, ``data`` is a one-dimensional ``numpy.ndarray`` of
-    coefficients that is expressing the
+    coefficients that is expressing the periodic
     :ref:`uniform spline<def-uniform_spline>` :math:`f` of
     :ref:`nonnegative<def-negative>` degree :math:`n` as a weighted sum of
     integer-shifted bases of the type ``source_basis``.
@@ -531,7 +531,7 @@ def coeff_to_ortho_p (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p0 = len(data)
-    if not (degree, p0) in _sqrtdftbn:
+    if (degree, p0) not in _sqrtdftbn:
         periodized_b = np.zeros(p0, dtype = float)
         for (x, bx) in enumerate(_b(2 * degree + 1)):
             periodized_b[(x - degree) % p0] += bx
@@ -625,7 +625,7 @@ def ortho_to_coeff_p (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p0 = len(data)
-    if not (degree, p0) in _sqrtdftbn:
+    if (degree, p0) not in _sqrtdftbn:
         periodized_b = np.zeros(p0, dtype = float)
         for (x, bx) in enumerate(_b(2 * degree + 1)):
             periodized_b[(x - degree) % p0] += bx

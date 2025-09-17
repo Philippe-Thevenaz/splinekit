@@ -7,7 +7,7 @@ SplineKit
    :maxdepth: 5
    :caption: Contents:
 
-   glossary
+   glossary/index
    periodic_spline_1d/index
    bsplines/index
    spline_padding/index

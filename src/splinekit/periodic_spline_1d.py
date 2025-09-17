@@ -36,7 +36,7 @@ Class Methods
 -   Evaluate Nonstandard Spline Representations
 
     - :ref:`eval_piecewise_polynomials_at <periodic_spline_1d-eval_piecewise_polynomials_at>`
-    - :ref:`eval_piecewise_signs_at <periodic_spline_1d-eval_piecewise_signs_at>`
+    - :ref:`eval_piecewise_sgn_at <periodic_spline_1d-eval_piecewise_sgn_at>`
 
 Instance Methods
 ================
@@ -80,7 +80,7 @@ Instance Methods
 
     - :ref:`fourier_coeff <periodic_spline_1d-fourier_coeff>`
     - :ref:`piecewise_polynomials <periodic_spline_1d-piecewise_polynomials>`
-    - :ref:`piecewise_signs <periodic_spline_1d-piecewise_signs>`
+    - :ref:`piecewise_sgn <periodic_spline_1d-piecewise_sgn>`
 
 -   Resampling and Projections
 
@@ -709,13 +709,13 @@ class PeriodicSpline1D:
         -------
         PeriodicSpline1D
             The spline.
-    
+
         Examples
         --------
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline from a few arbitrary samples.
+        Create a spline from a few samples.
             >>> samples = np.array([1, 5, -3], dtype = float)
             >>> sk.PeriodicSpline1D.from_samples(samples, degree = 3)
             PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 0.0)
@@ -893,13 +893,13 @@ class PeriodicSpline1D:
         -------
         PeriodicSpline1D
             The spline.
-    
+
         Examples
         --------
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline with highly attenuated second-order derivatives.
+        Create a cubic spline with highly attenuated second-order derivatives.
             >>> samples = np.array([1, 5, -3], dtype = float)
             >>> regularization = np.array([0, 0, 5, 0], dtype = float)
             >>> sk.PeriodicSpline1D.from_smoothed_samples(samples, degree = 3, smoothing = regularization)
@@ -1093,7 +1093,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline from a few arbitrary coefficients.
+        Create a spline from a few coefficients.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             PeriodicSpline1D([ 1.  9. -7.], degree = 3, delay = 0.0)
@@ -1273,7 +1273,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create arbitrary splines and sum them.
+        Create two splines and sum them.
             >>> c1 = np.array([1, 9, -7], dtype = float)
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
             >>> c2 = np.array([6, -3, -2], dtype = float)
@@ -1360,7 +1360,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create arbitrary splines and sum them.
+        Create two splines and convolve them.
             >>> c1 = np.array([1, 9, -7], dtype = float)
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
             >>> c2 = np.array([6, -3, -2], dtype = float)
@@ -1461,7 +1461,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create arbitrary splines and sum them.
+        Create two splines and cross-correlate them.
             >>> c1 = np.array([1, 9, -7], dtype = float)
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
             >>> c2 = np.array([6, -3, -2], dtype = float)
@@ -1531,7 +1531,7 @@ class PeriodicSpline1D:
         :ref:`piecewise_polynomials<periodic_spline_1d-piecewise_polynomials>`.
 
         The evaluation proceeds in two steps. The first step is to identify
-        to which piece of the piecewise polynomial the abscissa belongs. The
+        which piece of the piecewise polynomial the abscissa belongs to. The
         second step is to evaluate the ordinate by direct computation of the
         polynomial.
 
@@ -1552,7 +1552,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an arbitrary spline and evaluate it from its pievewise-polynomial representation.
+        Create a spline and evaluate it from its pievewise-polynomial representation.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> pp = s.piecewise_polynomials()
@@ -1583,28 +1583,72 @@ class PeriodicSpline1D:
 
     #---------------
     @classmethod
-    def eval_piecewise_signs_at (
+    def eval_piecewise_sgn_at (
         cls,
         x: float,
-        signs: PeriodicNonuniformPiecewise
+        sgn: PeriodicNonuniformPiecewise
     ) -> float:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
-        .. _periodic_spline_1d-eval_piecewise_signs_at:
+        .. _periodic_spline_1d-eval_piecewise_sgn_at:
+
+        The signum, at an arbitrary abscissa, of the
+        PeriodicNonuniformPiecewise object returned by the function
+        piecewise_sgn().
+
+        Evaluated at the abscissa ``x``, this function returns the value of a
+        given :ref:`PeriodicNonuniformPiecewise<PeriodicNonuniformPiecewise>`
+        object that represents the :ref:`signum<def-sgn>` of a periodic
+        spline, as made available by the function
+        :ref:`piecewise_sgn<periodic_spline_1d-piecewise_sgn>`.
+
+        The evaluation proceeds in two steps. The first step is to identify
+        which piece of the piecewise signum the abscissa belongs to. The
+        second step is to evaluate the ordinate by direct lookup of the
+        signum.
+
+        Parameters
+        ----------
+        x : float
+            The abscissa.
+        sgn : PeriodicNonuniformPiecewise
+            A piecewise-signum function.
+
+        Returns
+        -------
+        float
+            The value of the piecewise signum evaluated at ``x``.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and evaluate it from its pievewise-signum representation.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> ps = s.piecewise_sgn()
+            >>> x = -18.5
+            >>> print(sk.PeriodicSpline1D.eval_piecewise_sgn_at(x, ps))
+            >>> print(np.sign(s.at(x)))
+            -1.0
+            -1.0
+
+        See Also
+        --------
+        at : Evaluation of this spline at ``x``.
 
 
         ----
 
         """
 
-        (_, x_wrapped) = _divmod(x, signs.period)
-        for piece in signs.pieces:
+        (_, x_wrapped) = _divmod(x, sgn.period)
+        for piece in sgn.pieces:
             if x_wrapped in piece.domain:
                 return float(piece.item)
         raise ValueError(
-            "Internal error (signs must partition [0.0, period))"
+            "Internal error (sgn must partition [0.0, period))"
         )
 
     #---------------
@@ -1627,13 +1671,13 @@ class PeriodicSpline1D:
         -------
         PeriodicSpline1D
             The copied spline.
-    
+
         Examples
         --------
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an arbitrary spline and duplicate it.
+        Create a spline and duplicate it.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 8.4)
             >>> s2 = s1.copy()
@@ -1672,10 +1716,216 @@ class PeriodicSpline1D:
         periodbound_stem_fmt: str = "-r"
     ):
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-plot:
+
+        Parameters
+        ----------
+        subplot : tuple[matplotlib.Figure, matplotlib.Axes]
+            The ``matplotlib`` subplot that collects the drawing instructions.
+        plotdomain : Interval
+            The domain over which this spline is drawn.
+        plotrange : Interval
+            The range over which this spline is drawn.
+        plotpoints : int
+            The number of points sampled over ``plotdomain``.
+        line_fmt : str
+            The format of the line depicting the spline curve.
+        marker_fmt : str
+            The format of the markers at the integer samples of the spline
+            curve.
+        stem_fmt : str
+            The format of the stem line at the integer samples of the spline
+            curve.
+        knot_marker : str
+            The format of the markers at the knots of the spline curve.
+        knot_color : str
+            The color of the markers at the knots of the spline curve.
+        periodbound_marker_fmt : str
+            The format of the marker at the origin of this spline, repeated at
+            all periods.
+        periodbound_stem_fmt : str
+            The format of the stem at the origin of this spline, repeated at
+            all periods.
+
+        Returns
+        -------
+        None
+
+
+        Let :math:`K` be the period of this spline.
+
+        *plotdomain*
+
+        *   When ``plotdomain`` is :ref:`RR<RR>`, the diameter of the domain
+            is assumed to be the main period of this spline augmented by a
+            margin of length ``1`` on each side, which yields the open interval
+            :math:`(-1,K-1).`
+        *   When ``plotdomain`` is a half-bounded interval, the diameter of
+            the domain is taken to be the main period of this spline, without
+            margin. The domain is open in the unbounded direction; whether it
+            is open or closed in the opposite direction honors the 'above' or
+            'below' type of half-bounded interval.
+        *   When ``plotdomain`` is a proper interval, its properties are
+            honored.
+        *   A single point is drawn when ``plotdomain`` is degenerate.
+
+        *plotrange*
+
+        *   When ``plotrange`` is :ref:`RR<RR>`, the range is assumed to be the
+            closed interval whose lower bound is the minimal value observed
+            over the ``plotpoints`` samples of this spline, and whose upper
+            bound is the maximal value.
+        *   When ``plotrange`` is a half-bounded interval, the range is
+            assumed to take the ``threshold`` value on one bound. For the other
+            bound, it is either the minimal or maximal value observed over the
+            ``plotpoints`` samples of this spline.
+        *   When ``plotrange`` is a proper interval, its bounds are honored;
+            however, the range is always closed.
+
+        *plotpoints*
+
+        *   The condition ``plotpoints = 1`` must hold whenever ``plotdomain``
+            is a degenerate interval.
+        *   A spline of zero degree is drawn as a
+            :ref:`piecewise-constant polynomial<def-polynomial>`, with splits
+            :math:`{\mathbb{F}}({\mathbb{S}})` rendered as markers and
+            polynomials :math:`{\mathbb{P}}({\mathbb{S}})` rendered as
+            constant-value curves. ``plotpoints`` is ineffective in this
+            context.
+        *   In the general case, the drawn curve is made of straight segments.
+            The number of such segments is ``(plotpoints - 1)``. They are
+            sampled regularly over the domain that results from the
+            ``plotdomain`` directive.
+
+        *line_fmt*
+
+        *   ``line_fmt`` is a format string passed to the property ``fmt`` of
+            ``matplotlib.axes.Axes.plot``. This string has the three fields
+            ``[marker][line][color]``.
+        *   The
+            :ref:`matplotlib markers <matplotlib-marker>` of the ``[marker]``
+            field will be drawn at each of the ``plotpoints`` samples; its
+            use is discouraged (leave it blank).
+        *   The :ref:`matplotlib line styles <matplotlib-linestyle>` of the
+            ``[line]`` field corresponds to the line style of the spline curve.
+        *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
+            field corresponds to the color of the spline curve.
+        *   The default line format is ``"-C0"``, which means no marker and
+            solid lines rendered in default-property color blue.
+
+        *marker_fmt*
+
+        *   ``marker_fmt`` is a format string passed to the property
+            ``markerfmt`` of ``matplotlib.pyplot.stem``. This string has the
+            two fields ``[marker][color]``.
+        *   The :ref:`matplotlib markers <matplotlib-marker>` of the
+            ``[marker]`` field will be drawn at each integer sample of the
+            spline.
+        *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
+            field corresponds to the color of the markers.
+        *   The default marker format is ``"oC0"``, which means that markers
+            take the shape of a circle and are rendered in default-property
+            color blue.
+        *   If the shape is not given, use the marker ``"o"``. If the color is
+            not given, use the color from ``stem_fmt``.
+
+        *stem_fmt*
+
+        *   ``stem_fmt`` is a format string passed to the property ``linefmt``
+            of ``matplotlib.pyplot.stem``. This string has the two fields
+            ``[line][color]``.
+        *   The :ref:`matplotlib line style <matplotlib-linestyle>` of the
+            ``[line]`` field corresponds to the line style of the stem lines
+            at the integer samples of the spline curve.
+        *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
+            field corresponds to the color of the stem lines.
+        *   The default format of the stem lines is ``"-C0"``, which means
+            solid lines rendered in default-property color blue.
+
+        *knot_marker*
+
+        *   ``knot_marker`` is a format string passed to the property
+            ``marker`` of ``matplotlib.axes.Axes.plot``. This string has the
+            one field ``[marker]``.
+        *   The :ref:`matplotlib markers <matplotlib-marker>` of the
+            ``[marker]`` field will be plotted at each knot of the spline.
+        *   The default format of the knot markers is ``"o"``, which means
+            that knots take the shape of a circle.
+
+        *knot_color*
+
+        *   ``knot_color`` is a format string passed to the property
+            ``markerfacecolor`` of ``matplotlib.axes.Axes.plot``. This string
+            has the one field ``[color]``.
+        *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
+            field corresponds to the color of the knots.
+        *   The default color of the knots is ``"k"``, which means they are
+            rendered in base-color black.
+
+        *periodbound_marker_fmt*
+
+        *   ``periodbound_marker_fmt`` is a format string passed to the
+            property ``markerfmt`` of ``matplotlib.pyplot.stem``. This string
+            has the two fields ``[color][marker]``.
+        *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
+            field corresponds to the color of the period-bound markers.
+        *   The :ref:`matplotlib markers <matplotlib-marker>` of the
+            ``[marker]`` field will be drawn one period apart, at
+            :math:`\left(K\,{\mathbb{Z}}\right).`
+        *   The default format of the period-bound markers is ``"or"``, which
+            means they take the shape of a circle and are rendered in
+            base-color red.
+
+        *periodbound_stem_fmt*
+
+        *   ``periodbound_stem_fmt`` is a format string passed to the
+            property ``linefmt`` of ``matplotlib.pyplot.stem``. This string
+            has the two fields ``[line][color]``.
+        *   The :ref:`matplotlib line style <matplotlib-linestyle>` of the
+            ``[line]`` field corresponds to the line style of the stem lines.
+            They are drawn one period apart, at
+            :math:`\left(K\,{\mathbb{Z}}\right).`
+        *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
+            field corresponds to the color of the period-bound stem lines.
+        *   The default format of the period-bound stem lines is ``"-r"``,
+            which means solid lines rendered in base-color red.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import matplotlib as plt
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and draw it.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 8.4)
+            >>> s.plot(plt.pyplot.subplots(), plotpoints = 301)
+            >>> plt.pyplot.show()
+
+        ..  plot::
+
+            import matplotlib as plt
+            import numpy as np
+            import splinekit as sk
+            c = np.array([1, 9, -7], dtype = float)
+            s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 8.4)
+            s.plot(plt.pyplot.subplots(), plotpoints = 301)
+            plt.pyplot.show()
+
+        Raises
+        ------
+        ValueError
+            Raised when ``plotdomain`` is :ref:`empty<Empty>`.
+        ValueError
+            Raised when ``plotdomain`` is a :ref:`singleton<Singleton>` and
+            ``1 != plotpoints``.
+        ValueError
+            Raised when ``plotdomain`` is neither :ref:`empty<Empty>` nor a
+            :ref:`singleton<Singleton>` and ``2 > plotpoints``.
+        ValueError
+            Raised when ``plotrange`` is either :ref:`empty<Empty>` or a
+            :ref:`singleton<Singleton>`.
 
 
         ----
@@ -1689,31 +1939,31 @@ class PeriodicSpline1D:
         if isinstance(plotdomain, Empty):
             raise ValueError("Invalid plotdomain")
         if isinstance(plotdomain, Above):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.threshold
             stop = start + self._period
             stop_included = True
         elif isinstance(plotdomain, NotBelow):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.threshold
             start_included = True
             stop = start + self._period
         elif isinstance(plotdomain, NotAbove):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.threshold - self._period
             stop = plotdomain.threshold
             stop_included = True
         elif isinstance(plotdomain, Below):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.threshold - self._period
             start_included = True
             stop = plotdomain.threshold
         elif isinstance(plotdomain, RR):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
         elif isinstance(plotdomain, Singleton):
             if 1 != plotpoints:
@@ -1723,25 +1973,25 @@ class PeriodicSpline1D:
             stop = plotdomain.value
             stop_included = True
         elif isinstance(plotdomain, Open):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.infimum
             stop = plotdomain.supremum
         elif isinstance(plotdomain, OpenClosed):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.infimum
             stop = plotdomain.supremum
             stop_included = True
         elif isinstance(plotdomain, Closed):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.infimum
             start_included = True
             stop = plotdomain.supremum
             stop_included = True
         elif isinstance(plotdomain, ClosedOpen):
-            if 2 > plotpoints:
+            if 0 != self._degree and 2 > plotpoints:
                 raise ValueError("At least two plotpoints are required")
             start = plotdomain.infimum
             start_included = True
@@ -1769,7 +2019,7 @@ class PeriodicSpline1D:
             maxrange_provided = True
         else:
             raise ValueError("Internal error (unexpected interval class)")
-        if 1 == plotpoints:
+        if isinstance(plotdomain, Singleton):
             fig = subplot[0]
             stems = subplot[1].twinx()
             stems.sharey(subplot[1])
@@ -2102,15 +2352,15 @@ class PeriodicSpline1D:
             \end{eqnarray*}
 
         There, :math:`c` are the :math:`K` spline coefficients,
-        :math:`{\mathbf{c}}=\left(c[{\left(k-\Xi\right)\bmod
+        :math:`{\mathbf{c}}=\left(c[{\left(k-r\right)\bmod
         K}]\right)_{k=0}^{n}\in{\mathbb{R}}^{n+1}` is a vector of
         :math:`\left(n+1\right)` spline coefficients, :math:`{\mathbf{W}}^{n}`
         is the :ref:`B-spline evaluation matrix<w_frac>`, and
         :math:`{\mathbf{v}}^{n}(\chi)` is the
         :ref:`Vandermonde vector<def-vandermonde_vector>` of argument
         :math:`\chi,` with :math:`\xi=\left(\frac{n-1}{2}-x+\delta x\right)
-        \in{\mathbb{R}},` :math:`\Xi=\left\lceil\xi\right\rceil\in
-        {\mathbb{Z}},` and :math:`\chi=\left(\Xi-\xi\right)\in[0,1).`
+        \in{\mathbb{R}},` :math:`r=\left\lceil\xi\right\rceil\in
+        {\mathbb{Z}},` and :math:`\chi=\left(r-\xi\right)\in[0,1).`
 
         As computed above, the fact that the Vandermonde vector has the domain
         :math:`[0,1)` greatly favors numerical stability since the range of
@@ -2131,7 +2381,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed spline and evaluate it at the arbitrary abscissa ``-18.5``.
+        Create a spline and evaluate it at the abscissa ``-18.5``.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.at(-18.5)
@@ -2241,10 +2491,9 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline.
+        Create a spline and evaluate it for ``x in [-18.5, -18.25, -18.0, -17.75]``.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
-        Evaluate ``s(x)`` for ``x in [-18.5, -18.25, -18.0, -17.75]``.
             >>> s.get_samples(-18.5, support_length = 1, oversampling = 4)
             array([-2.5   , -0.9375,  1.    ,  2.9375])
 
@@ -2418,7 +2667,7 @@ class PeriodicSpline1D:
         -------
         float
             The mean of this spline.
-    
+
         Examples
         --------
         Load the libraries.
@@ -2465,7 +2714,7 @@ class PeriodicSpline1D:
         -------
         float
             The variance of this spline.
-    
+
         Examples
         --------
         Load the libraries.
@@ -2512,7 +2761,7 @@ class PeriodicSpline1D:
         Assume that this spline :math:`s` is of period :math:`K` and degree
         :math:`m.` Then, this function returns another spline :math:`f` of
         same period :math:`K` and arbitrary :ref:`nonnegative<def-negative>`
-        degree :math:`n` such that :math:`f(x)\leq g(x)` for all
+        degree :math:`n` such that :math:`f(x)\leq s(x)` for all
         :math:`x\in{\mathbb{R}}.` The delay of :math:`f` is adjusted so that
         the knots of :math:`f` coincide with those of :math:`s.`
 
@@ -2592,7 +2841,7 @@ class PeriodicSpline1D:
                     )
                 ),
                 degree = 0,
-                delay = self._delay + 0.5 *self._degree
+                delay = self._delay + 0.5 * self._degree
             )
         g = cast(
             np.ndarray[tuple[int], np.dtype[np.float64]],
@@ -2659,7 +2908,7 @@ class PeriodicSpline1D:
         Assume that this spline :math:`s` is of period :math:`K` and degree
         :math:`m.` Then, this function returns another spline :math:`f` of
         same period :math:`K` and arbitrary :ref:`nonnegative<def-negative>`
-        degree :math:`n` such that :math:`f(x)\geq g(x)` for all
+        degree :math:`n` such that :math:`f(x)\geq s(x)` for all
         :math:`x\in{\mathbb{R}}.` The delay of :math:`f` is adjusted so that
         the knots of :math:`f` coincide with those of :math:`s.`
 
@@ -2739,7 +2988,7 @@ class PeriodicSpline1D:
                     )
                 ),
                 degree = 0,
-                delay = self._delay + 0.5 *self._degree
+                delay = self._delay + 0.5 * self._degree
             )
         g = cast(
             np.ndarray[tuple[int], np.dtype[np.float64]],
@@ -2814,7 +3063,7 @@ class PeriodicSpline1D:
             :math:`\emptyset,` the returned array contains no element. The
             same happens when no element of :math:`{\mathbb{F}}({\mathbf{S}})`
             belongs to ``domain``.
-        *   When ``domain`` is the real line 
+        *   When ``domain`` is the real line
             :ref:`splinekit.interval.RR<RR>` notated :math:`{\mathbb{R}},` the
             returned array contains only the splits that belong to
             :math:`[0,K),` where :math:`K` is the period of this spline.
@@ -2848,7 +3097,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an arbitrary cubic spline and find the knots over the main period.
+        Create a spline and find its knots over the main period.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 8.4)
             >>> s.get_knots(sk.interval.RR())
@@ -3017,11 +3266,45 @@ class PeriodicSpline1D:
         self
     ) -> List[Interval]:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-zeros:
 
+        Zeros of this spline.
+
+        This function returns a list of ``Interval`` objects where this spline
+        vanishes, up to numerical accuracy.
+
+        *   When the degree of this spline is zero, the class of every
+            interval will be either one of
+            :ref:`splinekit.interval.Singleton<Singleton>` or
+            :ref:`splinekit.interval.Open<Open>`.
+        *   When the degree of this spline is positive, the class of every
+            interval will be either one of
+            :ref:`splinekit.interval.Singleton<Singleton>` or
+            :ref:`splinekit.interval.Closed<Closed>`.
+        *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
+            of all returned intervals is smaller than the period of this
+            spline.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        list of Interval
+            The intervals where this spline vanishes.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and find its zeros.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.zeros()
+            [Singleton(1.6008198378617022), Singleton(2.873999807413743)]
 
         ----
 
@@ -3029,7 +3312,7 @@ class PeriodicSpline1D:
 
         z = [
             s.domain
-            for s in self.piecewise_signs().pieces
+            for s in self.piecewise_sgn().pieces
             if 0 == s.item
         ]
         if len(z) < 2:
@@ -3088,7 +3371,6 @@ class PeriodicSpline1D:
         r"""
         .. _periodic_spline_1d-zero_crossings:
 
-
         Zeros of odd multiplicity of this spline.
 
         This function returns a list of two items.
@@ -3105,7 +3387,12 @@ class PeriodicSpline1D:
             :ref:`positive<def-positive>` to the right. The intervals of this
             list thus correspond to the ascending zero crossings of this
             spline.
-        *   The class of every interval will be either one of
+        *   When the degree of this spline is zero, the class of every
+            interval will be either one of
+            :ref:`splinekit.interval.Singleton<Singleton>` or
+            :ref:`splinekit.interval.Open<Open>`.
+        *   When the degree of this spline is positive, the class of every
+            interval will be either one of
             :ref:`splinekit.interval.Singleton<Singleton>` or
             :ref:`splinekit.interval.Closed<Closed>`.
         *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
@@ -3126,7 +3413,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an arbitrary cubic spline and find its zero-crossings.
+        Create a spline and find its zero-crossings.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.zero_crossings()
@@ -3136,9 +3423,140 @@ class PeriodicSpline1D:
 
         """
 
-        sgn = [s for s in self.piecewise_signs().pieces if 0.0 != s.item]
+        zc: List[List[Interval]] = [[], []]
+        pieces = self.piecewise_sgn().pieces
+        p0 = len(pieces)
+        if 1 == p0:
+            return zc
+        if 0 == self._degree:
+            first_piece = pieces[0]
+            last_piece = pieces[-1]
+            if last_piece.item == first_piece.item:
+                p0 -= 1
+                if 1 == p0:
+                    return zc
+                if isinstance(last_piece.domain, ClosedOpen):
+                    if isinstance(first_piece.domain, (Singleton, Closed)):
+                        last_piece = PeriodicNonuniformPiecewise.Piece(
+                            domain = Closed((
+                                last_piece.domain.infimum,
+                                last_piece.domain.supremum +
+                                    first_piece.domain.diameter
+                            )),
+                            item = last_piece.item
+                        )
+                        pieces[0] = last_piece
+                        pieces[-1] = last_piece
+                        pieces.append(pieces[1])
+                    elif isinstance(first_piece.domain, ClosedOpen):
+                        last_piece = PeriodicNonuniformPiecewise.Piece(
+                            domain = ClosedOpen((
+                                last_piece.domain.infimum,
+                                last_piece.domain.supremum +
+                                    first_piece.domain.diameter
+                            )),
+                            item = last_piece.item
+                        )
+                        pieces[0] = last_piece
+                        pieces[-1] = last_piece
+                        pieces.append(pieces[1])
+                    else:
+                        raise ValueError(
+                            "Internal error (unexpected interval subclass)"
+                        )
+                elif isinstance(last_piece.domain, Open):
+                    if isinstance(first_piece.domain, (Singleton, Closed)):
+                        last_piece = PeriodicNonuniformPiecewise.Piece(
+                            domain = OpenClosed((
+                                last_piece.domain.infimum,
+                                last_piece.domain.supremum +
+                                    first_piece.domain.diameter
+                            )),
+                            item = last_piece.item
+                        )
+                        pieces[0] = last_piece
+                        pieces[-1] = last_piece
+                        pieces.append(pieces[1])
+                    elif isinstance(first_piece.domain, ClosedOpen):
+                        last_piece = PeriodicNonuniformPiecewise.Piece(
+                            domain = Open((
+                                last_piece.domain.infimum,
+                                last_piece.domain.supremum +
+                                    first_piece.domain.diameter
+                            )),
+                            item = last_piece.item
+                        )
+                        pieces[0] = last_piece
+                        pieces[-1] = last_piece
+                        pieces.append(pieces[1])
+                    else:
+                        raise ValueError(
+                            "Internal error (unexpected interval subclass)"
+                        )
+                else:
+                    raise ValueError(
+                        "Internal error (unexpected interval subclass)"
+                    )
+            else:
+                pieces.insert(0, last_piece)
+                pieces.append(first_piece)
+            for (k, piece) in enumerate(pieces):
+                if 0.0 != piece.item or 1 > k or p0 < k:
+                    continue
+                if 0.0 < pieces[k - 1].item:
+                    if 0.0 < pieces[k + 1].item:
+                        continue
+                    zc[0].append(piece.domain)
+                    continue
+                if 0.0 > pieces[k - 1].item:
+                    if 0.0 > pieces[k + 1].item:
+                        continue
+                    zc[1].append(piece.domain)
+                    continue
+            for (k, piece) in enumerate(pieces):
+                if 1 > k or p0 < k:
+                    continue
+                if 0.0 <= pieces[k - 1].item * piece.item:
+                    continue
+                if isinstance(
+                    pieces[k - 1].domain,
+                    (Open, OpenClosed, ClosedOpen, Closed)
+                ):
+                    (_, x1) = _divmod(
+                        pieces[k - 1].domain.supremum,
+                        self._period
+                    )
+                elif isinstance(pieces[k - 1].domain, Singleton):
+                    (_, x1) = _divmod(pieces[k - 1].domain.value, self._period)
+                else:
+                    raise ValueError(
+                        "Internal error (unexpected interval subclass)"
+                    )
+                if isinstance(
+                    piece.domain,
+                    (Open, OpenClosed, ClosedOpen, Closed)
+                ):
+                    (_, x2) = _divmod(piece.domain.infimum, self._period)
+                elif isinstance(piece.domain, Singleton):
+                    (_, x2) = _divmod(piece.domain.value, self._period)
+                else:
+                    raise ValueError(
+                        "Internal error (unexpected interval subclass)"
+                    )
+                if 0.0 > piece.item:
+                    zc[0].append(Singleton(
+                        x1 if x1 == x2 else 0.5 * (x1 + x2)
+                    ))
+                else:
+                    zc[1].append(Singleton(
+                        x1 if x1 == x2 else 0.5 * (x1 + x2)
+                    ))
+            zc[0].sort()
+            zc[1].sort()
+            return zc
+        sgn = [s for s in self.piecewise_sgn().pieces if 0.0 != s.item]
         if len(sgn) < 2:
-            return [[], []]
+            return zc
         s1 = sgn[-1]
         k = len(sgn) - 2
         while 0 <= k:
@@ -3151,15 +3569,7 @@ class PeriodicSpline1D:
                     raise ValueError(
                         "Internal error (unexpected interval subclass)"
                     )
-                if isinstance(s0.domain, Singleton):
-                    s0 = PeriodicNonuniformPiecewise.Piece(
-                        Open((
-                            s0.domain.value,
-                            s1.domain.supremum
-                        )),
-                        s1.item
-                    )
-                elif isinstance(
+                if isinstance(
                     s0.domain,
                     (Open, OpenClosed, Closed, ClosedOpen)
                 ):
@@ -3179,7 +3589,7 @@ class PeriodicSpline1D:
             s1 = s0
             k -= 1
         if len(sgn) < 2:
-            return [[], []]
+            return zc
         s1 = sgn[0]
         s0 = sgn[-1]
         if 0.0 < s0.item * s1.item:
@@ -3190,15 +3600,7 @@ class PeriodicSpline1D:
                 raise ValueError(
                     "Internal error (unexpected interval subclass)"
                 )
-            if isinstance(s1.domain, Singleton):
-                s0 = PeriodicNonuniformPiecewise.Piece(
-                    Open((
-                        s0.domain.infimum - self._period,
-                        s1.domain.value
-                    )),
-                    s1.item
-                )
-            elif isinstance(
+            if isinstance(
                 s1.domain,
                 (Open, OpenClosed, Closed, ClosedOpen)
             ):
@@ -3216,10 +3618,9 @@ class PeriodicSpline1D:
             sgn[0] = s0
             del sgn[-1]
         if len(sgn) < 2:
-            return [[], []]
+            return zc
         s0 = sgn[-1]
         s1 = sgn[0]
-        zc: List[List[Interval]] = [[], []]
         if (not isinstance(
             s0.domain,
             (Open, OpenClosed, Closed, ClosedOpen)
@@ -3325,11 +3726,52 @@ class PeriodicSpline1D:
         self
     ) -> List[List[Extremum]]:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
         .. _periodic_spline_1d-extrema:
 
+        Extrema of this spline.
+
+        This function returns a list of two items.
+
+        *   The first item is a list of the local minima of this spline,
+            encoded by :ref:`Extremum<periodic_spline_1d-Extremum>` objects.
+            This spline is larger to the left and to the right of each
+            interval in this first list.
+        *   The second item is a list of the local maxima of this spline,
+            encoded by :ref:`Extremum<periodic_spline_1d-Extremum>` objects.
+            This spline is smaller to the left and to the right of each
+            interval in this second list.
+        *   When the degree of this spline is zero, the class of every
+            interval will be either one of
+            :ref:`splinekit.interval.Singleton<Singleton>` or
+            :ref:`splinekit.interval.Open<Open>`.
+        *   When the degree of this spline is positive, the class of every
+            interval will be either one of
+            :ref:`splinekit.interval.Singleton<Singleton>` or
+            :ref:`splinekit.interval.Closed<Closed>`.
+        *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
+            of all returned intervals is smaller than the period of this
+            spline.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        list of list of Extremum
+            The intervals where this spline is a local extremum.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and find its extrema.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.extrema()
+            [[Extremum(domain=Singleton(-0.8164965809277263), value=-3.354648431614539)], [Extremum(domain=Singleton(0.816496580927726), value=5.354648431614539)]]
 
         ----
 
@@ -3426,7 +3868,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline add some number.
+        Create a spline and add some number.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.plus(5.0)
@@ -3458,8 +3900,8 @@ class PeriodicSpline1D:
 
         Letting this spline be
         :math:`s:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto s(x)` and
-        letting ``constant`` be :math:`\lambda_{0},` return the spline
-        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto\lambda_{0}\,s(x).`
+        letting ``constant`` be :math:`a_{0},` return the spline
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto a_{0}\,s(x).`
 
         Parameters
         ----------
@@ -3476,7 +3918,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline and multiply it by some number.
+        Create a spline and multiply it by some number.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.times(5.0)
@@ -3524,7 +3966,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline and flip its sign.
+        Create a spline and flip its signum.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.negated()
@@ -3572,7 +4014,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline and mirror it.
+        Create a spline and mirror it.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
             >>> s.mirrored()
@@ -3637,7 +4079,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline and fractionalize its delay.
+        Create a spline and fractionalize its delay.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = -3.71)
             >>> s.fractionalized_delay()
@@ -3690,7 +4132,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline with an arbitrary delay, and delay it further.
+        Create a spline with an arbitrary delay, and delay it further.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
             >>> s.delayed_by(5.2)
@@ -3725,7 +4167,8 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            f(x)=\frac{{\mathrm{d}}^{m}s(x)}{{\mathrm{d}}x^{m}}.
+            f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto
+            \frac{{\mathrm{d}}^{m}s(x)}{{\mathrm{d}}x^{m}}.
 
         Parameters
         ----------
@@ -3761,7 +4204,7 @@ class PeriodicSpline1D:
         """
 
         if 0 > order:
-            raise ValueError("Order must be nonnegative")
+            raise ValueError("The differentiation order must be nonnegative")
         if self._degree < order:
             raise ValueError(
                 "The differentiation order must not exceed the spline degree"
@@ -3805,7 +4248,8 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            f(x)=\frac{{\mathrm{d}}s(x)}{{\mathrm{d}}x}.
+            f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto
+            \frac{{\mathrm{d}}s(x)}{{\mathrm{d}}x}.
 
         Parameters
         ----------
@@ -3821,7 +4265,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline and compute its gradient.
+        Create a spline and compute its gradient.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.gradient()
@@ -3890,7 +4334,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create an undelayed cubic spline and compute its anti-gradient.
+        Create a spline and compute its anti-gradient.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.anti_grad()
@@ -3946,7 +4390,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a spline and compute its integral between two arbitrary bounds.
+        Create a spline and compute its integral between two bounds.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
             >>> s.integrate(lower_bound = -18.5, upper_bound = 7.3)
@@ -4028,7 +4472,7 @@ class PeriodicSpline1D:
         Load the libraries.
             >>> import numpy as np
             >>> import splinekit as sk
-        Create a cubic spline and compute its Fourier coefficient at some arbitrary index.
+        Create a spline and compute its Fourier coefficient at some arbitrary index.
             >>> c = np.array([1, 9, -7], dtype = float)
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3, delay = 0.71)
             >>> s.fourier_coeff(-5)
@@ -4084,24 +4528,24 @@ class PeriodicSpline1D:
             \end{eqnarray*}
 
         There, :math:`c` are the :math:`K` spline coefficients,
-        :math:`{\mathbf{c}}=\left(c[{\left(k-\Xi\right)\bmod
+        :math:`{\mathbf{c}}=\left(c[{\left(k-r\right)\bmod
         K}]\right)_{k=0}^{n}\in{\mathbb{R}}^{n+1}` is a vector of
         :math:`\left(n+1\right)` spline coefficients, :math:`{\mathbf{W}}^{n}`
         is the :ref:`B-spline evaluation matrix<w_frac>`, and
         :math:`{\mathbf{v}}^{n}(\chi)` is the
         :ref:`Vandermonde vector<def-vandermonde_vector>` of argument
         :math:`\chi,` with :math:`\xi=\left(\frac{n-1}{2}-x+\delta x\right)
-        \in{\mathbb{R}},` :math:`\Xi=\left\lceil\xi\right\rceil\in
-        {\mathbb{Z}},` and :math:`\chi=\left(\Xi-\xi\right)\in[0,1).`
+        \in{\mathbb{R}},` :math:`r=\left\lceil\xi\right\rceil\in
+        {\mathbb{Z}},` and :math:`\chi=\left(r-\xi\right)\in[0,1).`
 
-        With these notations and in the general case, each piece is a
-        polynomial defined over an interval domain :math:`{\mathbb{X}}` such
-        that :math:`\chi(n,x,\delta x)\in[0,1)` for :math:`x\in{\mathbb{X}}.`
-        The corresponding ``window`` of the ``numpy.polynomial.Polynomial``
-        object is then ``[0.0, 1.0]``, while its ``domain`` is set to the
-        domain :math:`{\mathbb{X}}.` The polynomial is a weighted sum of the
-        monomials found in the Vandermonde vector :math:`{\mathbf{v}}^{n},`
-        the weights being given by the vector
+        With these notations and in the general case, the ``item`` of each
+        piece is a polynomial defined over an interval domain
+        :math:`{\mathbb{X}}` such that :math:`\chi(n,x,\delta x)\in[0,1)` for
+        :math:`x\in{\mathbb{X}}.` The corresponding ``window`` of the
+        ``numpy.polynomial.Polynomial`` object is then ``[0.0, 1.0]``, while
+        its ``domain`` is set to the domain :math:`{\mathbb{X}}.` The
+        polynomial is a weighted sum of the monomials found in the Vandermonde
+        vector :math:`{\mathbf{v}}^{n},` the weights being given by the vector
         :math:`\left({\mathbf{W}}^{n}\right)^{{\mathsf{T}}}\,{\mathbf{c}}.`
 
         Exceptions to the general case arise.
@@ -4114,8 +4558,10 @@ class PeriodicSpline1D:
             :ref:`piecewise-constant<def-spline>` spline are provided as a
             polynomial of degree zero and ``window = [-0.5, 0.5]``, with
             :math:`k`-th ``domain`` being :math:`[f_{k}-\frac{1}{2},
-            f_{k}-\frac{1}{2}].`
-        *   For :math:`K=0,` the delay :math:`\delta x` plays no role.
+            f_{k}+\frac{1}{2}].`
+        *   :ref:`Polynomials<def-polynomial>` of degree :math:`(-1)` are
+            encoded as polynomials of degree :math:`n.`
+        *   For :math:`K=1,` the delay :math:`\delta x` plays no role.
 
         Parameters
         ----------
@@ -4144,13 +4590,6 @@ class PeriodicSpline1D:
             >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 0, delay = 0.03)
             >>> s.piecewise_polynomials()
             periodic_nonuniform_piecewise([PeriodicNonuniformPiecewise.Piece(domain=ClosedOpen((0.0, 0.53)), item=Polynomial([-2.], domain=[0.  , 0.53], window=[0.  , 0.53], symbol='x')), PeriodicNonuniformPiecewise.Piece(domain=Singleton(0.53), item=Polynomial([1.5], domain=[0.03, 1.03], window=[-0.5,  0.5], symbol='x')), PeriodicNonuniformPiecewise.Piece(domain=Open((0.53, 1.53)), item=Polynomial([5.], domain=[0.53, 1.53], window=[0., 1.], symbol='x')), PeriodicNonuniformPiecewise.Piece(domain=Singleton(1.53), item=Polynomial([1.5], domain=[1.03, 2.03], window=[-0.5,  0.5], symbol='x')), PeriodicNonuniformPiecewise.Piece(domain=Open((1.53, 2)), item=Polynomial([-2.], domain=[1.53, 2.  ], window=[0.  , 0.47], symbol='x'))], period = 2)
-
-        Notes
-        -----
-        The polynomial variable :math:`x` appears with a negative sign in the
-        expression of :math:`\xi,` but :math:`\xi` appears itself with a
-        negative sign in the expression of :math:`\chi.` The two signs
-        compensate each other so that :math:`\chi` grows like :math:`x.`
 
         ----
 
@@ -4316,15 +4755,49 @@ class PeriodicSpline1D:
         return PeriodicNonuniformPiecewise(pp, period = self._period)
 
     #---------------
-    def piecewise_signs (
+    def piecewise_sgn (
         self,
     ) -> PeriodicNonuniformPiecewise:
 
-        # TODO: docstring
-        # TODO: tests
         r"""
-        .. _periodic_spline_1d-piecewise_signs:
+        .. _periodic_spline_1d-piecewise_sgn:
 
+        The list of all constant-signum pieces over one period of this
+        ``PeriodicSpline1D`` object.
+
+        Letting this spline of period :math:`K` be
+        :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x),` return a
+        :ref:`PeriodicNonuniformPiecewise<PeriodicNonuniformPiecewise>`
+        object whose :math:`p`-th :ref:`Piece<Piece>` item contains the
+        :ref:`signum<def-sgn>` of :math:`f` over the piece domain
+        :math:`{\mathbb{X}}_{p}.` In general,
+        :math:`{\mathbb{X}}_{p}` is the largest interval such that
+        :math:`\forall x\in{\mathbb{X}}_{p}: {\mathrm{sgn}}(f(x))=s_{p},`
+        where :math:`s_{p}\in\{-1,0,1\}` is the constant-valued signum of this
+        spline over :math:`{\mathbb{X}}_{p}.` However, when the largest
+        interval would contain either the lower end or the upper end of the
+        period :math:`[0, K),` the domain may be cut in two intervals to honor
+        the constraint that :math:`{\mathbb{X}}_{p}\subseteq[0,K).`
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        PeriodicNonuniformPiecewise
+            The constant-signum pieces of this piecewise polynomial spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and get its signum pieces.
+            >>> c = np.array([1, 5, -3], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 1)
+            >>> s.piecewise_sgn()
+            periodic_nonuniform_piecewise([Piece(domain=ClosedOpen((0.0, 1.625)), item=1.0), Piece(domain=Singleton(1.625), item=0.0), Piece(domain=Open((1.625, 2.75)), item=-1.0), Piece(domain=Singleton(2.75), item=0.0), Piece(domain=Open((2.75, 3.0)), item=1.0)], period = 3)
 
         ----
 
@@ -4615,11 +5088,11 @@ class PeriodicSpline1D:
                         cast(Singleton, ps[k + 1].domain).value
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     ps[k : k + 2] = [ps[k]]
                 elif isinstance(ps[k + 1].domain, Open):
@@ -4627,7 +5100,7 @@ class PeriodicSpline1D:
                         cast(Open, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4644,7 +5117,7 @@ class PeriodicSpline1D:
                         cast(OpenClosed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4661,11 +5134,11 @@ class PeriodicSpline1D:
                         cast(Closed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     ps[k : k + 2] = [ps[k + 1]]
                 elif isinstance(ps[k + 1].domain, ClosedOpen):
@@ -4673,11 +5146,11 @@ class PeriodicSpline1D:
                         cast(ClosedOpen, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     ps[k : k + 2] = [ps[k + 1]]
             elif isinstance(ps[k].domain, Open):
@@ -4686,7 +5159,7 @@ class PeriodicSpline1D:
                         cast(Singleton, ps[k + 1].domain).value
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4700,18 +5173,18 @@ class PeriodicSpline1D:
                         k += 1
                 elif isinstance(ps[k + 1].domain, Open):
                     raise ValueError(
-                        "Internal error (sign pieces out of sequence)"
+                        "Internal error (signum pieces out of sequence)"
                     )
                 elif isinstance(ps[k + 1].domain, OpenClosed):
                     raise ValueError(
-                        "Internal error (sign pieces out of sequence)"
+                        "Internal error (signum pieces out of sequence)"
                     )
                 elif isinstance(ps[k + 1].domain, Closed):
                     if (cast(Open, ps[k].domain).supremum !=
                         cast(Closed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4728,7 +5201,7 @@ class PeriodicSpline1D:
                         cast(ClosedOpen, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4746,11 +5219,11 @@ class PeriodicSpline1D:
                         cast(Singleton, ps[k + 1].domain).value
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     ps[k : k + 2] = [ps[k]]
                 elif isinstance(ps[k + 1].domain, Open):
@@ -4758,7 +5231,7 @@ class PeriodicSpline1D:
                         cast(Open, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4775,7 +5248,7 @@ class PeriodicSpline1D:
                         cast(OpenClosed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4792,11 +5265,11 @@ class PeriodicSpline1D:
                         cast(Closed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4811,11 +5284,11 @@ class PeriodicSpline1D:
                         cast(ClosedOpen, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4831,11 +5304,11 @@ class PeriodicSpline1D:
                         cast(Singleton, ps[k + 1].domain).value
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     ps[k : k + 2] = [ps[k]]
                 elif isinstance(ps[k + 1].domain, Open):
@@ -4843,7 +5316,7 @@ class PeriodicSpline1D:
                         cast(Open, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4860,7 +5333,7 @@ class PeriodicSpline1D:
                         cast(OpenClosed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4877,11 +5350,11 @@ class PeriodicSpline1D:
                         cast(Closed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4896,11 +5369,11 @@ class PeriodicSpline1D:
                         cast(ClosedOpen, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item != ps[k + 1].item:
                         raise ValueError(
-                            "Internal error (inconsistent sign pieces)"
+                            "Internal error (inconsistent signum pieces)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4916,7 +5389,7 @@ class PeriodicSpline1D:
                         cast(Singleton, ps[k + 1].domain).value
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4930,18 +5403,18 @@ class PeriodicSpline1D:
                         k += 1
                 elif isinstance(ps[k + 1].domain, Open):
                     raise ValueError(
-                        "Internal error (sign pieces out of sequence)"
+                        "Internal error (signum pieces out of sequence)"
                     )
                 elif isinstance(ps[k + 1].domain, OpenClosed):
                     raise ValueError(
-                        "Internal error (sign pieces out of sequence)"
+                        "Internal error (signum pieces out of sequence)"
                     )
                 elif isinstance(ps[k + 1].domain, Closed):
                     if (cast(ClosedOpen, ps[k].domain).supremum !=
                         cast(Closed, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -4958,7 +5431,7 @@ class PeriodicSpline1D:
                         cast(ClosedOpen, ps[k + 1].domain).infimum
                     ):
                         raise ValueError(
-                            "Internal error (sign pieces out of sequence)"
+                            "Internal error (signum pieces out of sequence)"
                         )
                     if ps[k].item == ps[k + 1].item:
                         ps[k : k + 2] = [PeriodicNonuniformPiecewise.Piece(
@@ -5406,7 +5879,6 @@ class PeriodicSpline1D:
 
         r"""
         .. _periodic_spline_1d-rescaled_projected:
-
 
         The spline that best approximates a rescaled version of this spline.
 

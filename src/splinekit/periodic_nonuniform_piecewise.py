@@ -1,3 +1,10 @@
+"""
+This class validates a list of pieces as being a periodic partition.
+
+====
+
+"""
+
 #---------------
 from __future__ import annotations
 
@@ -6,9 +13,6 @@ from typing import Any
 from typing import List
 from typing import NamedTuple
 from typing import cast
-
-#---------------
-from dataclasses import dataclass
 
 #---------------
 from splinekit.interval import Closed

@@ -2179,17 +2179,17 @@ class Interval (
             return {cast(Self, _ki.rr)}
         if isinstance(self, Degenerate):
             return {
-                cast(Self, _ki.below.Below(self.value)),
-                cast(Self, _ki.above.Above(self.value))
+                cast(Self, _ki.below.Below(self._value)),
+                cast(Self, _ki.above.Above(self._value))
             }
         if isinstance(self, _ki.above.Above):
-            return {cast(Self, _ki.notabove.NotAbove(self.threshold))}
+            return {cast(Self, _ki.notabove.NotAbove(self._threshold))}
         if isinstance(self, _ki.notbelow.NotBelow):
-            return {cast(Self, _ki.below.Below(self.threshold))}
+            return {cast(Self, _ki.below.Below(self._threshold))}
         if isinstance(self, _ki.notabove.NotAbove):
-            return {cast(Self, _ki.above.Above(self.threshold))}
+            return {cast(Self, _ki.above.Above(self._threshold))}
         if isinstance(self, _ki.below.Below):
-            return {cast(Self, _ki.notbelow.NotBelow(self.threshold))}
+            return {cast(Self, _ki.notbelow.NotBelow(self._threshold))}
         if isinstance(self, _ki.open.Open):
             return {
                 cast(Self, _ki.notabove.NotAbove(self.infimum)),

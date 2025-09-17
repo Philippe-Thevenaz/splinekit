@@ -179,7 +179,7 @@ def _db_frac (
     r"""
     .. _db_frac:
 
-    Differentiated B-spline :math:`\nabla^{d}\beta^{n}.`
+    Differentiated B-spline :math:`{\mathrm{D}}^{d}\beta^{n}.`
 
     Returns the rational value of the :math:`d`-th derivative of a
     :ref:`polynomial B-spline<def-b_spline>` :math:`\beta^{n}` of
@@ -232,7 +232,7 @@ def _db (
     r"""
     .. _db:
 
-    Differentiated B-spline :math:`\nabla^{d}\beta^{n}.`
+    Differentiated B-spline :math:`{\mathrm{D}}^{d}\beta^{n}.`
 
     Returns the value of the :math:`d`-th derivative of a
     :ref:`polynomial B-spline<db_frac>` of :ref:`nonnegative<def-negative>`
@@ -488,7 +488,7 @@ def _pole (
 ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
 
     r"""
-    Poles of the B-spline :math:`\beta^{n}.`
+    Poles of the reciprocal of the z-transform of a B-spline :math:`\beta^{n}.`
 
     See Also
     --------
