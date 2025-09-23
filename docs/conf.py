@@ -11,8 +11,9 @@ extensions = [
     "sphinx.ext.doctest",
 #    "ipython_console_highlighting",
 #    "inheritance_diagram",
-#    "numpydoc'
+#    "numpydoc',
+    "nbsphinx",
 ]
-source_suffix = [".rst", ".md"]
+source_suffix = [".rst", ".md", ".html"]
 plot_html_show_source_link = False
 plot_html_show_formats = False

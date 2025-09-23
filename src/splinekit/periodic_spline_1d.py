@@ -1842,6 +1842,7 @@ class PeriodicSpline1D:
             field corresponds to the color of the stem lines.
         *   The default format of the stem lines is ``"-C0"``, which means
             solid lines rendered in default-property color blue.
+        *   To avoid stem lines entirely, set their format to ``"None"``.
 
         *knot_marker*
 
@@ -1890,6 +1891,7 @@ class PeriodicSpline1D:
             field corresponds to the color of the period-bound stem lines.
         *   The default format of the period-bound stem lines is ``"-r"``,
             which means solid lines rendered in base-color red.
+        *   To avoid stem lines entirely, set their format to ``"None"``.
 
         Examples
         --------
@@ -2148,7 +2150,10 @@ class PeriodicSpline1D:
                         stemlines.set_linewidth(0.25)
                     plt.pyplot.ylim(minrange, maxrange)
             else:
-                f_left = self.at(0.5 * (start + knots[0]))
+                f_left = self.at(knots[0] - 0.5
+                    if start == knots[0]
+                    else self.at(0.5 * (start + knots[0]))
+                )
                 xx = np.array([start, knots[0]], dtype = float)
                 fxx = np.array([f_left, f_left], dtype = float)
                 data.plot(xx, fxx, line_fmt)

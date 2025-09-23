@@ -41,7 +41,7 @@ from splinekit.spline_utilities import _wint
 #---------------
 def polynomial_simple_element (
     x: float,
-    n: int
+    degree: int
 ) -> float:
 
     r"""
@@ -69,7 +69,7 @@ def polynomial_simple_element (
     ----------
     x : float
         Argument.
-    n : int
+    degree : int
         Degree of the polynomial simple element.
 
     Returns
@@ -100,12 +100,12 @@ def polynomial_simple_element (
 
     """
 
-    return _pse(x, n)
+    return _pse(x, degree)
 
 #---------------
 def b_spline (
     x: float,
-    n: int
+    degree: int
 ) -> float:
 
     r"""
@@ -150,7 +150,7 @@ def b_spline (
     ----------
     x : float
         Argument.
-    n : int
+    degree : int
         Nonnegative degree of the polynomial B-spline.
 
     Returns
@@ -176,21 +176,21 @@ def b_spline (
 
     """
 
-    if 0 > n:
-        raise ValueError("The degree n must be nonnegative")
-    if 0 == n:
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if 0 == degree:
         return 0.5 * (_sgn(x + 0.5) - _sgn(x - 0.5))
-    if 0.5 * (n + 1.0) <= abs(x):
+    if 0.5 * (degree + 1.0) <= abs(x):
         return 0.0
-    xi = 0.5 * (n - 1.0) - x
+    xi = 0.5 * (degree - 1.0) - x
     xi0 = ceil(xi)
-    return float(_w(n)[int(xi0)] @
-        np.vander([xi0 - xi], n + 1, increasing = True)[0]
+    return float(_w(degree)[int(xi0)] @
+        np.vander([xi0 - xi], degree + 1, increasing = True)[0]
     )
 
 #---------------
 def b_spline_support (
-    n: int
+    degree: int
 ) -> Interval:
 
     r"""
@@ -216,7 +216,7 @@ def b_spline_support (
 
     Parameters
     ----------
-    n : int
+    degree : int
         Nonnegative degree of the polynomial B-spline.
 
     Returns
@@ -236,15 +236,15 @@ def b_spline_support (
 
     """
 
-    if 0 > n:
-        raise ValueError("The degree n must be nonnegative")
-    if 0 == n:
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if 0 == degree:
         return Closed((-0.5, 0.5))
-    return Open((-0.5 * (n + 1), 0.5 * (n + 1)))
+    return Open((-0.5 * (degree + 1), 0.5 * (degree + 1)))
 
 #---------------
 def b_spline_variance (
-    n: int
+    degree: int
 ) -> float:
 
     r"""
@@ -263,7 +263,7 @@ def b_spline_variance (
 
     Parameters
     ----------
-    n : int
+    degree : int
         Nonnegative degree of the polynomial B-spline.
 
     Returns
@@ -283,13 +283,13 @@ def b_spline_variance (
 
     """
 
-    if 0 > n:
-        raise ValueError("The degree n must be nonnegative")
-    return (n + 1) / 12.0
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    return (degree + 1) / 12.0
 
 #---------------
 def pole (
-    n: int
+    degree: int
 ) -> np.ndarray[tuple[int], np.dtype[np.float64]]:
 
     r"""
@@ -313,7 +313,7 @@ def pole (
 
     Parameters
     ----------
-    n : int
+    degree : int
         Nonnegative degree of the B-spline.
 
     Returns
@@ -342,12 +342,12 @@ def pole (
 
     """
 
-    return _pole(n)
+    return _pole(degree)
 
 #---------------
 def integrated_b_spline (
     x: float,
-    n: int
+    degree: int
 ) -> float:
 
     r"""
@@ -388,7 +388,7 @@ def integrated_b_spline (
     ----------
     x : float
         Argument.
-    n : int
+    degree : int
         Nonnegative degree of the polynomial B-spline.
 
     Returns
@@ -408,22 +408,22 @@ def integrated_b_spline (
 
     """
 
-    if 0 > n:
-        raise ValueError("The degree n must be nonnegative")
-    if x < -0.5 * (n + 1.0):
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if x < -0.5 * (degree + 1.0):
         return 0.0
-    if x < 0.5 * (n + 1.0):
-        xi = 0.5 * (n - 1.0) - x
+    if x < 0.5 * (degree + 1.0):
+        xi = 0.5 * (degree - 1.0) - x
         xi0 = ceil(xi)
-        return float(_wint(n)[int(xi0)] @
-            np.vander([xi0 - xi], n + 2, increasing = True)[0]
+        return float(_wint(degree)[int(xi0)] @
+            np.vander([xi0 - xi], degree + 2, increasing = True)[0]
         )
     return 1.0
 
 #---------------
 def grad_b_spline (
     x: float,
-    n: int
+    degree: int
 ) -> float:
 
     r"""
@@ -469,7 +469,7 @@ def grad_b_spline (
     ----------
     x : float
         Argument.
-    n : int
+    degree : int
         Nonnegative degree of the polynomial B-spline.
 
     Returns
@@ -498,24 +498,27 @@ def grad_b_spline (
 
     """
 
-    if 0 > n:
-        raise ValueError("The degree n must be nonnegative")
-    if 0.5 * (n + 1.0) < abs(x):
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if 0.5 * (degree + 1.0) < abs(x):
         return 0.0
-    if n <= 1:
+    if degree <= 1:
         return fsum(
-            (-1) ** q * comb(n + 1, q) * _pse( x + 0.5 * (n + 1.0) - q, n - 1)
-            for q in range(n + 1 + 1)
+            (-1) ** q * comb(degree + 1, q) * _pse(
+                x + 0.5 * (degree + 1.0) - q,
+                degree - 1
+            )
+            for q in range(degree + 1 + 1)
         )
-    if 0.5 * (n + 1.0) == abs(x):
+    if 0.5 * (degree + 1.0) == abs(x):
         return 0.0
-    xi = 0.5 * (n - 1.0) - x
+    xi = 0.5 * (degree - 1.0) - x
     xi0 = ceil(xi)
     return float(
         np.array(
-            [_wd(n)[int(xi0)][c] for c in range(n)],
+            [_wd(degree)[int(xi0)][c] for c in range(degree)],
             dtype = float
-        ) @ np.vander([xi0 - xi], n, increasing = True)[0]
+        ) @ np.vander([xi0 - xi], degree, increasing = True)[0]
     )
 
 #---------------
@@ -719,7 +722,7 @@ def mscale_filter (
 @functools.lru_cache(maxsize = 128)
 def ib_coeff (
     k: int,
-    n: int
+    degree: int
 ) -> float:
 
     r"""
@@ -765,7 +768,7 @@ def ib_coeff (
     ----------
     k : int
         Index of the coefficient.
-    n : int
+    degree : int
         Nonnegative degree of the B-spline.
 
     Returns
@@ -791,11 +794,11 @@ def ib_coeff (
 
     """
 
-    if 0 > n:
-        raise ValueError("The degree n must be nonnegative")
-    if n <= 1:
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if degree <= 1:
         return 1.0 if 0 == k else 0.0
-    return float(_iota(n) @ np.array([z ** abs(k) for z in pole(n)]))
+    return float(_iota(degree) @ np.array([z ** abs(k) for z in pole(degree)]))
 
 #---------------
 def cardinal_b_spline (
@@ -826,7 +829,7 @@ def cardinal_b_spline (
     ----------
     x : float
         Argument.
-    n : int
+    degree : int
         Nonnegative degree of the cardinal polynomial B-spline.
 
     Returns
@@ -898,9 +901,9 @@ def dual_b_spline (
     ----------
     x : float
         Argument.
-    m : int
+    dual_degree : int
         Nonnegative dual degree of the polynomial dual B-spline.
-    n : int
+    primal_degree : int
         Nonnegative primal degree of the polynomial dual B-spline.
 
     Returns
