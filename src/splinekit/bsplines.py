@@ -13,6 +13,9 @@ import functools
 from fractions import Fraction
 
 #---------------
+import cmath
+
+#---------------
 from math import ceil
 from math import comb
 from math import factorial
@@ -717,6 +720,132 @@ def mscale_filter (
             dtype = float
         )
     )
+
+#---------------
+@functools.lru_cache(maxsize = 128)
+def annihil_1 (
+    k: int,
+    degree: int
+) -> float:
+
+    r"""
+    .. _annihil_1:
+
+    B-spline-annihilating sequence of Chebysheffian coefficients of the first
+    type.
+
+    Returns the :math:`k`-th component of the sequence :math:`a_{n,1}.`
+    For any :math:`q\in{\mathbb{Z}},` this sequence satisfies that
+
+    ..  math::
+
+        0=\sum_{k\in{\mathbb{Z}}}\,a_{n,1}[k]\,\beta^{n}(q-k),
+
+    where :math:`\beta^{n}` is the :ref:`polynomial B-spline<db_frac>` of
+    degree :math:`n\in{\mathbb{N}}.` The sequence :math:`a_{n,1}` is trivially
+    zero for ``degree = 0`` and ``degree = 1``. For higher degrees, it is
+    nontrivial and :ref:`even-symmetric<def-even_symmetry>`.
+
+    Parameters
+    ----------
+    k : int
+        Index of the coefficient.
+    degree : int
+        Nonnegative degree of the B-spline.
+
+    Returns
+    -------
+    float
+        A component of the B-spline-annihilating sequence of type 1.
+
+    Examples
+    --------
+    Load the library.
+        >>> import splinekit as sk
+    The even sequence that annihilates a cubic B-spline takes a unit value at the origin.
+        >>> sk.annihil_1(0, 3)
+        1.0
+
+    Notes
+    -----
+    The results of this method are cached. If the returned results are
+    mutated, the cache gets modified and the next call will return corrupted
+    values.
+
+    ----
+
+    """
+
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if degree <= 1:
+        return 0.0
+    return (((-1) ** k) * cmath.cos(k * cmath.acos(
+        -0.5 * (1.0 + pole(degree)[0] ** 2) / pole(degree)[0]
+    ))).real
+
+#---------------
+@functools.lru_cache(maxsize = 128)
+def annihil_2 (
+    k: int,
+    degree: int
+) -> float:
+
+    r"""
+    .. _annihil_2:
+
+    B-spline-annihilating sequence of Chebysheffian coefficients of the second
+    type.
+
+    Returns the :math:`k`-th component of the sequence :math:`a_{n,2}.`
+    For any :math:`q\in{\mathbb{Z}},` this sequence satisfies that
+
+    ..  math::
+
+        0=\sum_{k\in{\mathbb{Z}}}\,a_{n,2}[k]\,\beta^{n}(q-k),
+
+    where :math:`\beta^{n}` is the :ref:`polynomial B-spline<db_frac>` of
+    degree :math:`n\in{\mathbb{N}}.` The sequence :math:`a_{n,2}` is trivially
+    zero for ``degree = 0`` and ``degree = 1``. For higher degrees, it is
+    nontrivial and :ref:`odd-symmetric<def-odd_symmetry>`.
+
+    Parameters
+    ----------
+    k : int
+        Index of the coefficient.
+    degree : int
+        Nonnegative degree of the B-spline.
+
+    Returns
+    -------
+    float
+        A component of the B-spline-annihilating sequence of type 2.
+
+    Examples
+    --------
+    Load the library.
+        >>> import splinekit as sk
+    The odd sequence that annihilates a cubic B-spline is the square root of three at index one.
+        >>> k.annihil_2(1, 3) ** 2
+        2.999999999999996
+
+    Notes
+    -----
+    The results of this method are cached. If the returned results are
+    mutated, the cache gets modified and the next call will return corrupted
+    values.
+
+    ----
+
+    """
+
+    if 0 > degree:
+        raise ValueError("Degree must be nonnegative")
+    if degree <= 1:
+        return 0.0
+    return (-((-1) ** k) * cmath.sin(k * cmath.acos(
+        -0.5 * (1.0 + pole(degree)[0] ** 2) / pole(degree)[0]
+    ))).imag
 
 #---------------
 @functools.lru_cache(maxsize = 128)
