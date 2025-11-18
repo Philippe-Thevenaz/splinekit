@@ -1,16 +1,23 @@
 [build-system]
-requires = ["hatchling"]
+requires = [
+    "hatchling",
+    "scikit-build-core>=0.10",
+    "numpy>=1.26"
+]
 build-backend = "hatchling.build"
 
 [project]
 name = "splinekit"
 version = "0.0.1"
-authors = [
-  { name="Philippe Thévenaz", email="philippe.thevenaz@icloud.com" },
-]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
 description = "A set of functions and classes to handle periodic 1D polynomial splines"
-readme = "README.md"
 requires-python = ">=3.9"
+dependencies = [
+    "numpy >=1.26",
+    "scipy >=1.15",
+    "matplotlib >=3.8",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -21,8 +28,58 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
-license = "MIT"
-license-files = ["LICEN[CS]E*"]
+readme = "README.md"
+authors = [
+  { name="Philippe Thévenaz", email="philippe.thevenaz@icloud.com" },
+]
 
 [project.urls]
 Homepage = "https://github.com/pypa/splinekit"
+# Homepage = "https://splinekit.github.io/"
+# Source = "https://github.com/splinekit/splinekit"
+# Issues = "https://github.com/splinekit/splinekit/issues"
+# Download = "https://github.com/splinekit/splinekit.git"
+
+[project.optional-dependencies]
+visualization = [
+    "IPython >= 8.26"
+]
+tests = [
+    "tox >=4.13",
+    "pytest >=6.0"
+]
+dev = [
+    "splinekit[visualization,tests]",
+    "mypy >=1.8",
+    "build" # local wheel/source builds: python -m build
+]
+docs = [
+    "splinekit[visualization]",
+    "sphinx >=7.3",
+    "sphinx-gallery >=0.17",
+    "sphinx-prompt >=1.8",
+    "sphinx-copybutton >=0.5",
+    "sphinx-remove-toctrees >=1.0",
+    "sphinx-design >=0.6",
+    "pydata-sphinx-theme >=0.15",
+    "myst-parser >=3.0"
+]
+
+# scikit-build-core configuration
+[tool.scikit-build]
+wheel.packages = ["src/splinekit"]
+editable.mode = "redirect"
+sdist.include = [
+  "src/splinekit/**",
+  "README.md",
+  "LICENSE"
+]
+
+# pytest defaults (so `pytest -q` works everywhere)
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = ["error"]
+log_cli_level = "info"
+testpaths = ["tests"]

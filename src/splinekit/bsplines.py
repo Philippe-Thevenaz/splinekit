@@ -1328,7 +1328,7 @@ def convolve_b_spline_monomial (
         \left(-1\right)^{k}\,{n+1\choose k}\,
         \left(x+\frac{n+1}{2}-k\right)^{m+n+1-d}\\
         &=&\textcolor{green}{\gamma_{m}^{n}[0]+
-        \sum_{k=1}^{m}\,\gamma_{m}^{n}[k]\,x^{k}}.
+        \sum_{k=1}^{m+n+1-d}\,\gamma_{m}^{n}[k]\,x^{k}}.
         \end{eqnarray*}
 
     Parameters
