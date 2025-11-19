@@ -3530,7 +3530,10 @@ class PeriodicSpline1D:
                         self._period
                     )
                 elif isinstance(pieces[k - 1].domain, Singleton):
-                    (_, x1) = _divmod(pieces[k - 1].domain.value, self._period)
+                    (_, x1) = _divmod(
+                        cast(Singleton, pieces[k - 1].domain).value,
+                        self._period
+                    )
                 else:
                     raise ValueError(
                         "Internal error (unexpected interval subclass)"
