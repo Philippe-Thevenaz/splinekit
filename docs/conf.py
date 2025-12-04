@@ -32,3 +32,6 @@ exclude_patterns = [
 
 plot_html_show_source_link = False
 plot_html_show_formats = False
+
+# THEME
+html_theme = "sphinx_rtd_theme"
