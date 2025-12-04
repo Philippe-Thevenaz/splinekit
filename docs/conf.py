@@ -35,3 +35,20 @@ plot_html_show_formats = False
 
 # THEME
 html_theme = "sphinx_rtd_theme"
+
+# Static files (CSS, images, etc.)
+html_static_path = ["_static"]
+
+# Load our CSS overrides
+html_css_files = [
+    "custom.css",
+]
+
+# GitHub integration for sphinx_rtd_theme
+html_context = {
+    "display_github": True,              # Enable "Edit on GitHub" links
+    "github_user": "Philippe-Thevenaz",  # GitHub username/org
+    "github_repo": "splinekit",          # Repo name
+    "github_version": "main",            # Branch: use "main" or "master"
+    "conf_py_path": "/docs/",            # Path from repo root to docs root
+}
