@@ -102,7 +102,7 @@ pip install -e .[docs]
 Run the command from the splinekit root folder
 
 ```shell
-sphinx-build docs/ _build/
+sphinx-build docs/ docs/_build/
 ```
 
 Then, go to `_build/` and open `index.html` to navigate the

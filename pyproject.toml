@@ -1,3 +1,5 @@
+# splinekit/pyproject.toml
+
 [build-system]
 requires = [
     "hatchling",
@@ -65,7 +67,8 @@ docs = [
     "sphinx-remove-toctrees >=1.0",
     "sphinx-design >=0.6",
     "pydata-sphinx-theme >=0.15",
-    "myst-parser >=3.0"
+    "myst-parser >=3.0",
+    "nbsphinx >=0.9"
 ]
 
 # scikit-build-core configuration

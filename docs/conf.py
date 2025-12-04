@@ -1,3 +1,5 @@
+# splinekit/docs/conf.py
+
 project = "splinekit"
 extensions = [
     "myst_parser",
@@ -14,6 +16,19 @@ extensions = [
 #    "numpydoc',
     "nbsphinx",
 ]
-source_suffix = [".rst", ".md", ".html"]
+
+# Do not treat .html as a source type:
+source_suffix = [".rst", ".md"]
+
+# Do not treat docs/_build as source
+exclude_patterns = [
+    "_build",          # docs/_build
+    "auto_examples",   # optional, if used
+    "gen_modules",     # optional, if used
+    "**/.ipynb_checkpoints",
+    "Thumbs.db",
+    ".DS_Store",
+]
+
 plot_html_show_source_link = False
 plot_html_show_formats = False
