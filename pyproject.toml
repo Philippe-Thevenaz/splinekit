@@ -10,11 +10,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "splinekit"
-version = "0.0.2"
+version = "0.0.3"
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
 description = "A set of functions and classes to handle periodic 1D polynomial splines"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "numpy >=1.26",
     "scipy >=1.15",
