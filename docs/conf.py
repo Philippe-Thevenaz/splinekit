@@ -15,6 +15,7 @@ extensions = [
 #    "inheritance_diagram",
 #    "numpydoc',
     "nbsphinx",
+    "sphinx_design",
 ]
 
 # Do not treat .html as a source type:
@@ -46,7 +47,7 @@ html_css_files = [
 
 # GitHub integration for sphinx_rtd_theme
 html_context = {
-    "display_github": True,              # Enable "Edit on GitHub" links
+    "display_github": False,              # Enable "Edit on GitHub" links
     "github_user": "Philippe-Thevenaz",  # GitHub username/org
     "github_repo": "splinekit",          # Repo name
     "github_version": "main",            # Branch: use "main" or "master"
