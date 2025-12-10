@@ -1,25 +1,31 @@
 <!-- splinekit/README.md -->
 
 # splinekit: Spline Operations
-
-`splinekit` is a Python-based open-source software library aimed at the manipulation of one-dimensional periodic splines.
+`splinekit` is a Python-based open-source software library aimed at the
+manipulation of one-dimensional periodic splines.
 
 ## Installation
+You need at least `Python 3.11` to install `splinekit`.
 
-You need at least `Python 3.10` to install `splinekit` (ideally `Python 3.12`). `Python 3.11` is also compatible.
+Create and activate your Python virtual environment
 
-Create and activate your Python virtual environment (on Unix or MacOS)
-
+(on Unix)
 ```shell
 python -m venv splinekit-env
 source splinekit-env/bin/activate
 ```
 
-On Windows,
+(on macOS)
+```shell
+python3 -m venv splinekit-env
+source splinekit-env/bin/activate
+```
+
+(on Windows)
 
 ```shell
 python -m venv splinekit-env
-./splinekit-env/Scripts/Activate
+.splinekit-env/Scripts/Activate
 ```
 
 To deactivate the environment use
@@ -28,82 +34,27 @@ To deactivate the environment use
 deactivate
 ```
 
-Minimal requirement:
+Minimal requirement
 
 ```shell
 pip install numpy scipy sympy matplotlib
 ```
 
-Simply install `splinekit` using `pip`
+The interactive part of the documentation is deployed on Jupyter Lab
+
+```shell
+pip install jupyterlab ipywidgets
+```
+
+Install the `splinekit` library itself
 
 ```shell
 pip install splinekit
 ```
 
-## Formatting, Type Checking, and Testing
-
-Formatting and type checking is performed as
-
-```shell
-tox -e format
-tox -e type
-```
-
-The testing requires a valid environment with a supported Python version and `tox`
-installed. The tests are run with the following command (automatic pick of the
-Python version)
-
-```shell
-tox
-```
-
-The tests can also be launched for a specific Python version (must match the one
-installed in the active environment)
-
-```shell
-tox -e py310
-tox -e py311
-tox -e py312
-```
-
-*IMPORTANT:* Since CI is not implemented, make sure to run, pass, and/or fix
-`tox -e format`, `tox -e type`, and `tox`.
-
-## Packaging
-
-Using `tox` (preferred)
-
-```shell
-tox -e build
-```
-
-Using `hatch`
-
-```shell
-hatch build -t wheel
-```
-
 ## Development Environment
-
 Install `splinekit` development environment in editable mode
 
 ```shell
 pip install -e .[dev]
 ```
-
-## Building of the Documentation
-
-To build the Sphinx documentation, install `splinekit` doc dependencies
-
-```shell
-pip install -e .[docs]
-```
-
-Run the command from the splinekit root folder
-
-```shell
-sphinx-build docs/ docs/_build/
-```
-
-Then, go to `_build/` and open `index.html` to navigate the
-documentation locally.
