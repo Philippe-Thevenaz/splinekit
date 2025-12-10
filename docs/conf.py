@@ -15,8 +15,7 @@ extensions = [
 #    "inheritance_diagram",
 #    "numpydoc',
     "nbsphinx",
-    "nbsphinx_link",
-    "sphinx_design",
+    "sphinx_design"
 ]
 
 # Do not treat .html as a source type:
@@ -29,7 +28,7 @@ exclude_patterns = [
     "gen_modules",     # optional, if used
     "**/.ipynb_checkpoints",
     "Thumbs.db",
-    ".DS_Store",
+    ".DS_Store"
 ]
 
 plot_html_show_source_link = False
@@ -43,7 +42,7 @@ html_static_path = ["_static"]
 
 # Load our CSS overrides
 html_css_files = [
-    "custom.css",
+    "custom.css"
 ]
 
 # GitHub integration for sphinx_rtd_theme
@@ -52,12 +51,5 @@ html_context = {
     "github_user": "Philippe-Thevenaz",  # GitHub username/org
     "github_repo": "splinekit",          # Repo name
     "github_version": "main",            # Branch: use "main" or "master"
-    "conf_py_path": "/docs/",            # Path from repo root to docs root
+    "conf_py_path": "/docs/"             # Path from repo root to docs root
 }
-
-# Execute notebooks on every build
-nbsphinx_execute = "always"  # default is "auto"
-nbsphinx_timeout = 120       # seconds per cell, adjust as needed
-
-# We don't use any custom notebook formats (jupytext etc.)
-nbsphinx_custom_formats = {}

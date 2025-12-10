@@ -44,18 +44,3 @@ SplineKit
    interval/index
    spline_utilities/index
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Jupyter notebooks
-
-   notebooks/bspline_bases
-   notebooks/bspline_interactive_shape
-   notebooks/bspline_inverse_sequence
-   notebooks/bspline_numeric_stability
-   notebooks/bspline_poles
-   notebooks/bspline_random1D
-   notebooks/bspline_random2D
-   notebooks/bspline_static_shape
-   notebooks/bspline_vs_exponentials
-   notebooks/bspline_vs_pi
-   notebooks/bspline_vs trigonometry
