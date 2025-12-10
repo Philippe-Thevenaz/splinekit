@@ -37,10 +37,10 @@ authors = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Philippe-Thevenaz/splinekit"      # or your docs site later
+Homepage = "https://github.com/splinekit/splinekit"      # or your docs site later
 Documentation = "https://splinekit.github.io/"                    # when you publish docs there
-Source = "https://github.com/Philippe-Thevenaz/splinekit"
-Issues = "https://github.com/Philippe-Thevenaz/splinekit/issues"
+Source = "https://github.com/splinekit/splinekit"
+Issues = "https://github.com/splinekit/splinekit/issues"
 PyPI = "https://pypi.org/project/splinekit/"
 
 [project.optional-dependencies]
