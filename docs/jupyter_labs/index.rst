@@ -4,8 +4,7 @@ Jupyter Labs [toc]
 ..  list-table::
 
     * - **Jupyter Labs**
-      - List of downloadable Jupyter Lab notebooks containing examples of use
-        of the ``splinekit`` library.
+      - Jupyter Lab notebooks with examples of use of the ``splinekit`` library.
 
 :download:`bspline_bases <bspline_bases.ipynb.zip>`
 Illustration of the cardinal B-spline basis :math:`\eta,` the dual B-spline
