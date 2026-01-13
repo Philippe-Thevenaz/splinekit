@@ -5090,7 +5090,7 @@ class TestBSplines:
                     for (k, ak) in enumerate(coeffs)
                 ),
                 sympy.symbols("x"),
-                domain = "QQ"
+                domain = "RR"
             )
             assert poly == spline_polynomial(
                 spline_degree = spline_degree,
@@ -6294,7 +6294,7 @@ class TestBSplines:
                     for (k, ak) in enumerate(coeffs)
                 ),
                 sympy.symbols("x"),
-                domain = "QQ"
+                domain = "RR"
             )
             assert poly == convolve_b_spline_monomial(
                 spline_degree = spline_degree,
