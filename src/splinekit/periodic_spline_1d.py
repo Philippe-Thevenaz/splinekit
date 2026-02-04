@@ -1046,7 +1046,7 @@ class PeriodicSpline1D:
                         dtype = complex,
                         count = p0 // 2 + 1
                     ),
-                    n = p0,
+                    n = p0
                 )
             ),
             degree = degree,
@@ -1816,6 +1816,8 @@ class PeriodicSpline1D:
             field corresponds to the color of the spline curve.
         *   The default line format is ``"-C0"``, which means no marker and
             solid lines rendered in default-property color blue.
+        *   Set ``line_fmt = "None"`` to draw everything except the spline
+            curve.
 
         *line_width*
 
@@ -1837,6 +1839,8 @@ class PeriodicSpline1D:
             color blue.
         *   If the shape is not given, use the marker ``"o"``. If the color is
             not given, use the color from ``stem_fmt``.
+        *   Set ``marker_fmt = " "`` (a space, not an empty string) to draw a
+            plot without markers.
 
         *stem_fmt*
 
@@ -1850,7 +1854,7 @@ class PeriodicSpline1D:
             field corresponds to the color of the stem lines.
         *   The default format of the stem lines is ``"-C0"``, which means
             solid lines rendered in default-property color blue.
-        *   To avoid stem lines entirely, set their format to ``"None"``.
+        *   Set ``stem_fmt = "None"`` To avoid drawing stem lines.
 
         *knot_marker*
 
@@ -1861,6 +1865,8 @@ class PeriodicSpline1D:
             ``[marker]`` field will be plotted at each knot of the spline.
         *   The default format of the knot markers is ``"o"``, which means
             that knots take the shape of a circle.
+        *   Set ``knot_marker = " "`` (a space, not an empty string) to draw a
+            plot without knots.
 
         *knot_color*
 
@@ -1885,6 +1891,8 @@ class PeriodicSpline1D:
         *   The default format of the period-bound markers is ``"or"``, which
             means they take the shape of a circle and are rendered in
             base-color red.
+        *   Set ``periodbound_marker_fmt = " "`` (a space, not an empty string)
+            to draw a plot without period-bound markers.
 
         *periodbound_stem_fmt*
 
@@ -1899,7 +1907,8 @@ class PeriodicSpline1D:
             field corresponds to the color of the period-bound stem lines.
         *   The default format of the period-bound stem lines is ``"-r"``,
             which means solid lines rendered in base-color red.
-        *   To avoid stem lines entirely, set their format to ``"None"``.
+        *   Set ``periodbound_stem_fmt = "None"`` To avoid drawing stem lines
+            at the period boundaries.
 
         Examples
         --------

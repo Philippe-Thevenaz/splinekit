@@ -30,7 +30,7 @@ from splinekit.spline_padding import pad_nw
 from splinekit.spline_padding import samples_to_coeff_nw
 
 #---------------
-class TestSplineUtilities:
+class TestSplinePadding:
 
     #---------------
     def test_pad_p (
@@ -910,7 +910,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_p(coeff, degree = degree)
+            samples_to_coeff_p(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_p(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(
@@ -1389,7 +1399,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_n(coeff, degree = degree)
+            samples_to_coeff_n(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_n(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(
@@ -1533,7 +1553,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_w(coeff, degree = degree)
+            samples_to_coeff_w(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_w(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(
@@ -1677,7 +1707,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_a(coeff, degree = degree)
+            samples_to_coeff_a(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_a(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(
@@ -1821,7 +1861,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_np(coeff, degree = degree)
+            samples_to_coeff_np(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_np(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(
@@ -1965,7 +2015,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_nn(coeff, degree = degree)
+            samples_to_coeff_nn(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_nn(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(
@@ -2109,7 +2169,17 @@ class TestSplineUtilities:
             data = test[1]
             known_coeff = test[2]
             coeff = np.array(data, dtype = "float")
-            samples_to_coeff_nw(coeff, degree = degree)
+            samples_to_coeff_nw(coeff, degree = degree, pure_python = False)
+            assert len(data) == len(coeff)
+            for (k, c) in enumerate(known_coeff):
+                assert isclose(
+                    c,
+                    coeff[k],
+                    rel_tol = sqrt(ulp(1.0)),
+                    abs_tol = sqrt(ulp(1.0))
+                )
+            coeff = np.array(data, dtype = "float")
+            samples_to_coeff_nw(coeff, degree = degree, pure_python = True)
             assert len(data) == len(coeff)
             for (k, c) in enumerate(known_coeff):
                 assert isclose(

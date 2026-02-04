@@ -28,6 +28,59 @@ from splinekit.spline_utilities import _b
 from splinekit.spline_utilities import _sgn
 
 #---------------
+from ctypes import CDLL
+from ctypes import c_int32
+
+try:
+    _pure_python = False
+    _lib = CDLL("./libspline_padding.dylib")
+except:
+    _pure_python = True
+if not _pure_python:
+    _lib.get_samples_to_coeff_p.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+    _lib.get_samples_to_coeff_n.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+    _lib.get_samples_to_coeff_w.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+    _lib.get_samples_to_coeff_a.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+    _lib.get_samples_to_coeff_np.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+    _lib.get_samples_to_coeff_nn.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+    _lib.get_samples_to_coeff_nw.argtypes = (
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32,
+        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
+        c_int32
+    )
+
+#---------------
 def pad_p (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
@@ -270,7 +323,8 @@ def change_basis_p (
 def samples_to_coeff_p (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -298,6 +352,8 @@ def samples_to_coeff_p (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -340,6 +396,9 @@ def samples_to_coeff_p (
     p = pole(degree)
     p0 = len(data)
     if (0 == len(p)) or (1 == p0):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_p(data, p0, p, len(p))
         return
     for z in p:
         sigma = data[0]
@@ -761,7 +820,8 @@ def pad_n (
 def samples_to_coeff_n (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -789,6 +849,8 @@ def samples_to_coeff_n (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -828,25 +890,28 @@ def samples_to_coeff_n (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p = pole(degree)
-    k0 = len(data)
-    if (0 == len(p)) or (1 == k0):
+    p0 = len(data)
+    if (0 == len(p)) or (1 == p0):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_n(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = data[0]
         sigma2 = data[-1]
         zeta = z
         k = 1
-        while (k < k0 - 1) and (0.0 != zeta):
+        while (k < p0 - 1) and (0.0 != zeta):
             sigma1 += zeta * data[k]
             sigma2 += zeta * data[-1 - k]
             zeta *= z
             k += 1
         data[0] = (sigma1 + zeta * sigma2) / (1.0 - zeta ** 2)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[k] += z * data[k - 1]
         z12 = (1.0 - z) ** 2
         data[-1] = z12 * (z * data[-2] + data[-1]) / (1.0 - z ** 2)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[-1 - k] = z * data[-k] + z12 * data[-1 - k]
 
 #---------------
@@ -969,7 +1034,8 @@ def pad_w (
 def samples_to_coeff_w (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -997,6 +1063,8 @@ def samples_to_coeff_w (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1036,25 +1104,28 @@ def samples_to_coeff_w (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p = pole(degree)
-    k0 = len(data)
-    if (0 == len(p)) or (1 == k0):
+    p0 = len(data)
+    if (0 == len(p)) or (1 == p0):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_w(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
         sigma2 = 0.0
         zeta = 1.0
         k = 0
-        while (k < k0) and (0.0 != zeta):
+        while (k < p0) and (0.0 != zeta):
             sigma1 += zeta * data[k]
             sigma2 += zeta * data[-1 - k]
             zeta *= z
             k += 1
         data[0] += z * (sigma1 + zeta * sigma2) / (1.0 - zeta ** 2)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[k] += z * data[k - 1]
         z12 = (1.0 - z) ** 2
         data[-1] *= 1.0 - z
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[-1 - k] = z * data[-k] + z12 * data[-1 - k]
 
 #---------------
@@ -1181,7 +1252,8 @@ def pad_a (
 def samples_to_coeff_a (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -1209,6 +1281,8 @@ def samples_to_coeff_a (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1248,26 +1322,29 @@ def samples_to_coeff_a (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p = pole(degree)
-    k0 = len(data)
-    if (0 == len(p)) or (1 == k0):
+    p0 = len(data)
+    if (0 == len(p)) or (1 == p0):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_a(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
         sigma2 = 0.0
         zeta = z
         k = 1
-        while (k < k0 - 1) and (0.0 != zeta):
+        while (k < p0 - 1) and (0.0 != zeta):
             sigma1 += zeta * data[k]
             sigma2 += zeta * data[-1 - k]
             zeta *= z
             k += 1
         data[0] = ((data[0] - zeta * data[-1]) * (1.0 + z) / (1.0 - z) -
             sigma1 + zeta * sigma2) / (1.0 - zeta ** 2)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[k] += z * data[k - 1]
         z12 = (1.0 - z) ** 2
         data[-1] -= z * data[-2]
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[-1 - k] = z * data[-k] + z12 * data[-1 - k]
 
 #---------------
@@ -1388,7 +1465,8 @@ def pad_np (
 def samples_to_coeff_np (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -1416,6 +1494,8 @@ def samples_to_coeff_np (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1455,15 +1535,18 @@ def samples_to_coeff_np (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p = pole(degree)
-    k0 = len(data)
+    p0 = len(data)
     if 0 == len(p):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_np(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = data[0]
         sigma2 = data[-1]
         zeta = z
         k = 1
-        while k < k0 and (0.0 != zeta):
+        while k < p0 and (0.0 != zeta):
             sigma1 += zeta * data[k]
             sigma2 += zeta * data[-1 - k]
             zeta *= z
@@ -1472,14 +1555,14 @@ def samples_to_coeff_np (
         sigma1 *= zz
         sigma2 *= zz
         data[0] -= sigma2
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[k] += z * data[k - 1]
         zeta *= zeta
         z12 = (1.0 - z) ** 2
         zz = (1.0 - z) / (1.0 + z)
         data[-1] *= (1.0 + zeta) * zz
         data[-1] -= (sigma2 * zeta / z + sigma1) * zz
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[-1 - k] = z * data[-k] + z12 * data[-1 - k]
 
 #---------------
@@ -1607,7 +1690,8 @@ def pad_nn (
 def samples_to_coeff_nn (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -1635,6 +1719,8 @@ def samples_to_coeff_nn (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1674,26 +1760,29 @@ def samples_to_coeff_nn (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p = pole(degree)
-    k0 = len(data)
+    p0 = len(data)
     if 0 == len(p):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_nn(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
         sigma2 = 0.0
         zeta = 1.0
         k = 0
-        while k < k0 and (0.0 != zeta):
+        while k < p0 and (0.0 != zeta):
             sigma1 += zeta * data[k]
             sigma2 += zeta * data[-1 - k]
             zeta *= z
             k += 1
         zeta *= z
         data[0] -= (sigma1 - zeta * sigma2) * (z ** 2) / (1.0 - zeta ** 2)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[k] += z * data[k - 1]
         z12 = (1.0 - z) ** 2
         data[-1] *= z12
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[-1 - k] = z * data[-k] + z12 * data[-1 - k]
 
 #---------------
@@ -1814,7 +1903,8 @@ def pad_nw (
 def samples_to_coeff_nw (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int
+    degree: int,
+    pure_python: bool = False
 ) -> None:
 
     r"""
@@ -1842,6 +1932,8 @@ def samples_to_coeff_nw (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
+    pure_python : bool
+        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1878,23 +1970,26 @@ def samples_to_coeff_nw (
     if 0 > degree:
         raise ValueError("Degree must be nonnegative")
     p = pole(degree)
-    k0 = len(data)
+    p0 = len(data)
     if 0 == len(p):
+        return
+    if (not _pure_python) and not pure_python:
+        _lib.get_samples_to_coeff_nw(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
         sigma2 = 0.0
         zeta = 1.0
         k = 0
-        while k < k0 and (0.0 != zeta):
+        while k < p0 and (0.0 != zeta):
             sigma1 += zeta * data[k]
             sigma2 += zeta * data[-1 - k]
             zeta *= z
             k += 1
         data[0] -= (sigma1 - zeta * sigma2) * z / (1.0 - zeta ** 2)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[k] += z * data[k - 1]
         z12 = (1.0 - z) ** 2
         data[-1] *= z12 / (1.0 + z)
-        for k in range(1, k0):
+        for k in range(1, p0):
             data[-1 - k] = z * data[-k] + z12 * data[-1 - k]
