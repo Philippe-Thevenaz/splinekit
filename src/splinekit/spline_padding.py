@@ -33,7 +33,7 @@ from ctypes import c_int32
 
 try:
     _pure_python = False
-    _lib = CDLL("./libspline_padding.dylib")
+    _lib = CDLL("./libPadding.dylib")
 except:
     _pure_python = True
 if not _pure_python:

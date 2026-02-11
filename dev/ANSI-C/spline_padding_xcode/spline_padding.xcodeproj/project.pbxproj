@@ -15,6 +15,7 @@
 		69335F1F2F3248EE003A141C /* libspline_padding.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libspline_padding.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		69335F262F324933003A141C /* spline_padding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spline_padding.h; sourceTree = "<group>"; };
 		69335F272F324933003A141C /* spline_padding.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = spline_padding.c; sourceTree = "<group>"; };
+		69D8F61E2F3505B200F2031D /* libspline_padding.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libspline_padding.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +32,7 @@
 		69335F162F3248EE003A141C = {
 			isa = PBXGroup;
 			children = (
+				69D8F61E2F3505B200F2031D /* libspline_padding.dylib */,
 				69335F262F324933003A141C /* spline_padding.h */,
 				69335F272F324933003A141C /* spline_padding.c */,
 				69335F202F3248EE003A141C /* Products */,
