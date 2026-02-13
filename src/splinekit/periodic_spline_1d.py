@@ -54,6 +54,7 @@ Instance Methods
     - :ref:`variance <periodic_spline_1d-variance>`
     - :ref:`lower_bound <periodic_spline_1d-lower_bound>`
     - :ref:`upper_bound <periodic_spline_1d-upper_bound>`
+    - :ref:`image <periodic_spline_1d-image>`
 -   Locations of Interest
 
     - :ref:`get_knots <periodic_spline_1d-get_knots>`
@@ -682,6 +683,10 @@ class PeriodicSpline1D:
             \left({\mathbb{Z}}+\frac{1}{2}\right),` this time without
             restriction on the parity of the positive period
             :math:`K\in{\mathbb{N}}+1.`
+        *   For an even period :math:`K\in2\,{\mathbb{N}}+2` combined with
+            a half-integer delay :math:`\delta x\in{\mathbb{Z}}+\frac{1}{2},`
+            the directive ``regularized == False`` is disregraded and
+            regularization is enforced.
         *   When ``regularized == True``, the interpolation condition is still
             honored for all odd periods. For :ref:`even<def-even>` periods
             :math:`K\in2\,{\mathbb{N}}+2,` however, this constructor
@@ -787,49 +792,34 @@ class PeriodicSpline1D:
                 degree = degree,
                 delay = delay
             )
-        mat = scipy.linalg.toeplitz(
-            np.fromiter(
-                (
-                    fsum(
-                        b_spline(c - delay - p * p0, degree)
-                        for p in range(
-                            int((c - delay - 0.5 * (degree - 1.0)) // p0),
-                            int((c - delay + 0.5 * (degree + 1.0)) // p0) + 1
-                        )
-                    )
-                    for c in range(p0)
-                ),
-                dtype = float,
-                count = p0
-            ),
-            np.fromiter(
-                (
-                    fsum(
-                        b_spline(-r - delay - p * p0, degree)
-                        for p in range(
-                            int((-r - delay - 0.5 * (degree - 1.0)) // p0),
-                            int((-r - delay + 0.5 * (degree + 1.0)) // p0) + 1
-                        )
-                    )
-                    for r in range(p0)
-                ),
-                dtype = float,
-                count = p0
-            )
-        )
-        if isclose(
-            0.5,
-            abs(dx),
-            rel_tol = sqrt(ulp(1.0)),
-            abs_tol = sqrt(ulp(1.0))
-        ):
-            return cls.from_spline_coeff(
-                np.linalg.lstsq(mat, s)[0],
-                degree = degree,
-                delay = delay
-            )
         return cls.from_spline_coeff(
-            np.linalg.solve(mat, s),
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                scipy.linalg.solve_circulant(
+                    np.fromiter(
+                        (
+                            fsum(
+                                b_spline(c - delay - p * p0, degree)
+                                for p in range(
+                                    int(
+                                        (c - delay - 0.5 * (degree - 1.0)) //
+                                        p0
+                                    ),
+                                    1 + int(
+                                        (c - delay + 0.5 * (degree + 1.0)) //
+                                        p0
+                                    )
+                                )
+                            )
+                            for c in range(p0)
+                        ),
+                        dtype = float,
+                        count = p0
+                    ),
+                    s,
+                    singular = "lstsq"
+                )
+            ),
             degree = degree,
             delay = delay
         )
@@ -3059,6 +3049,53 @@ class PeriodicSpline1D:
             degree = degree,
             delay = self._delay + 0.5 * (self._degree - degree)
         )
+
+    #---------------
+    def image (
+        self
+    ) -> Interval:
+
+        r"""
+        .. _periodic_spline_1d-image:
+
+        An interval that gives the enclosure of the image of this spline.
+
+        This function returns a closed interval whose lower and upper bounds
+        are the minimal and maximal values that the spline takes over one
+        period. When the spline is of degree zero, this interval is the
+        enclosure of the image of the spline. For higher degrees, it is the
+        image itself.
+
+        Returns
+        -------
+        Interval
+            The image of this spline.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create a spline and get its image.
+            >>> c = np.array([1, 9, -7], dtype = float)
+            >>> s = sk.PeriodicSpline1D.from_spline_coeff(c, degree = 3)
+            >>> s.image()
+            Closed((-3.354648431614539, 5.354648431614539))
+
+        ----
+
+        """
+
+        (minima, maxima) = self.extrema()
+        minimum = self.at(0.0)
+        for ex in minima:
+            if ex.value < minimum:
+                minimum = ex.value
+        maximum = minimum
+        for ex in maxima:
+            if ex.value > maximum:
+                maximum = ex.value
+        return Closed((minimum, maximum))
 
     #---------------
     def get_knots (
