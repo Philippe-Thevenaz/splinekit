@@ -863,7 +863,8 @@ class PeriodicSpline1D:
 
         The first term encourages the spline to interpolate the samples, while
         the second term discourages the spline derivatives to be large, as
-        controlled by the vector :math:`\lambda` of smoothing parameters.
+        controlled by the vector :math:`\left(\lambda[m]\right)_{m=0}^{n}` of
+        smoothing parameters.
 
         Parameters
         ----------
@@ -1697,14 +1698,14 @@ class PeriodicSpline1D:
         plotdomain: Interval = RR(),
         plotrange: Interval = RR(),
         plotpoints: int,
-        line_fmt: str = "-C0",
-        line_width: float = 1.0,
-        marker_fmt: str = "oC0",
-        stem_fmt: str = "-C0",
+        curve_fmt: str = "-C0",
+        curve_lw: float = 1.0,
+        curve_markerfmt: str = "oC0",
+        curvestem_linefmt: str = "-C0",
         knot_marker: str = "o",
         knot_color: str = "k",
-        periodbound_marker_fmt: str = "or",
-        periodbound_stem_fmt: str = "-r"
+        periodbound_markerfmt: str = "or",
+        periodboundstem_linefmt: str = "-r"
     ):
 
         r"""
@@ -1720,24 +1721,24 @@ class PeriodicSpline1D:
             The range over which this spline is drawn.
         plotpoints : int
             The number of points sampled over ``plotdomain``.
-        line_fmt : str
+        curve_fmt : str
             The format of the line depicting the spline curve.
-        line_width : float
+        curve_lw : float
             The width of the line depicting the spline curve.
-        marker_fmt : str
+        curve_markerfmt : str
             The format of the markers at the integer samples of the spline
             curve.
-        stem_fmt : str
+        curvestem_linefmt : str
             The format of the stem line at the integer samples of the spline
             curve.
         knot_marker : str
             The format of the markers at the knots of the spline curve.
         knot_color : str
             The color of the markers at the knots of the spline curve.
-        periodbound_marker_fmt : str
+        periodbound_markerfmt : str
             The format of the marker at the origin of this spline, repeated at
             all periods.
-        periodbound_stem_fmt : str
+        periodboundstem_linefmt : str
             The format of the stem at the origin of this spline, repeated at
             all periods.
 
@@ -1791,9 +1792,9 @@ class PeriodicSpline1D:
             sampled regularly over the domain that results from the
             ``plotdomain`` directive.
 
-        *line_fmt*
+        *curve_fmt*
 
-        *   ``line_fmt`` is a format string passed to the property ``fmt`` of
+        *   ``curve_fmt`` is a format string passed to the property ``fmt`` of
             ``matplotlib.axes.Axes.plot``. This string has the three fields
             ``[marker][line][color]``.
         *   The
@@ -1806,17 +1807,17 @@ class PeriodicSpline1D:
             field corresponds to the color of the spline curve.
         *   The default line format is ``"-C0"``, which means no marker and
             solid lines rendered in default-property color blue.
-        *   Set ``line_fmt = "None"`` to draw everything except the spline
+        *   Set ``curve_fmt = "None"`` to draw everything except the spline
             curve.
 
-        *line_width*
+        *curve_lw*
 
-        *   ``line_width`` is the width passed to the property ``linewidth``
-            of ``matplotlib.axes.Axes.plot``.
+        *   ``curve_lw`` is the width passed to the property ``lw`` of
+            ``matplotlib.axes.Axes.plot``.
 
-        *marker_fmt*
+        *curve_markerfmt*
 
-        *   ``marker_fmt`` is a format string passed to the property
+        *   ``curve_markerfmt`` is a format string passed to the property
             ``markerfmt`` of ``matplotlib.pyplot.stem``. This string has the
             two fields ``[marker][color]``.
         *   The :ref:`matplotlib markers <matplotlib-marker>` of the
@@ -1828,15 +1829,15 @@ class PeriodicSpline1D:
             take the shape of a circle and are rendered in default-property
             color blue.
         *   If the shape is not given, use the marker ``"o"``. If the color is
-            not given, use the color from ``stem_fmt``.
-        *   Set ``marker_fmt = " "`` (a space, not an empty string) to draw a
-            plot without markers.
+            not given, use the color from ``curvestem_linefmt``.
+        *   Set ``curve_markerfmt = " "`` (a space, not an empty string) to
+            draw a plot without markers.
 
-        *stem_fmt*
+        *curvestem_linefmt*
 
-        *   ``stem_fmt`` is a format string passed to the property ``linefmt``
-            of ``matplotlib.pyplot.stem``. This string has the two fields
-            ``[line][color]``.
+        *   ``curvestem_linefmt`` is a format string passed to the property
+            ``linefmt``  of ``matplotlib.pyplot.stem``. This string has the
+            two fields ``[line][color]``.
         *   The :ref:`matplotlib line style <matplotlib-linestyle>` of the
             ``[line]`` field corresponds to the line style of the stem lines
             at the integer samples of the spline curve.
@@ -1844,7 +1845,7 @@ class PeriodicSpline1D:
             field corresponds to the color of the stem lines.
         *   The default format of the stem lines is ``"-C0"``, which means
             solid lines rendered in default-property color blue.
-        *   Set ``stem_fmt = "None"`` To avoid drawing stem lines.
+        *   Set ``curvestem_linefmt = "None"`` To avoid drawing stem lines.
 
         *knot_marker*
 
@@ -1868,9 +1869,9 @@ class PeriodicSpline1D:
         *   The default color of the knots is ``"k"``, which means they are
             rendered in base-color black.
 
-        *periodbound_marker_fmt*
+        *periodbound_markerfmt*
 
-        *   ``periodbound_marker_fmt`` is a format string passed to the
+        *   ``periodbound_markerfmt`` is a format string passed to the
             property ``markerfmt`` of ``matplotlib.pyplot.stem``. This string
             has the two fields ``[color][marker]``.
         *   The :ref:`matplotlib color <matplotlib-color>` of the ``[color]``
@@ -1881,12 +1882,12 @@ class PeriodicSpline1D:
         *   The default format of the period-bound markers is ``"or"``, which
             means they take the shape of a circle and are rendered in
             base-color red.
-        *   Set ``periodbound_marker_fmt = " "`` (a space, not an empty string)
+        *   Set ``periodbound_markerfmt = " "`` (a space, not an empty string)
             to draw a plot without period-bound markers.
 
-        *periodbound_stem_fmt*
+        *periodboundstem_linefmt*
 
-        *   ``periodbound_stem_fmt`` is a format string passed to the
+        *   ``periodboundstem_linefmt`` is a format string passed to the
             property ``linefmt`` of ``matplotlib.pyplot.stem``. This string
             has the two fields ``[line][color]``.
         *   The :ref:`matplotlib line style <matplotlib-linestyle>` of the
@@ -1897,8 +1898,8 @@ class PeriodicSpline1D:
             field corresponds to the color of the period-bound stem lines.
         *   The default format of the period-bound stem lines is ``"-r"``,
             which means solid lines rendered in base-color red.
-        *   Set ``periodbound_stem_fmt = "None"`` To avoid drawing stem lines
-            at the period boundaries.
+        *   Set ``periodboundstem_linefmt = "None"`` To avoid drawing stem
+            lines at the period boundaries.
 
         Examples
         --------
@@ -2053,15 +2054,15 @@ class PeriodicSpline1D:
                     [x],
                     [fx],
                     linefmt = "None",
-                    markerfmt = marker_fmt,
+                    markerfmt = curve_markerfmt,
                     bottom = 0.0
                 )
             elif 0 != int(x) % self._period:
                 (markerline, stemlines, baseline) = stems.stem(
                     [x],
                     [fx],
-                    linefmt = stem_fmt,
-                    markerfmt = marker_fmt,
+                    linefmt = curvestem_linefmt,
+                    markerfmt = curve_markerfmt,
                     bottom = 0.0
                 )
                 c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2072,8 +2073,8 @@ class PeriodicSpline1D:
                 (markerline, stemlines, baseline) = stems.stem(
                     [x],
                     [fx],
-                    linefmt = periodbound_stem_fmt,
-                    markerfmt = periodbound_marker_fmt,
+                    linefmt = periodboundstem_linefmt,
+                    markerfmt = periodbound_markerfmt,
                     bottom = 0.0
                 )
                 c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2115,7 +2116,7 @@ class PeriodicSpline1D:
                 fx0 = self.at(0.5 * (start + stop))
                 xx = np.array([start, stop], dtype = float)
                 fxx = np.array([fx0, fx0], dtype = float)
-                data.plot(xx, fxx, line_fmt, lw = line_width)
+                data.plot(xx, fxx, curve_fmt, lw = curve_lw)
                 if not minrange_provided:
                     (minrange, _) = plt.pyplot.ylim()
                 if not maxrange_provided:
@@ -2137,8 +2138,8 @@ class PeriodicSpline1D:
                         (markerline, stemlines, baseline) = stems.stem(
                             [intdomain[0]],
                             [fx0],
-                            linefmt = stem_fmt,
-                            markerfmt = marker_fmt,
+                            linefmt = curvestem_linefmt,
+                            markerfmt = curve_markerfmt,
                             bottom = 0.0
                         )
                         c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2149,8 +2150,8 @@ class PeriodicSpline1D:
                         (markerline, stemlines, baseline) = stems.stem(
                             [intdomain[0]],
                             [fx0],
-                            linefmt = periodbound_stem_fmt,
-                            markerfmt = periodbound_marker_fmt,
+                            linefmt = periodboundstem_linefmt,
+                            markerfmt = periodbound_markerfmt,
                             bottom = 0.0
                         )
                         c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2162,7 +2163,7 @@ class PeriodicSpline1D:
                 f_left = self.at(knots[0] - 0.5)
                 xx = np.array([start, knots[0]], dtype = float)
                 fxx = np.array([f_left, f_left], dtype = float)
-                data.plot(xx, fxx, line_fmt, lw = line_width)
+                data.plot(xx, fxx, curve_fmt, lw = curve_lw)
                 for (k, k0) in enumerate(knots):
                     f_right = self.at(k0 + 0.5)
                     data.plot(
@@ -2180,12 +2181,12 @@ class PeriodicSpline1D:
                         continue
                     xx = np.array([k0 - 1.0, k0], dtype = float)
                     fxx = np.array([f_left, f_left], dtype = float)
-                    data.plot(xx, fxx, line_fmt, lw = line_width)
+                    data.plot(xx, fxx, curve_fmt, lw = curve_lw)
                     f_left = f_right
                 f_right = self.at(0.5 * (knots[-1] + stop))
                 xx = np.array([knots[-1], stop], dtype = float)
                 fxx = np.array([f_right, f_right], dtype = float)
-                data.plot(xx, fxx, line_fmt, lw = line_width)
+                data.plot(xx, fxx, curve_fmt, lw = curve_lw)
                 if not minrange_provided:
                     (minrange, _) = plt.pyplot.ylim()
                 if not maxrange_provided:
@@ -2220,8 +2221,8 @@ class PeriodicSpline1D:
                         (markerline, stemlines, baseline) = stems.stem(
                             kp,
                             fp,
-                            linefmt = periodbound_stem_fmt,
-                            markerfmt = periodbound_marker_fmt,
+                            linefmt = periodboundstem_linefmt,
+                            markerfmt = periodbound_markerfmt,
                             bottom = 0.0
                         )
                         c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2233,8 +2234,8 @@ class PeriodicSpline1D:
                         (markerline, stemlines, baseline) = stems.stem(
                             knp,
                             fnp,
-                            linefmt = stem_fmt,
-                            markerfmt = marker_fmt,
+                            linefmt = curvestem_linefmt,
+                            markerfmt = curve_markerfmt,
                             bottom = 0.0
                         )
                         c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2265,7 +2266,7 @@ class PeriodicSpline1D:
                 dtype = float,
                 count = plotpoints
             )
-            data.plot(xx, fxx, line_fmt, lw = line_width)
+            data.plot(xx, fxx, curve_fmt, lw = curve_lw)
             kk = self.get_knots(domain)
             for k0 in kk:
                 data.plot(
@@ -2312,8 +2313,8 @@ class PeriodicSpline1D:
                     (markerline, stemlines, baseline) = stems.stem(
                         kp,
                         fp,
-                        linefmt = periodbound_stem_fmt,
-                        markerfmt = periodbound_marker_fmt,
+                        linefmt = periodboundstem_linefmt,
+                        markerfmt = periodbound_markerfmt,
                         bottom = 0.0
                     )
                     c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2325,8 +2326,8 @@ class PeriodicSpline1D:
                     (markerline, stemlines, baseline) = stems.stem(
                         knp,
                         fnp,
-                        linefmt = stem_fmt,
-                        markerfmt = marker_fmt,
+                        linefmt = curvestem_linefmt,
+                        markerfmt = curve_markerfmt,
                         bottom = 0.0
                     )
                     c = plt.colors.to_hex(markerline.get_markerfacecolor())
@@ -2373,7 +2374,7 @@ class PeriodicSpline1D:
         {\mathbb{Z}},` and :math:`\chi=\left(r-\xi\right)\in[0,1).`
 
         As computed above, the fact that the Vandermonde vector has the domain
-        :math:`[0,1)` greatly favors numerical stability since the range of
+        :math:`[0,1)` greatly favors numerical stability since the image of
         each of its components is :math:`[0,1].`
 
         Parameters

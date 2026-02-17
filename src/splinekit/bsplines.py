@@ -13,9 +13,6 @@ import functools
 from fractions import Fraction
 
 #---------------
-import cmath
-
-#---------------
 from math import ceil
 from math import comb
 from math import factorial
@@ -146,7 +143,7 @@ def b_spline (
     and degree :math:`n.`
 
     As computed above, the fact that the Vandermonde vector has the domain
-    :math:`[0,1)` greatly favors numerical stability since the range of each
+    :math:`[0,1)` greatly favors numerical stability since the image of each
     of its components is also :math:`[0,1).`
 
     Parameters
@@ -384,7 +381,7 @@ def integrated_b_spline (
     :math:`\chi` and degree :math:`n+1.`
 
     As computed above, the fact that the Vandermonde vector has the domain
-    :math:`[0,1)` greatly favors numerical stability since the range of each
+    :math:`[0,1)` greatly favors numerical stability since the image of each
     of its components is also :math:`[0,1).`
 
     Parameters
@@ -465,7 +462,7 @@ def grad_b_spline (
     :math:`\chi` and degree :math:`\left(n-1\right).`
 
     As computed above, the fact that the Vandermonde vector has the domain
-    :math:`[0,1)` greatly favors numerical stability since the range of each
+    :math:`[0,1)` greatly favors numerical stability since the image of each
     of its components is also :math:`[0,1).`
 
     Parameters
