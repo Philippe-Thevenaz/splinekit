@@ -1883,7 +1883,7 @@ class PeriodicSpline1D:
             means they take the shape of a circle and are rendered in
             base-color red.
         *   Set ``periodbound_markerfmt = " "`` (a space, not an empty string)
-            to draw a plot without period-bound markers.
+            to draw a plot without specific period-bound markers.
 
         *periodboundstem_linefmt*
 
@@ -1898,8 +1898,8 @@ class PeriodicSpline1D:
             field corresponds to the color of the period-bound stem lines.
         *   The default format of the period-bound stem lines is ``"-r"``,
             which means solid lines rendered in base-color red.
-        *   Set ``periodboundstem_linefmt = "None"`` To avoid drawing stem
-            lines at the period boundaries.
+        *   Set ``periodboundstem_linefmt = "None"`` To avoid drawing specific
+            stem lines at the period boundaries.
 
         Examples
         --------
