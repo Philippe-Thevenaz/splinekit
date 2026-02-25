@@ -2803,11 +2803,8 @@ class PeriodicSpline1D:
 
         Notes
         -----
-        The bound relies on two properties. One is that
-        :math:`x^{n}\geq x^{n+1}` for :math:`x\in(0,1)` and
-        :math:`n\in{\mathbb{N}}.` The other is that
-        :ref:`B-splines<def-b_spline>` are nonnegative. The bound is
-        reasonably sharp and fast to compute.
+        The bound relies on the fact that :ref:`B-splines<def-b_spline>` are
+        nonnegative. The bound is reasonably sharp and fast to compute.
 
         Raises
         ------
@@ -2950,11 +2947,8 @@ class PeriodicSpline1D:
 
         Notes
         -----
-        The bound relies on two properties. One is that
-        :math:`x^{n}\geq x^{n+1}` for :math:`x\in(0,1)` and
-        :math:`n\in{\mathbb{N}}.` The other is that
-        :ref:`B-splines<def-b_spline>` are nonnegative. The bound is
-        reasonably sharp and fast to compute.
+        The bound relies on the fact that :ref:`B-splines<def-b_spline>` are
+        nonnegative. The bound is reasonably sharp and fast to compute.
 
         Raises
         ------
