@@ -2,15 +2,16 @@
 
 [build-system]
 requires = [
-    "hatchling",
+#    "hatchling",
     "scikit-build-core>=0.10",
     "numpy>=1.26"
 ]
-build-backend = "hatchling.build"
+#build-backend = "hatchling.build"
+build-backend = "scikit_build_core.build"
 
 [project]
 name = "splinekit"
-version = "0.0.6"
+version = "0.0.7"
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
 description = "A set of functions and classes to handle periodic 1D polynomial splines"
