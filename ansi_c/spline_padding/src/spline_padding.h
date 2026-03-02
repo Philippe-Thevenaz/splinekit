@@ -1,6 +1,7 @@
 #ifndef spline_padding_h
 #define spline_padding_h
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
