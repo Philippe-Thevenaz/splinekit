@@ -30,7 +30,7 @@ target_compile_features(padding PUBLIC c_std_99)
 
 install(
   TARGETS padding
-  LIBRARY DESTINATION splinelkit
-  RUNTIME DESTINATION splinelkit
-  ARCHIVE DESTINATION splinelkit
+  LIBRARY DESTINATION splinekit
+  RUNTIME DESTINATION splinekit
+  ARCHIVE DESTINATION splinekit
 )
