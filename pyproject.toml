@@ -77,9 +77,13 @@ wheel.packages = ["src/splinekit"]
 editable.mode = "redirect"
 sdist.include = [
   "src/splinekit/**",
+  "splinekit/ansi_c/**",
+  "splinekit/CMakeLists.txt",
   "README.md",
   "LICENSE"
 ]
+
+cmake.build-type = "Release"
 
 # pytest defaults (so `pytest -q` works everywhere)
 [tool.pytest.ini_options]
