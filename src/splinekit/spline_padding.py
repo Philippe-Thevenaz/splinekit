@@ -33,7 +33,7 @@ from ctypes import c_int32
 
 try:
     _pure_python = False
-    _lib = CDLL("./libPadding.dylib")
+    _lib = CDLL("./splinekit-env/lib/python3.12/site-packages/splinekit/libpadding.dylib")
 except:
     _pure_python = True
 if not _pure_python:
