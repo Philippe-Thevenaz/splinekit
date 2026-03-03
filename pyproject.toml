@@ -11,7 +11,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "splinekit"
-version = "0.0.10"
+version = "0.0.12"
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
 description = "A set of functions and classes to handle periodic 1D polynomial splines"
