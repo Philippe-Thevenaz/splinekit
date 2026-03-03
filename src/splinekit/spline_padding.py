@@ -16,6 +16,7 @@ import numpy as np
 
 #---------------
 import scipy
+import sys
 
 #---------------
 from splinekit.bases import Bases
@@ -31,11 +32,15 @@ from splinekit.spline_utilities import _sgn
 from ctypes import CDLL
 from ctypes import c_int32
 
-try:
-    _pure_python = False
-    _lib = CDLL("./splinekit-env/lib/python3.12/site-packages/splinekit/libpadding.dylib")
-except:
-    _pure_python = True
+for path in sys.path:
+    if "splinekit" in path:
+        try:
+            _pure_python = False
+            _lib = CDLL(path + "/splinekit/libpadding.dylib")
+            break
+        except:
+            _pure_python = True
+
 if not _pure_python:
     _lib.get_samples_to_coeff_p.argtypes = (
         np.ctypeslib.ndpointer(dtype = float, ndim = 1),
