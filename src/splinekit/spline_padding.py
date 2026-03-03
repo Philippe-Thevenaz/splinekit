@@ -32,6 +32,7 @@ from splinekit.spline_utilities import _sgn
 from ctypes import CDLL
 from ctypes import c_int32
 
+_pure_python = True
 for path in sys.path:
     if "splinekit" in path:
         try:
