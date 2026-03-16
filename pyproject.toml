@@ -57,6 +57,21 @@ visualization = [
     "IPython >= 8.26"
 ]
 
+# Tests
+tests = [
+    "tox >=4.13",
+    "pytest >=6.0"
+]
+
+# Dev
+dev = [
+    "splinekit[visualization,tests]",
+    "mypy >=1.8",
+    "ipykernel >=7.1.0",
+    "ipywidgets >=8",
+    "build" # local wheel/source builds: python -m build
+]
+
 # Documentation
 docs = [
     "splinekit[visualization]",
@@ -86,18 +101,6 @@ sdist.include = [
 # Cmake
 # cmake.build-type = "Release"
 
-# Tests
-tests = [
-    "tox >=4.13",
-    "pytest >=6.0"
-]
-dev = [
-    "splinekit[visualization,tests]",
-    "mypy >=1.8",
-    "ipykernel >=7.1.0",
-    "ipywidgets >=8",
-    "build" # local wheel/source builds: python -m build
-]
 # pytest defaults (so `pytest -q` works everywhere)
 [tool.pytest.ini_options]
 minversion = "6.0"
