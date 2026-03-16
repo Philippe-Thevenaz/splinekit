@@ -15,7 +15,8 @@ extensions = [
 #    "inheritance_diagram",
 #    "numpydoc',
     "nbsphinx",
-    "sphinx_design"
+    "sphinx_design",
+    "jupyterlite_sphinx"
 ]
 
 # Do not treat .html as a source type:
@@ -53,3 +54,11 @@ html_context = {
     "github_version": "main",            # Branch: use "main" or "master"
     "conf_py_path": "/docs/"             # Path from repo root to docs root
 }
+
+# Jupyterlite
+jupyterlite_contents = [
+#    "./tutorial/"
+]
+jupyterlite_ignore_contents = [
+    r".*\.gz"
+]
