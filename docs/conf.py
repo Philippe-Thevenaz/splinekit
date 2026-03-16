@@ -15,8 +15,8 @@ extensions = [
 #    "inheritance_diagram",
 #    "numpydoc',
     "nbsphinx",
-    "sphinx_design",
-    "jupyterlite_sphinx"
+    "sphinx_design"
+#    "jupyterlite_sphinx"
 ]
 
 # Do not treat .html as a source type:
@@ -56,9 +56,9 @@ html_context = {
 }
 
 # Jupyterlite
-jupyterlite_contents = [
+#jupyterlite_contents = [
 #    "./tutorial/"
-]
-jupyterlite_ignore_contents = [
-    r".*\.gz"
-]
+#]
+#jupyterlite_ignore_contents = [
+“    r".*\.gz"
+#]
