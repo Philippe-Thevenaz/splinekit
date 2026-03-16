@@ -3,12 +3,12 @@
 # Build backend
 [build-system]
 requires = [
-#    "hatchling",
-    "scikit-build-core>=0.10"
+    "hatchling"
+#    "scikit-build-core>=0.10"
 #    "numpy>=1.26"
 ]
-#build-backend = "hatchling.build"
-build-backend = "scikit_build_core.build"
+build-backend = "hatchling.build"
+#build-backend = "scikit_build_core.build"
 
 # Project table
 [project]
