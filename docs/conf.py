@@ -60,5 +60,5 @@ html_context = {
 #    "./tutorial/"
 #]
 #jupyterlite_ignore_contents = [
-“    r".*\.gz"
+#“    r".*\.gz"
 #]
