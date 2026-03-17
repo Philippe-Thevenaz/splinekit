@@ -9,7 +9,8 @@ Dummy
     This page contains a jupyter replite to github
 
     :raw-html:`<iframe
-    src="https://philippe-thevenaz.github.io/dummy?toolbar=1&kernel=xpython&promptCellPosition=left&clearCellsOnExecute=1&hideCodeInput=1&clearCodeContentOnExecute=0&showBanner=0&code=import%20numpy%20as%20np&execute=0"
+    src="https://philippe-thevenaz.github.io/dummy/"
     width="100%"
-    height="640pt"
+    height="1024pt"
     ></iframe>`
+
