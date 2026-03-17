@@ -55,8 +55,10 @@ PyPI = "https://pypi.org/project/splinekit/"
 visualization = [
     "IPython >= 8.26"
 ]
-
-# Dev
+tests = [
+    "tox >=4.13",
+    "pytest >=6.0"
+]
 dev = [
     "splinekit[visualization,tests]",
     "mypy >=1.8",
@@ -64,8 +66,6 @@ dev = [
     "ipywidgets >=8",
     "build" # local wheel/source builds: python -m build
 ]
-
-# Documentation
 docs = [
     "splinekit[visualization]",
     "sphinx >=7.3",
@@ -79,6 +79,15 @@ docs = [
     "nbsphinx >=0.9"
 ]
 
+# pytest defaults (so `pytest -q` works everywhere)
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = ["error"]
+log_cli_level = "info"
+testpaths = ["tests"]
+
 # Scikit-build-core configuration
 [tool.scikit-build]
 wheel.packages = ["src/splinekit"]
@@ -90,21 +99,4 @@ sdist.include = [
   "README.md",
   "LICENSE"
 ]
-
-# Cmake
 # cmake.build-type = "Release" # Activate for C dynamic library
-
-# Tests
-tests = [
-    "tox >=4.13",
-    "pytest >=6.0"
-]
-
-# pytest defaults (so `pytest -q` works everywhere)
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
-xfail_strict = true
-filterwarnings = ["error"]
-log_cli_level = "info"
-testpaths = ["tests"]
