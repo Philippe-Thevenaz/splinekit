@@ -12,7 +12,7 @@ build-backend = "hatchling.build" # Not compatible with C dynamic library
 # Project
 [project]
 name = "splinekit"
-version = "0.0.19"
+version = "0.0.20"
 dependencies = [
     "numpy >=1.26",
     "scipy >=1.15",
