@@ -3,7 +3,7 @@
 # Build
 [build-system]
 requires = [
-    "hatchling", # Not compatible with C dynamic library
+    "hatchling >=1.26" # Not compatible with C dynamic library
 #    "scikit-build-core>=0.10", # Activate for C dynamic library
 ]
 build-backend = "hatchling.build" # Not compatible with C dynamic library
@@ -12,7 +12,7 @@ build-backend = "hatchling.build" # Not compatible with C dynamic library
 # Project
 [project]
 name = "splinekit"
-version = "0.0.18"
+version = "0.0.19"
 dependencies = [
     "numpy >=1.26",
     "scipy >=1.15",
@@ -48,7 +48,7 @@ Documentation = "https://splinekit.github.io/"
 Repository = "https://github.com/splinekit/splinekit.git"
 Issues = "https://github.com/splinekit/splinekit/issues"
 Source = "https://github.com/splinekit/splinekit"
-#PyPI = "https://pypi.org/project/splinekit/"
+PyPI = "https://pypi.org/project/splinekit/"
 
 # Optional dependencies
 [project.optional-dependencies]
