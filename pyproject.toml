@@ -17,7 +17,7 @@ dependencies = [
     "numpy >=1.26",
     "scipy >=1.15",
     "sympy >=1.12",
-    "matplotlib >=3.8",
+    "matplotlib >=3.8"
 ]
 requires-python = ">=3.11"
 authors = [
@@ -48,23 +48,12 @@ Documentation = "https://splinekit.github.io/"
 Repository = "https://github.com/splinekit/splinekit.git"
 Issues = "https://github.com/splinekit/splinekit/issues"
 Source = "https://github.com/splinekit/splinekit"
-PyPI = "https://pypi.org/project/splinekit/"
+#PyPI = "https://pypi.org/project/splinekit/"
 
 # Optional dependencies
 [project.optional-dependencies]
 visualization = [
     "IPython >= 8.26"
-]
-tests = [
-    "tox >=4.13",
-    "pytest >=6.0"
-]
-dev = [
-    "splinekit[visualization,tests]",
-    "mypy >=1.8",
-    "ipykernel >=7.1.0",
-    "ipywidgets >=8",
-    "build" # local wheel/source builds: python -m build
 ]
 docs = [
     "splinekit[visualization]",
@@ -77,6 +66,17 @@ docs = [
     "sphinx-rtd-theme >=3.0.2",
     "myst-parser >=3.0",
     "nbsphinx >=0.9"
+]
+tests = [
+    "tox >=4.13",
+    "pytest >=6.0"
+]
+dev = [
+    "splinekit[visualization,tests]",
+    "mypy >=1.8",
+    "ipykernel >=7.1.0",
+    "ipywidgets >=8",
+    "build" # local wheel/source builds: python -m build
 ]
 
 # pytest defaults (so `pytest -q` works everywhere)
