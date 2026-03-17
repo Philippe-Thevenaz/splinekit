@@ -1,19 +1,18 @@
 # splinekit/pyproject.toml
 
-# Build backend
+# Build
 [build-system]
 requires = [
-    "hatchling",
-#    "scikit-build-core>=0.10"
-#    "numpy>=1.26"
+    "hatchling", # Not compatible with C dynamic library
+#    "scikit-build-core>=0.10", # Activate for C dynamic library
 ]
-build-backend = "hatchling.build"
-#build-backend = "scikit_build_core.build"
+build-backend = "hatchling.build" # Not compatible with C dynamic library
+#build-backend = "scikit_build_core.build" # Activate for C dynamic library
 
-# Project table
+# Project
 [project]
 name = "splinekit"
-version = "0.0.14"
+version = "0.0.15"
 dependencies = [
     "numpy >=1.26",
     "scipy >=1.15",
@@ -57,12 +56,6 @@ visualization = [
     "IPython >= 8.26"
 ]
 
-# Tests
-tests = [
-    "tox >=4.13",
-    "pytest >=6.0"
-]
-
 # Dev
 dev = [
     "splinekit[visualization,tests]",
@@ -92,14 +85,20 @@ wheel.packages = ["src/splinekit"]
 editable.mode = "redirect"
 sdist.include = [
   "src/splinekit/**",
-#  "splinekit/ansi_c/**",
-#  "splinekit/CMakeLists.txt",
+#  "splinekit/ansi_c/**", # Activate for C dynamic library
+#  "splinekit/CMakeLists.txt", # Activate for C dynamic library
   "README.md",
   "LICENSE"
 ]
 
 # Cmake
-# cmake.build-type = "Release"
+# cmake.build-type = "Release" # Activate for C dynamic library
+
+# Tests
+tests = [
+    "tox >=4.13",
+    "pytest >=6.0"
+]
 
 # pytest defaults (so `pytest -q` works everywhere)
 [tool.pytest.ini_options]
