@@ -3,11 +3,11 @@
 # Build
 [build-system]
 requires = [
-    "hatchling >=1.26" # Not compatible with C dynamic library
-#    "scikit-build-core>=0.10", # Activate for C dynamic library
+#    "hatchling >=1.26" # Not compatible with C dynamic library
+    "scikit-build-core>=0.10", # Activate for C dynamic library
 ]
-build-backend = "hatchling.build" # Not compatible with C dynamic library
-#build-backend = "scikit_build_core.build" # Activate for C dynamic library
+#build-backend = "hatchling.build" # Not compatible with C dynamic library
+build-backend = "scikit_build_core.build" # Activate for C dynamic library
 
 # Project
 [project]
@@ -93,10 +93,10 @@ testpaths = ["tests"]
 wheel.packages = ["src/splinekit"]
 editable.mode = "redirect"
 sdist.include = [
-  "src/splinekit/**",
-#  "splinekit/ansi_c/**", # Activate for C dynamic library
-#  "splinekit/CMakeLists.txt", # Activate for C dynamic library
-  "README.md",
-  "LICENSE"
+    "src/splinekit/**",
+    "splinekit/ansi_c/**", # Activate for C dynamic library
+    "splinekit/CMakeLists.txt", # Activate for C dynamic library
+    "README.md",
+    "LICENSE"
 ]
-# cmake.build-type = "Release" # Activate for C dynamic library
+cmake.build-type = "Release" # Activate for C dynamic library
