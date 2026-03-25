@@ -58,3 +58,11 @@ Install `splinekit` development environment in editable mode
 ```shell
 pip install -e .[dev]
 ```
+
+## Release Notes
+
+### 0.1.0
+First stable version. Pure Python.
+
+### 0.2.1
+Same API as 0.1.0. Ansi-C dynamic library.
