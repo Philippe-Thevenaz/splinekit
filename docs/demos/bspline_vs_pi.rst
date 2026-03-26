@@ -15,7 +15,9 @@ Consider the B-spline :math:`\beta^{n}` of degree :math:`n` and let us focus on 
 
 In the following Jupyter Lab notebook, we plot a visual representation of that fact.
 
-`Value of a B-spline at the origin <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_vs_pi_at0.ipynb>`_
+..  admonition:: Jupyter Lab notebook
+
+    `Value of a B-spline at the origin <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_vs_pi_at0.ipynb>`_
 
 ----
 
@@ -29,4 +31,6 @@ Another relation between B-splines and :math:`\pi` arises if one computes the su
 
 In the following Jupyter Lab notebook, we plot a visual representation of that fact.
 
-`Alternating sum of samples <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_vs_pi_as_sum.ipynb>`_
+..  admonition:: Jupyter Lab notebook
+
+    `Alternating sum of samples <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_vs_pi_as_sum.ipynb>`_

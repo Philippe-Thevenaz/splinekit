@@ -18,4 +18,6 @@ The M-scale relation has numerous applications. It is invaluable in the developm
 
 In the following Jupyter Lab notebook, we show the contribution of each term of the right-hand-side of the M-scale equality.
 
-`M-scale relation of B-splines <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_m_scale.ipynb>`_
+..  admonition:: Jupyter Lab notebook
+
+    `M-scale relation of B-splines <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_m_scale.ipynb>`_
