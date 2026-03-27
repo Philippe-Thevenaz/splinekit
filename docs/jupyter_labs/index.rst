@@ -36,14 +36,6 @@ Discussion of how splines differ from B-splines and display of a random one-dime
 :download:`bspline_random2d <bspline_random2d.ipynb.gz>`
 A random two-dimensional spline curve that evolves dynamically.
 
-:download:`bspline_vs_exponentials <bspline_vs_exponentials.ipynb.gz>`
-Relation of the B-spline basis :math:`\beta` to the :math:`\exp,` the
-:math:`{\mathrm{Erf}},` and the Gaussian functions.
-
-:download:`bspline_vs_trigonometry <bspline_vs_trigonometry.ipynb.gz>`
-Relation of the B-spline basis :math:`\beta` to the :math:`\sin` and
-:math:`\cos` functions.
-
 Module ``spline_padding``
 -------------------------
 

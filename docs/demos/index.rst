@@ -25,3 +25,4 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     bspline_m_scale
     bspline_vs_pi
     spline_vs_poly
+    spline_engineer_func
