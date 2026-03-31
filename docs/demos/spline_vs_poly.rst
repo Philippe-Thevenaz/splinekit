@@ -1,8 +1,3 @@
-:orphan:
-
-..  role:: raw-html(raw)
-    :format: html
-
 Splines, B-Splines, and Polynomials
 ===================================
 
@@ -29,6 +24,8 @@ Splines of degree :math:`n` are :math:`\left(n-1\right)` times continuously diff
 where :math:`c` are the so-called spline coefficients and where the B-spline :math:`\beta^{n}` is the basis function of the degree :math:`n,` this degree being typeset as a superscript (not a power). The distinction between a B-spline (with a capital B) and a spline is that the first one is a nonparametric basis, the second one being parameterized by :math:`c` and the global delay :math:`\delta x.` To simplify the discussion, we assume henceforth that this delay is :math:`\delta x=0.`
 
 In this description, there is nothing to prevent one to call a spline any true (non-piecewise) polynomial. We are going now to establish relations between polynomials and spline coefficients.
+
+----
 
 Polynomials
 -----------

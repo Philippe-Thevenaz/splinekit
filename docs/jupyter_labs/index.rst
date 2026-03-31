@@ -15,10 +15,6 @@ Additional Jupyter Labs [toc]
 Module ``bsplines``
 -------------------
 
-:download:`bspline_bases <bspline_bases.ipynb.gz>`
-Illustration of the cardinal B-spline basis :math:`\eta,` the dual B-spline
-basis :math:`\mathring{\beta},` and the orthonormal B-spline basis :math:`\phi.`
-
 :download:`bspline_inverse_sequence <bspline_inverse_sequence.ipynb.gz>`
 Illustration of the B-spline inverse sequence :math:`\left(b^{-1}\right)` and
 its periodized version.
