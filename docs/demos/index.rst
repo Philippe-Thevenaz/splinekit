@@ -22,8 +22,11 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
 
     hello_bspline
     bspline_members
+    bspline_stability
     bspline_m_scale
     bspline_vs_pi
     spline_vs_poly
     spline_engineer_func
-    spline_bases
+    bspline_bases
+    bspline_poles
+

@@ -19,13 +19,6 @@ Module ``bsplines``
 Illustration of the B-spline inverse sequence :math:`\left(b^{-1}\right)` and
 its periodized version.
 
-:download:`bspline_numeric_stability <bspline_numeric_stability.ipynb.gz>`
-Four approaches to the computation of the B-spline basis :math:`\beta,` and
-discussion of their relative merits in terms of speed and numerical accuracy.
-
-:download:`bspline_poles <bspline_poles.ipynb.gz>`
-Visualization of the so-called B-spline poles and their relation to the annihilating sequences for B-splines.
-
 :download:`bspline_random1d <bspline_random1d.ipynb.gz>`
 Discussion of how splines differ from B-splines and display of a random one-dimensional spline that evolves dynamically.
 
