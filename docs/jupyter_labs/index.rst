@@ -15,10 +15,6 @@ Additional Jupyter Labs [toc]
 Module ``bsplines``
 -------------------
 
-:download:`bspline_inverse_sequence <bspline_inverse_sequence.ipynb.gz>`
-Illustration of the B-spline inverse sequence :math:`\left(b^{-1}\right)` and
-its periodized version.
-
 :download:`bspline_random1d <bspline_random1d.ipynb.gz>`
 Discussion of how splines differ from B-splines and display of a random one-dimensional spline that evolves dynamically.
 

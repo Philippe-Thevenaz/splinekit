@@ -29,4 +29,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     spline_engineer_func
     bspline_bases
     bspline_poles
+    bspline_inverse
 

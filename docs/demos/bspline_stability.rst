@@ -87,13 +87,21 @@ We want to compare four computational approaches.
 3.  In the third (De Boor) approach, we compute :math:`\beta^{n}` as in :math:`(3),` again relying on Python's built-in ``float`` type.
 4.  In the fourth (splinekit) approach, we compute :math:`\beta^{n}` as in :math:`(4),` relying on Python's built-in ``float`` type.
 
-What we measure is by how far the methods depart from the ground truth, in a mean-square sense. The error being most noticeable near the end of the left and right tails of the B-spline, this is where the error is computed. We also report the computational time.
+What we measure is by how far the methods depart from the ground truth, in a mean-square sense. When expressed as a signal-to-noise ratio (SNR), the error is most noticeable near the end of the left and right tails of the B-spline. This is where the error is computed, over :math:`400` samples taken at random, consistently between methods to allow for their fair comparison. We also report the computational time.
 
 ..  admonition:: Jupyter Lab notebook
 
     `Numeric stability and speed of B-splines <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_numeric_stability.ipynb>`_
-    
-    The link above allows you to inspect the notebook. Unfortunately, technical limitations at the time of this writing will prevent you from running it as an *install-free* Jupyter notebook. If you want to run this notebook, you will have to first install the ``splinekit`` library. Only then will you be able to run it, but only as a regular, full-fledged Jupyter Lab—even with the library installed, it will still not run from the link proposed here.
+
+    *   The link above allows you to access and run the *installation-free* notebook. While the reported SNRs are representative, the timings are not because the Python kernel is WebAssembly-based and does not run natively.
+
+    *   If you want to test for realistic timings, then you will have to first install in full the ``splinekit`` library. Only after that will you be able to launch the notebook either as a regular, full-fledged Jupyter Lab or as a module executed by the native Python kernel.
+
+    *   The timings reported below correspond to those of the native execution.
+
+..  hint::
+    The notebook is available for download in compressed form from
+    :download:`here <bspline_numeric_stability.ipynb.gz>`. Decompression is achieved from the terminal with ``gunzip bspline_numeric_stability.ipynb.gz``.
 
 Results
 ^^^^^^^
