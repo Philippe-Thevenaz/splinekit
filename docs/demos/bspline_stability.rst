@@ -77,8 +77,8 @@ The B-spline derivatives that appear in :math:`(5)` are computed as rational num
 
 ----
 
-Experiment
-----------
+Experiments
+-----------
 
 We want to compare four computational approaches.
 
@@ -87,7 +87,7 @@ We want to compare four computational approaches.
 3.  In the third (De Boor) approach, we compute :math:`\beta^{n}` as in :math:`(3),` again relying on Python's built-in ``float`` type.
 4.  In the fourth (splinekit) approach, we compute :math:`\beta^{n}` as in :math:`(4),` relying on Python's built-in ``float`` type.
 
-What we measure is by how far the methods depart from the ground truth, in a mean-square sense. When expressed as a signal-to-noise ratio (SNR), the error is most noticeable near the end of the left and right tails of the B-spline. This is where the error is computed, over :math:`400` samples taken at random, consistently between methods to allow for their fair comparison. We also report the computational time.
+What we measure is by how far the methods depart from the ground truth, in a mean-square sense expressed in dB units.
 
 ..  admonition:: Jupyter Lab notebook
 
@@ -103,13 +103,18 @@ What we measure is by how far the methods depart from the ground truth, in a mea
     The notebook is available for download in compressed form from
     :download:`here <bspline_numeric_stability.ipynb.gz>`. Decompression is achieved from the terminal with ``gunzip bspline_numeric_stability.ipynb.gz``.
 
-Results
-^^^^^^^
+Critical Regime
+^^^^^^^^^^^^^^^
 
-On a desktop computer of 2021, the resulting table is as follows.
+When expressed as a signal-to-noise ratio (SNR), the error is most noticeable near the end of the left and right tails of the B-spline. In this critical regime, the error is computed over :math:`400` samples taken at random, consistently between methods to allow for their fair comparison. We also report the computational time.
+
+Results
+"""""""
+
+On a desktop computer of 2021, a typical resulting table is as follows.
 
 :raw-html:`<TABLE frame="hsides" rules="groups">
-<CAPTION>Accuracy and time</CAPTION>
+<CAPTION>Accuracy and time in the critical regime</CAPTION>
 <COLGROUP>
 <COLGROUP span="2">
 <COLGROUP span="2">
@@ -137,10 +142,121 @@ On a desktop computer of 2021, the resulting table is as follows.
 <TR><TD align="right">16&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.0e-01&#160;<TD align="right">-13.4&#160;&#160;<TD align="right">2.7e-03&#160;<TD align="right">312.6&#160;&#160;<TD align="right">1.0e+01&#160;<TD align="right">270.1&#160;&#160;<TD align="right">1.3e-03&#160;
 </TABLE>`
 
-Discussion
-^^^^^^^^^^
+Discussion for the Critical Regime
+""""""""""""""""""""""""""""""""""
 
 -   The numerical stability of the classic approach is consistently the worst at all degrees. Moreover, it even collapses when the degree rises: for degree :math:`n=16` already, there is more noise than signal, at least over the domain being examined, which is :math:`(-8.5,-6.5)\cup(6.5,8.5)` for :math:`n=16.` The computational cost exhibits a linear increase over the degrees explored here. Yet, the classic approach is still the fastest over the goldilocks range of degrees :math:`n\in\{3,4,5,6\}`, a range where its accuracy can also be considered sufficient for most purposes.
 -   The numerical stability of the De Boor's approach is always the best (310dB corresponds to about 51 significant bits) but comes at a computational cost that increases exponentially with the degree. Yet, the trivial code proposed here comes the fastest over the small range of degrees :math:`n\in\{0,1,2\}`. For such low degrees, however, one has to realize that the computational cost depends more on language idiosyncrasies (*e.g.*, namespace lookup, recursivity *vs* loops, checks on type and validity of the parameters) than on algorithmic considerations.
 -   The numerical stability of the splinekit library is consistently much higher than that of the classic approach and degrades more slowly with the degree (270dB corresponds to about :math:`45` significant bits). Indeed, one has to reach the very high degree :math:`n=94` before the :math:`0` dB threshold is crossed, at least over the domain being examined, which is :math:`(-47.5,-45.5)\cup(45.5,47.5)` for :math:`n=94.`
 -   For degree :math:`n=16`, splinekit is more than seven thousand times faster than De Boor while, for degree :math:`n=7` and higher, the splinekit strategy is always faster than the other three. The computation time of splinekit remains constant through all degrees, a property that holds up to :math:`n=94` and beyond.
+
+Global Regime, Low Degrees
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In the global regime, the error is computed over :math:`400` samples taken at random according to a uniform distribution that is not restricted to the tails of B-splines but that covers their whole support, consistently between methods to allow for their fair comparison.
+
+Here, we consider only low degrees. This allows us to include results for the (slow) De Boor's method.
+
+Results
+"""""""
+
+On a desktop computer of 2021, a typical resulting table is as follows.
+
+:raw-html:`<TABLE frame="hsides" rules="groups">
+<CAPTION>Accuracy and time in the global regime, low degrees</CAPTION>
+<COLGROUP>
+<COLGROUP span="2">
+<COLGROUP span="2">
+<COLGROUP span="2">
+<COLGROUP span="2">
+<TR><TH><TH colspan="2" align="center">&#160;Ground-Truth&#160;<TH colspan="2" align="center">&#160;Classic&#160;<TH colspan="2" align="center">&#160;De Boor&#160;<TH colspan="2" align="center">&#160;splinekit&#160;
+<TR><TH>&#160;Degree&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;
+<TBODY>
+<TR><TD align="right">0&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">4.2e-03&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.8e-04&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.6e-04&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.3e-04&#160;
+<TR><TD align="right">1&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">9.0e-03&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">5.4e-04&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.1e-04&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.4e-03&#160;
+<TR><TD align="right">2&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.1e-02&#160;<TD align="right">308.6&#160;&#160;<TD align="right">6.6e-04&#160;<TD align="right">322.4&#160;&#160;<TD align="right">6.3e-04&#160;<TD align="right">319.8&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">3&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.4e-02&#160;<TD align="right">299.6&#160;&#160;<TD align="right">7.8e-04&#160;<TD align="right">319.6&#160;&#160;<TD align="right">1.3e-03&#160;<TD align="right">319.1&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">4&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.8e-02&#160;<TD align="right">287.2&#160;&#160;<TD align="right">9.1e-04&#160;<TD align="right">316.7&#160;&#160;<TD align="right">2.5e-03&#160;<TD align="right">316.5&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">5&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.2e-02&#160;<TD align="right">276.6&#160;&#160;<TD align="right">1.0e-03&#160;<TD align="right">316.6&#160;&#160;<TD align="right">5.0e-03&#160;<TD align="right">314.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">6&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.7e-02&#160;<TD align="right">264.3&#160;&#160;<TD align="right">1.2e-03&#160;<TD align="right">316.0&#160;&#160;<TD align="right">9.9e-03&#160;<TD align="right">317.3&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">7&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.2e-02&#160;<TD align="right">258.0&#160;&#160;<TD align="right">1.3e-03&#160;<TD align="right">317.1&#160;&#160;<TD align="right">2.0e-02&#160;<TD align="right">320.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">8&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.8e-02&#160;<TD align="right">243.2&#160;&#160;<TD align="right">1.5e-03&#160;<TD align="right">317.1&#160;&#160;<TD align="right">3.9e-02&#160;<TD align="right">313.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">9&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">4.4e-02&#160;<TD align="right">230.4&#160;&#160;<TD align="right">1.6e-03&#160;<TD align="right">316.4&#160;&#160;<TD align="right">7.9e-02&#160;<TD align="right">314.8&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">10&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">5.1e-02&#160;<TD align="right">216.5&#160;&#160;<TD align="right">1.8e-03&#160;<TD align="right">315.9&#160;&#160;<TD align="right">1.6e-01&#160;<TD align="right">314.3&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">11&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">5.8e-02&#160;<TD align="right">212.0&#160;&#160;<TD align="right">1.9e-03&#160;<TD align="right">314.8&#160;&#160;<TD align="right">3.2e-01&#160;<TD align="right">313.3&#160;&#160;<TD align="right">1.2e-03&#160;
+<TR><TD align="right">12&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">6.6e-02&#160;<TD align="right">198.8&#160;&#160;<TD align="right">2.1e-03&#160;<TD align="right">315.5&#160;&#160;<TD align="right">6.3e-01&#160;<TD align="right">313.4&#160;&#160;<TD align="right">1.2e-03&#160;
+<TR><TD align="right">13&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">7.5e-02&#160;<TD align="right">192.8&#160;&#160;<TD align="right">2.3e-03&#160;<TD align="right">313.5&#160;&#160;<TD align="right">1.3e+00&#160;<TD align="right">313.4&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">14&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">8.4e-02&#160;<TD align="right">178.4&#160;&#160;<TD align="right">2.5e-03&#160;<TD align="right">314.4&#160;&#160;<TD align="right">2.5e+00&#160;<TD align="right">311.4&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">15&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">9.4e-02&#160;<TD align="right">172.7&#160;&#160;<TD align="right">2.6e-03&#160;<TD align="right">314.0&#160;&#160;<TD align="right">5.1e+00&#160;<TD align="right">317.0&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">16&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.0e-01&#160;<TD align="right">161.0&#160;&#160;<TD align="right">2.8e-03&#160;<TD align="right">312.9&#160;&#160;<TD align="right">1.0e+01&#160;<TD align="right">310.1&#160;&#160;<TD align="right">1.3e-03&#160;
+</TABLE>`
+
+Discussion for the Global Regime, Low Degrees
+"""""""""""""""""""""""""""""""""""""""""""""
+
+-   The timings of all methods are consistent with the timings discussed in the critical regime. One concludes that the computational costs do not depend on the value of the arguments of B-splines.
+-   The numerical stability of the classic approach is again consistently the worst at all degrees. Yet, contrarily to the critical regime, it remains globally serviceable for the degrees considered here.
+-   The numerical stability of the De Boor's approach is approximately the same in the critical regime or in the global regime.
+-   The numerical stability of the splinekit library is on par with that of the De Boor's approach and consistently much higher than that of the classic approach. It does not degrade with the degree.
+
+Global Regime
+^^^^^^^^^^^^^
+
+In the global regime, the error is computed over :math:`400` samples taken at random according to a uniform distribution that is not restricted to the tails of B-splines but that covers their whole support, consistently between methods to allow for their fair comparison.
+
+Here, we consider degrees too high to allow the (slow) De Boor's method to terminate computations in a reasonable time.
+
+Results
+"""""""
+
+On a desktop computer of 2021, a typical resulting table is as follows.
+
+:raw-html:`<TABLE frame="hsides" rules="groups">
+<CAPTION>Accuracy and time in the global regime</CAPTION>
+<COLGROUP>
+<COLGROUP span="2">
+<COLGROUP span="2">
+<COLGROUP span="2">
+<TR><TH><TH colspan="2" align="center">&#160;Ground-Truth&#160;<TH colspan="2" align="center">&#160;Classic&#160;<TH colspan="2" align="center">&#160;splinekit&#160;
+<TR><TH>&#160;Degree&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;<TH>&#160;SNR[dB]&#160;&#160;<TH>&#160;Time[s]&#160;
+<TBODY>
+<TR><TD align="right">0&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.3e-03&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.8e-04&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.1e-04&#160;
+<TR><TD align="right">1&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">7.9e-03&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">5.6e-04&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">2&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.2e-02&#160;<TD align="right">307.2&#160;&#160;<TD align="right">6.8e-04&#160;<TD align="right">319.3&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">3&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.4e-02&#160;<TD align="right">300.6&#160;&#160;<TD align="right">8.0e-04&#160;<TD align="right">318.6&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">4&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.8e-02&#160;<TD align="right">285.4&#160;&#160;<TD align="right">9.1e-04&#160;<TD align="right">316.9&#160;&#160;<TD align="right">1.2e-03&#160;
+<TR><TD align="right">5&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.2e-02&#160;<TD align="right">275.8&#160;&#160;<TD align="right">1.1e-03&#160;<TD align="right">315.4&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">6&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.8e-02&#160;<TD align="right">267.0&#160;&#160;<TD align="right">1.2e-03&#160;<TD align="right">316.3&#160;&#160;<TD align="right">1.4e-03&#160;
+<TR><TD align="right">7&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.2e-02&#160;<TD align="right">257.1&#160;&#160;<TD align="right">1.4e-03&#160;<TD align="right">319.5&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">8&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.7e-02&#160;<TD align="right">243.9&#160;&#160;<TD align="right">1.5e-03&#160;<TD align="right">314.2&#160;&#160;<TD align="right">1.2e-03&#160;
+<TR><TD align="right">9&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">4.8e-02&#160;<TD align="right">231.7&#160;&#160;<TD align="right">1.6e-03&#160;<TD align="right">314.2&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">10&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">5.3e-02&#160;<TD align="right">219.7&#160;&#160;<TD align="right">1.8e-03&#160;<TD align="right">313.8&#160;&#160;<TD align="right">1.2e-03&#160;
+<TR><TD align="right">11&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">5.9e-02&#160;<TD align="right">209.2&#160;&#160;<TD align="right">1.9e-03&#160;<TD align="right">313.4&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">12&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">6.6e-02&#160;<TD align="right">200.4&#160;&#160;<TD align="right">2.0e-03&#160;<TD align="right">313.2&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">13&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">7.4e-02&#160;<TD align="right">189.9&#160;&#160;<TD align="right">2.3e-03&#160;<TD align="right">311.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">14&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">8.4e-02&#160;<TD align="right">182.4&#160;&#160;<TD align="right">2.5e-03&#160;<TD align="right">313.1&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">15&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">9.3e-02&#160;<TD align="right">169.6&#160;&#160;<TD align="right">2.6e-03&#160;<TD align="right">317.8&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">16&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.0e-01&#160;<TD align="right">160.3&#160;&#160;<TD align="right">2.7e-03&#160;<TD align="right">309.6&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">17&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.1e-01&#160;<TD align="right">147.7&#160;&#160;<TD align="right">2.9e-03&#160;<TD align="right">310.3&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">18&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.2e-01&#160;<TD align="right">135.4&#160;&#160;<TD align="right">3.0e-03&#160;<TD align="right">311.6&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">19&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.4e-01&#160;<TD align="right">115.7&#160;&#160;<TD align="right">3.1e-03&#160;<TD align="right">311.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">20&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.5e-01&#160;<TD align="right">105.2&#160;&#160;<TD align="right">3.3e-03&#160;<TD align="right">310.6&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">21&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.6e-01&#160;<TD align="right">96.4&#160;&#160;<TD align="right">4.4e-03&#160;<TD align="right">310.1&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">22&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">1.8e-01&#160;<TD align="right">84.6&#160;&#160;<TD align="right">4.7e-03&#160;<TD align="right">310.1&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">23&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.0e-01&#160;<TD align="right">81.5&#160;&#160;<TD align="right">4.8e-03&#160;<TD align="right">310.1&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">24&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.1e-01&#160;<TD align="right">65.2&#160;&#160;<TD align="right">5.2e-03&#160;<TD align="right">309.5&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">25&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.2e-01&#160;<TD align="right">59.4&#160;&#160;<TD align="right">5.3e-03&#160;<TD align="right">310.9&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">26&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.4e-01&#160;<TD align="right">49.3&#160;&#160;<TD align="right">5.6e-03&#160;<TD align="right">310.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">27&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.6e-01&#160;<TD align="right">41.6&#160;&#160;<TD align="right">5.9e-03&#160;<TD align="right">312.4&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">28&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">2.9e-01&#160;<TD align="right">29.3&#160;&#160;<TD align="right">6.3e-03&#160;<TD align="right">309.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">29&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.0e-01&#160;<TD align="right">20.9&#160;&#160;<TD align="right">6.5e-03&#160;<TD align="right">309.9&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">30&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.2e-01&#160;<TD align="right">8.8&#160;&#160;<TD align="right">6.8e-03&#160;<TD align="right">309.7&#160;&#160;<TD align="right">1.3e-03&#160;
+<TR><TD align="right">31&#160;<TD align="right">&#8734;&#160;&#160;<TD align="right">3.4e-01&#160;<TD align="right">0.6&#160;&#160;<TD align="right">6.9e-03&#160;<TD align="right">321.3&#160;&#160;<TD align="right">1.3e-03&#160;
+</TABLE>`
+
+Discussion for the Global Regime
+""""""""""""""""""""""""""""""""
+
+-   The numerical stability of the classic approach degrades sharply near the end of the range of degrees that we considered here, to the point of uselessness.
+-   The numerical stability of the splinekit library is as good as the floating-point representation of numbers will allow, at all degrees shown here.
+
