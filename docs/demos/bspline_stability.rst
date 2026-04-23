@@ -95,7 +95,7 @@ What we measure is by how far the methods depart from the ground truth, in a mea
 
     *   The link above allows you to access and run the *installation-free* notebook. While the reported SNRs are representative, the timings are not because the Python kernel is WebAssembly-based and does not run natively.
 
-    *   If you want to test for realistic timings, then you will have to first install in full the ``splinekit`` library. Only after that will you be able to launch the notebook either as a regular, full-fledged Jupyter Lab or as a module executed by the native Python kernel.
+    *   If you want to test for realistic timings on your own computer, then you will have to first install in full the ``splinekit`` library. Only after that will you be able to launch the notebook either as a regular, full-fledged Jupyter Lab or as a module executed by the native Python kernel.
 
     *   The timings reported below correspond to those of the native execution.
 

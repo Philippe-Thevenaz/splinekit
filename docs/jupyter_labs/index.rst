@@ -21,12 +21,6 @@ Discussion of how splines differ from B-splines and display of a random one-dime
 :download:`bspline_random2d <bspline_random2d.ipynb.gz>`
 A random two-dimensional spline curve that evolves dynamically.
 
-Module ``spline_padding``
--------------------------
-
-:download:`padding <padding.ipynb.gz>`
-How to extend a finite-length vector of data to a virtually infinite-length sequence.
-
 Class ``PeriodicSpline1D``
 --------------------------
 
