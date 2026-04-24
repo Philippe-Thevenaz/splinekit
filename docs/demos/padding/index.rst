@@ -1,10 +1,10 @@
-Demos [toc]
-===========
+Padding [toc]
+=============
 
 ..  list-table::
 
     * - **Demos**
-      - These demos illustrate some uses of the ``splinekit`` library.
+      - These demos illustrate some uses of the ``splinekit.spline_padding`` module.
 
 The demos rely on the Jupyter Lab deployment of Python. They run in-browser and **do not necessitate anything to be installed beforehand**. Edits to the notebooks will persist for a time in the cache of your browser. This duration is ephemeral and uncontrolled; dot not rely on it for persistent storage.
 
@@ -20,7 +20,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     :maxdepth: 0
     :caption: Contents:
 
-    bspline/index
-    padding/index
-    spline1d/index
+    padding
 
