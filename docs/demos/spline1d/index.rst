@@ -20,5 +20,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     :maxdepth: 0
     :caption: Contents:
 
-    stepper
+    random1d
 

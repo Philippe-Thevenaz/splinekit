@@ -15,9 +15,6 @@ Additional Jupyter Labs [toc]
 Module ``bsplines``
 -------------------
 
-:download:`bspline_random1d <bspline_random1d.ipynb.gz>`
-Discussion of how splines differ from B-splines and display of a random one-dimensional spline that evolves dynamically.
-
 :download:`bspline_random2d <bspline_random2d.ipynb.gz>`
 A random two-dimensional spline curve that evolves dynamically.
 
