@@ -5,8 +5,8 @@ Display of a random one-dimensional spline that evolves dynamically.
 
 ----
 
-Splines
--------
+Spline Real Functions
+---------------------
 
 One-dimensional uniform polynomial splines are functions that map a real number to a real number. They follow a recipe whereby they are made of the sum of integer-shifted and weighted basis functions called B-splines. The weights are numbers that parameterize the spline and give its versatility. The bases are fixed functions that endow the spline with its unique characteristics—its smoothness, typically. Formally, we write a spline function :math:`f` as
 
@@ -26,4 +26,3 @@ We give now a piece of code that animates a spline whose coefficients are drawn 
 ..  admonition:: Jupyter Lab notebook
 
     `Random 1D Spline <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_random_1d.ipynb>`_
-
