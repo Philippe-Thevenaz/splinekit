@@ -52,7 +52,7 @@ with the approximation being such that it balances the requirement of interpolat
 From Noiseless Samples
 """"""""""""""""""""""
 
-We now propose a few lines of code that create and display a spline that interpolates random samples. 
+We now propose a few lines of code that create and display a spline that interpolates random samples.
 
 ..  admonition:: Jupyter Lab notebook
 
@@ -61,7 +61,7 @@ We now propose a few lines of code that create and display a spline that interpo
 From Noisy Samples
 """"""""""""""""""""""
 
-We now propose a few lines of code that create and display a smooth spline that performs the approximate interpolation of random samples. 
+We now propose a few lines of code that create and display a smooth spline that performs the approximate interpolation of random samples.
 
 ..  admonition:: Jupyter Lab notebook
 

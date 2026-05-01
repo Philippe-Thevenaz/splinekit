@@ -23,4 +23,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     random1d
     random2d
     constructors
+    polynomials
 

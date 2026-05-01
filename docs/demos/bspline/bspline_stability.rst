@@ -89,15 +89,17 @@ We want to compare four computational approaches.
 
 What we measure is by how far the methods depart from the ground truth, in a mean-square sense expressed in dB units.
 
-..  admonition:: Jupyter Lab notebook
+..  danger::
 
-    `Numeric stability and speed of B-splines <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_numeric_stability.ipynb>`_
-
-    *   The link above allows you to access and run the *installation-free* notebook. While the reported SNRs are representative, the timings are not because the Python kernel is WebAssembly-based and does not run natively.
+    *   The link below allows you to access and run the *installation-free* notebook. While the reported SNRs are representative, the timings are not because the Python kernel is WebAssembly-based and does not run natively.
 
     *   If you want to test for realistic timings on your own computer, then you will have to first install in full the ``splinekit`` library. Only after that will you be able to launch the notebook either as a regular, full-fledged Jupyter Lab or as a module executed by the native Python kernel.
 
-    *   The timings reported below correspond to those of the native execution.
+    *   The timings reported in the Results Sections correspond to those of the native execution.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Numeric stability and speed of B-splines <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_numeric_stability.ipynb>`_
 
 ..  hint::
     The notebook is available for download in compressed form from
@@ -146,7 +148,7 @@ Discussion for the Critical Regime
 """"""""""""""""""""""""""""""""""
 
 -   The numerical stability of the classic approach is consistently the worst at all degrees. Moreover, it even collapses when the degree rises: for degree :math:`n=16` already, there is more noise than signal, at least over the domain being examined, which is :math:`(-8.5,-6.5)\cup(6.5,8.5)` for :math:`n=16.` The computational cost exhibits a linear increase over the degrees explored here. Yet, the classic approach is still the fastest over the goldilocks range of degrees :math:`n\in\{3,4,5,6\}`, a range where its accuracy can also be considered sufficient for most purposes.
--   The numerical stability of the De Boor's approach is always the best (310dB corresponds to about 51 significant bits) but comes at a computational cost that increases exponentially with the degree. Yet, the trivial code proposed here comes the fastest over the small range of degrees :math:`n\in\{0,1,2\}`. For such low degrees, however, one has to realize that the computational cost depends more on language idiosyncrasies (*e.g.*, namespace lookup, recursivity *vs* loops, checks on type and validity of the parameters) than on algorithmic considerations.
+-   The numerical stability of the De Boor's approach is always the best (310dB corresponds to about 51 significant bits) but comes at a computational cost that increases combinatorially with the degree. Yet, the trivial code proposed here comes the fastest over the small range of degrees :math:`n\in\{0,1,2\}`. For such low degrees, however, one has to realize that the computational cost depends more on language idiosyncrasies (*e.g.*, namespace lookup, recursivity *vs* loops, checks on type and validity of the parameters) than on algorithmic considerations.
 -   The numerical stability of the splinekit library is consistently much higher than that of the classic approach and degrades more slowly with the degree (270dB corresponds to about :math:`45` significant bits). Indeed, one has to reach the very high degree :math:`n=94` before the :math:`0` dB threshold is crossed, at least over the domain being examined, which is :math:`(-47.5,-45.5)\cup(45.5,47.5)` for :math:`n=94.`
 -   For degree :math:`n=16`, splinekit is more than seven thousand times faster than De Boor while, for degree :math:`n=7` and higher, the splinekit strategy is always faster than the other three. The computation time of splinekit remains constant through all degrees, a property that holds up to :math:`n=94` and beyond.
 

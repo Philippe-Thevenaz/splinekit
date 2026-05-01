@@ -20,6 +20,3 @@ How to obtain a periodic one-dimensional spline of arbitrary degree that bounds 
 
 :download:`periodicspline1d_evaluate <periodicspline1d_evaluate.ipynb.gz>`
 How to evaluate a periodic one-dimensional spline at just one argument or at a series of arguments.
-
-:download:`periodicspline1d_polynomials <periodicspline1d_polynomials.ipynb.gz>`
-How to access the polynomial pieces of a piecewise-polynomial periodic one-dimensional spline.

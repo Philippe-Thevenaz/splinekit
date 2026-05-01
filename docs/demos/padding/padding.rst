@@ -102,16 +102,17 @@ Experimental Performance
 
 The following experiment establishes some simple statistics over the gain in speed achieved by the recursive approach over the fast-Fourier-based one. For each length :math:`K` and for each spline degree, we synthesize :math:`50` random vectors :math:`{\mathbf{y}}\in{\mathbb{Z}}^{K}` and let both the Fourier approach and the recursive approach determine the spline coefficients on the same data. We measure the duration of those computations and report by how many times the recursive approach is faster relatively to the Fourier approach. For instance, the number :math:`2.0` would mean that the recursive approach would be :math:`200\%` times faster or, equivalently, that it runs twice as fast.
 
+..  danger::
+
+    *   The link below allows you to inspect the notebook. Unfortunately, running it from the browser is meaningless: the timings of the *installation-free* version are not representative because the Python kernel is WebAssembly-based and does not run natively.
+
+    *   If you want to test for realistic timings on your own computer, then you will have to first install in full the ``splinekit`` library. Only after that will you be able to launch the notebook either as a regular, full-fledged Jupyter Lab or as a module executed by the native Python kernel.
+
+    *   The timings reported in the Results Section correspond to those of the native execution.
 
 ..  admonition:: Jupyter Lab notebook
 
     `Recursive vs Fourier <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=padding_speed.ipynb>`_
-
-    *   The link above allows you to inspect the notebook. Unfortunately, running it from the browser is meaningless: the timings of the *installation-free* version are not representative because the Python kernel is WebAssembly-based and does not run natively.
-
-    *   If you want to test for realistic timings on your own computer, then you will have to first install in full the ``splinekit`` library. Only after that will you be able to launch the notebook either as a regular, full-fledged Jupyter Lab or as a module executed by the native Python kernel.
-
-    *   The timings reported below correspond to those of the native execution.
 
 ..  hint::
     The notebook is available for download in compressed form from
