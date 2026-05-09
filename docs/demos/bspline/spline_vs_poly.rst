@@ -16,7 +16,7 @@ The ``splinekit`` library focuses on uniform polynomial splines of nonnegative i
 
 *    *Uniform* For uniform splines, each interval is assumed to have a unit diameter.
 
-Splines of degree :math:`n` are :math:`\left(n-1\right)` times continuously differentiable and :math:`n` times differentiable. They are the smoothest piecewise-polynomial functions one can get. It turns out that regular splines always admit a convenient representation through an expression that involves basis functions; in the most practical form, uniform splines are written as
+Splines of degree :math:`n` are :math:`\left(n-1\right)` times continuously differentiable and :math:`n` times differentiable. They are the smoothest piecewise-polynomial functions one can get. It turns out that uniform splines always admit a convenient representation through an expression that involves basis functions; in the most practical form, uniform splines are written as
 
 ..  math::
         f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=\sum_{k\in{\mathbb{Z}}}\,c[k]\,\beta^{n}(x-\delta x-k),
