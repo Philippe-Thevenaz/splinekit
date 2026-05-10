@@ -1,8 +1,10 @@
 <!-- splinekit/README.md -->
 
 # splinekit: Spline Operations
-`splinekit` is a Python-based open-source software library aimed at the
-manipulation of one-dimensional periodic splines.
+`splinekit` is a Python-based open-source software library aimed at the manipulation of one-dimensional periodic splines.
+
+| ***<div style="background-color:aliceblue">&#160;&#160;Full documentation at https://splinekit.github.io/ &#160;&#160;</div>*** |
+| - |
 
 ## Installation
 You need at least `Python 3.11` to install `splinekit`.
