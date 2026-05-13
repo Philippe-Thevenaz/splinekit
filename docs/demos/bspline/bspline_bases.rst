@@ -102,8 +102,8 @@ Here, we plot a B-spline over its support, indexed by its degree.
 
 ----
 
-Interpolating Cardinal B-Spline
--------------------------------
+Cardinal B-Spline
+-----------------
 
 There exists a basis :math:`\eta^{n}` that happens to be interpolating. It is called a cardinal B-spline. Some of its mathematical properties can be considered less favorable than those of B-splines; most notably, contrarily to B-splines, the support of cardinal B-splines is infinite, which makes it an impractical basis. Yet, its interpolating property, according to which :math:`\eta^{n}(0)=1` and :math:`\eta^{n}(k)=0` for :math:`k\in{\mathbb{Z}}\setminus\{0\},` greatly facilitates the determination of the coefficients of the representation. Indeed, it is enough to let :math:`c_{2}=y` to automatically get that
 
@@ -124,7 +124,7 @@ Here, we plot a cardinal B-spline, indexed by its degree.
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Interpolating cardinal B-spline <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_cardinal.ipynb>`_
+    `Cardinal B-spline <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=bspline_cardinal.ipynb>`_
 
 Relation to the Cardinal Sine Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
