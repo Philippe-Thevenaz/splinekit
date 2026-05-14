@@ -69,5 +69,5 @@ First stable version. Pure Python.
 ### 0.2.1
 Same API as 0.1.0. Ansi-C dynamic library.
 
-### 0.2.2
+### 0.2.2 — 0.2.4
 Some demos added

@@ -1195,7 +1195,7 @@ def convolve_b_spline_monomial (
 
     ..  math::
 
-        \begin{eqnarray*}
+        \begin{array}{rcl}
         \left({\mathrm{D}}^{d}\beta^{n}*\left(\cdot\right)^{m}\right)(x)&=&
         \int_{{\mathbb{R}}}\,
         \frac{{\mathrm{d}}^{d}\beta^{n}(y)}{{\mathrm{d}}y^{d}}\,
@@ -1205,7 +1205,7 @@ def convolve_b_spline_monomial (
         \left(x+\frac{n+1}{2}-k\right)^{m+n+1-d}\\
         &=&\textcolor{green}{\gamma_{m}^{n}[0]+
         \sum_{k=1}^{m+n+1-d}\,\gamma_{m}^{n}[k]\,x^{k}}.
-        \end{eqnarray*}
+        \end{array}
 
     Parameters
     ----------

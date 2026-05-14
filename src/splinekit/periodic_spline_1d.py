@@ -1223,12 +1223,12 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \begin{eqnarray*}
+            \begin{array}{rcl}
             s_{1}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{1}[{k\bmod K}]\,
             \beta^{n_{1}}(x-\delta x_{1}-k)\\
             s_{2}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{2}[{k\bmod K}]\,
             \beta^{n_{2}}(x-\delta x_{2}-k),
-            \end{eqnarray*}
+            \end{array}
 
         the created sum
 
@@ -1321,12 +1321,12 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \begin{eqnarray*}
+            \begin{array}{rcl}
             s_{1}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{1}[{k\bmod K}]\,
             \beta^{n_{1}}(x-\delta x_{1}-k)\\
             s_{2}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{2}[{k\bmod K}]\,
             \beta^{n_{2}}(x-\delta x_{2}-k),
-            \end{eqnarray*}
+            \end{array}
 
         the created convolution result is
 
@@ -1413,12 +1413,12 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \begin{eqnarray*}
+            \begin{array}{rcl}
             s_{1}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{1}[{k\bmod K}]\,
             \beta^{n_{1}}(x-\delta x_{1}-k)\\
             s_{2}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{2}[{k\bmod K}]\,
             \beta^{n_{2}}(x-\delta x_{2}-k),
-            \end{eqnarray*}
+            \end{array}
 
         the created zero-normalized cross-correlation result
         :math:`f(x)\in[-1,1]` is
@@ -2355,12 +2355,12 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \begin{eqnarray*}
+            \begin{array}{rcl}
             f(x)&=&\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
             \beta^{n}(x-\delta x-k)\\
             &=&{\mathbf{c}}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
             {\mathbf{v}}^{n}(\chi).
-            \end{eqnarray*}
+            \end{array}
 
         There, :math:`c` are the :math:`K` spline coefficients,
         :math:`{\mathbf{c}}=\left(c[{\left(k-r\right)\bmod
@@ -2461,13 +2461,13 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \begin{eqnarray*}
+            \begin{array}{rcl}
             \left(f(x_{0}+\frac{q}{M})\right)_{q=0}^{L\,M-1}&=&
             \left(\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
             \beta^{n}(x_{0}+\frac{q}{M}-\delta x-k)\right)_{q=0}^{L\,M-1}\\
             &=&\left({\mathbf{c}}_{q}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
             {\mathbf{v}}^{n}(\chi_{x_{0}})\right)_{q=0}^{L\,M-1}.
-            \end{eqnarray*}
+            \end{array}
 
         There, :math:`L` is ``support_length``, :math:`M` is ``oversampling``,
         :math:`x_{0}` is ``starting_at``, and :math:`c` are the :math:`K`
@@ -4575,12 +4575,12 @@ class PeriodicSpline1D:
 
         ..  math::
 
-            \begin{eqnarray*}
+            \begin{array}{rcl}
             f(x)&=&\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
             \beta^{n}(x-\delta x-k)\\
             &=&{\mathbf{c}}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,
             {\mathbf{v}}^{n}(\chi).
-            \end{eqnarray*}
+            \end{array}
 
         There, :math:`c` are the :math:`K` spline coefficients,
         :math:`{\mathbf{c}}=\left(c[{\left(k-r\right)\bmod

@@ -18,12 +18,12 @@ class Bases:
 
     ..  math::
 
-        \begin{eqnarray*}
+        \begin{array}{rcl}
         f(x)&=&\sum_{k\in{\mathbb{Z}}}\,c[k]\,\beta^{n}(x-k)\\
         &=&\sum_{k\in{\mathbb{Z}}}\,f(k)\,\eta^{n}(x-k)\\
         &=&\sum_{k\in{\mathbb{Z}}}\,g[k]\,\mathring{\beta}^{n,n}(x-k)\\
         &=&\sum_{k\in{\mathbb{Z}}}\,a[k]\,\phi^{n}(x-k).
-        \end{eqnarray*}
+        \end{array}
 
     In general, while the spline :math:`f` remains the same, the coefficients
     are mutually different, with
