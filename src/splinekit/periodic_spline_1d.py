@@ -134,6 +134,7 @@ from splinekit import mscale_filter
 from splinekit.bases import Bases
 
 #---------------
+from splinekit.interval.bounded import Bounded
 from splinekit.interval import Above
 from splinekit.interval import Below
 from splinekit.interval import Closed
@@ -5135,6 +5136,33 @@ class PeriodicSpline1D:
                                 s
                             ))
         ps.sort(key = lambda p: p.domain.sortorder())
+        did_permute = True
+        while did_permute:
+            did_permute = False
+            k = 0
+            while k < len(ps) - 1:
+                if ps[k].domain.midpoint == ps[k + 1].domain.midpoint:
+                    if isinstance(ps[k].domain, Singleton):
+                        if isinstance(ps[k + 1].domain, Bounded):
+                            if (cast(Bounded, ps[k + 1].domain).leftbound <
+                                cast(Singleton, ps[k].domain).value
+                            ):
+                                ps[k : k + 2] = [ps[k + 1], ps[k]]
+                                did_permute = True
+                    elif isinstance(ps[k].domain, Bounded):
+                        if isinstance(ps[k + 1].domain, Singleton):
+                            if (cast(Singleton, ps[k + 1].domain).value <
+                                cast(Bounded, ps[k].domain).leftbound
+                            ):
+                                ps[k : k + 2] = [ps[k + 1], ps[k]]
+                                did_permute = True
+                        elif isinstance(ps[k + 1].domain, Bounded):
+                            if (cast(Bounded, ps[k + 1].domain).rightbound <
+                                cast(Bounded, ps[k].domain).leftbound
+                            ):
+                                ps[k : k + 2] = [ps[k + 1], ps[k]]
+                                did_permute = True
+                k += 1
         k = 0
         while k < len(ps) - 1:
             if isinstance(ps[k].domain, Singleton):
