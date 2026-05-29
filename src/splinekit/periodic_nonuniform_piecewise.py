@@ -15,6 +15,7 @@ from typing import NamedTuple
 from typing import cast
 
 #---------------
+from splinekit.interval.bounded import Bounded
 from splinekit.interval import Closed
 from splinekit.interval import ClosedOpen
 from splinekit.interval import Empty
@@ -168,6 +169,33 @@ class PeriodicNonuniformPiecewise:
             raise ValueError("Period must be positive")
         ps = pieces.copy()
         ps.sort(key = lambda p: p.domain.sortorder())
+        did_permute = True
+        while did_permute:
+            did_permute = False
+            k = 0
+            while k < len(ps) - 1:
+                if ps[k].domain.midpoint == ps[k + 1].domain.midpoint:
+                    if isinstance(ps[k].domain, Singleton):
+                        if isinstance(ps[k + 1].domain, Bounded):
+                            if (cast(Bounded, ps[k + 1].domain).leftbound <
+                                cast(Singleton, ps[k].domain).value
+                            ):
+                                ps[k : k + 2] = [ps[k + 1], ps[k]]
+                                did_permute = True
+                    elif isinstance(ps[k].domain, Bounded):
+                        if isinstance(ps[k + 1].domain, Singleton):
+                            if (cast(Singleton, ps[k + 1].domain).value <
+                                cast(Bounded, ps[k].domain).leftbound
+                            ):
+                                ps[k : k + 2] = [ps[k + 1], ps[k]]
+                                did_permute = True
+                        elif isinstance(ps[k + 1].domain, Bounded):
+                            if (cast(Bounded, ps[k + 1].domain).rightbound <
+                                cast(Bounded, ps[k].domain).leftbound
+                            ):
+                                ps[k : k + 2] = [ps[k + 1], ps[k]]
+                                did_permute = True
+                k += 1
         previous_sup = 0.0
         previous_sup_contained = True
         p = 0
