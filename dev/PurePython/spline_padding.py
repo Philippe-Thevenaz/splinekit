@@ -16,7 +16,6 @@ import numpy as np
 
 #---------------
 import scipy
-import sys
 
 #---------------
 from splinekit.bases import Bases
@@ -154,11 +153,11 @@ def change_basis_p (
     coefficients that is expressing the periodic
     :ref:`uniform spline<def-uniform_spline>` :math:`f` of
     :ref:`nonnegative<def-negative>` degree :math:`n` as a weighted sum of
-    integer-shifted bases of the type ``source_basis``.
+    integer-shifted synthesis functions of the type ``source_basis``.
 
     At output time, ``data`` is a one-dimensional ``numpy.ndarray`` of
     coefficients that is expressing the same spline :math:`f` as a weighted
-    sum of integer-shifted bases of the type ``target_basis``.
+    sum of integer-shifted synthesis functions of the type ``target_basis``.
 
     Parameters
     ----------

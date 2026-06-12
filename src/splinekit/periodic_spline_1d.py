@@ -181,9 +181,9 @@ class PeriodicSpline1D:
     where :math:`x\in{\mathbb{R}}` is the argument at which the spline
     :math:`f` is evaluated, :math:`n` is the :ref:`nonnegative<def-negative>`
     degree of the polynomial spline, :math:`\beta^{n}` is a
-    :ref:`B-spline<def-b_spline>` basis, and :math:`\delta x` is a delay that
-    controls the placement of the uniform knots. The array of coefficients
-    :math:`c` is giving its shape to the spline.
+    :ref:`B-spline<def-b_spline>` synthesis function, and :math:`\delta x` is
+    a delay that controls the placement of the uniform knots. The array of
+    coefficients :math:`c` is giving its shape to the spline.
 
     .. _periodic_spline_1d-attributes:
 

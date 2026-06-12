@@ -9,8 +9,8 @@ class Bases:
     The :ref:`uniform splines<def-uniform_spline>` are 
     :ref:`piecewise-polynomial<def-piecewise_polynomial>` functions of some
     :ref:`nonnegative<def-negative>` degree :math:`n.` They can be written as
-    the weighted sum of the integer shifts of some basis function. In linear
-    algebra, several systems of coordinates can span the same space and
+    the weighted sum of the integer shifts of some synthesis function. In
+    linear algebra, several systems of coordinates can span the same space and
     the actual values of the coordinates of a fixed vector depend on the
     actual system of coordinates. Likewise, the expression of a fixed spline
     :math:`f` depends on the actual basis. With common bases, the same spline
@@ -30,7 +30,7 @@ class Bases:
     :math:`f\neq c\neq g\neq a\wedge c\neq a\neq f\neq g.`
 
     *   For ``splinekit.Bases.BASIC``, the coefficients are :math:`c` and the
-        basis is the :ref:`polynomial B-spline<def-b_spline>`
+        synthesis function is the :ref:`polynomial B-spline<def-b_spline>`
         :math:`\beta^{n},` so that
 
         ..  math::
@@ -38,15 +38,17 @@ class Bases:
             f(x)=\sum_{k\in{\mathbb{Z}}}\,c[k]\,\beta^{n}(x-k).
 
     *   For ``splinekit.Bases.CARDINAL``, the coefficients are :math:`f` and
-        the basis is the :ref:`cardinal B-spline<def-cardinal_b_spline>`
-        :math:`\eta^{n},` so that
+        the synthesis function is the
+        :ref:`cardinal B-spline<def-cardinal_b_spline>` :math:`\eta^{n},` so
+        that
 
         ..  math::
 
             f(x)=\sum_{k\in{\mathbb{Z}}}\,f(k)\,\eta^{n}(x-k).
 
     *   For ``splinekit.Bases.DUAL``, the coefficients are :math:`g` and the
-        basis is the :ref:`polynomial dual B-spline<def-dual_b_spline>`
+        synthesis function is the
+        :ref:`polynomial dual B-spline<def-dual_b_spline>`
         :math:`\mathring{\beta}^{n,n},` so that
 
         ..  math::
@@ -54,7 +56,7 @@ class Bases:
             f(x)=\sum_{k\in{\mathbb{Z}}}\,g[k]\,\mathring{\beta}^{n,n}(x-k).
 
     *   For ``splinekit.Bases.ORTHONORMAL``, the coefficients are :math:`a`
-        and the basis is the
+        and the synthesis function is the
         :ref:`polynomial orthonormal B-spline<def-orthonormal_b_spline>`
         :math:`\phi^{n},` so that
 
