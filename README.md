@@ -74,3 +74,7 @@ Some demos added.
 
 ### 0.2.5
 Minor debug of least-significant-bit edge cases.
+
+### 0.2.6
+Some demos added. Documentation minor updates.
+
