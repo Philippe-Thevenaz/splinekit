@@ -16,7 +16,6 @@ import numpy as np
 
 #---------------
 import scipy
-import sys
 
 #---------------
 from splinekit.bases import Bases
@@ -28,63 +27,7 @@ from splinekit import pole
 from splinekit.spline_utilities import _b
 from splinekit.spline_utilities import _sgn
 
-#---------------
-from ctypes import CDLL
-from ctypes import c_int32
-
 _pure_python = True
-for path in sys.path:
-    if "splinekit" in path:
-        try:
-            _pure_python = False
-            _lib = CDLL(path + "/splinekit/libpadding.dylib")
-            break
-        except:
-            _pure_python = True
-
-if not _pure_python:
-    _lib.get_samples_to_coeff_p.argtypes = (
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
-    _lib.get_samples_to_coeff_n.argtypes = (
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
-    _lib.get_samples_to_coeff_w.argtypes = (
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
-    _lib.get_samples_to_coeff_a.argtypes = (
-         np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
-    _lib.get_samples_to_coeff_np.argtypes = (
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
-    _lib.get_samples_to_coeff_nn.argtypes = (
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-         c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
-    _lib.get_samples_to_coeff_nw.argtypes = (
-         np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32,
-        np.ctypeslib.ndpointer(dtype = float, ndim = 1),
-        c_int32
-    )
 
 #---------------
 def pad_p (
@@ -329,8 +272,7 @@ def change_basis_p (
 def samples_to_coeff_p (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -358,8 +300,6 @@ def samples_to_coeff_p (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -402,9 +342,6 @@ def samples_to_coeff_p (
     p = pole(degree)
     p0 = len(data)
     if (0 == len(p)) or (1 == p0):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_p(data, p0, p, len(p))
         return
     for z in p:
         sigma = data[0]
@@ -826,8 +763,7 @@ def pad_n (
 def samples_to_coeff_n (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -855,8 +791,6 @@ def samples_to_coeff_n (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -898,9 +832,6 @@ def samples_to_coeff_n (
     p = pole(degree)
     p0 = len(data)
     if (0 == len(p)) or (1 == p0):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_n(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = data[0]
@@ -1040,8 +971,7 @@ def pad_w (
 def samples_to_coeff_w (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -1069,8 +999,6 @@ def samples_to_coeff_w (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1112,9 +1040,6 @@ def samples_to_coeff_w (
     p = pole(degree)
     p0 = len(data)
     if (0 == len(p)) or (1 == p0):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_w(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
@@ -1258,8 +1183,7 @@ def pad_a (
 def samples_to_coeff_a (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -1287,8 +1211,6 @@ def samples_to_coeff_a (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1330,9 +1252,6 @@ def samples_to_coeff_a (
     p = pole(degree)
     p0 = len(data)
     if (0 == len(p)) or (1 == p0):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_a(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
@@ -1471,8 +1390,7 @@ def pad_np (
 def samples_to_coeff_np (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -1500,8 +1418,6 @@ def samples_to_coeff_np (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1543,9 +1459,6 @@ def samples_to_coeff_np (
     p = pole(degree)
     p0 = len(data)
     if 0 == len(p):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_np(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = data[0]
@@ -1696,8 +1609,7 @@ def pad_nn (
 def samples_to_coeff_nn (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -1725,8 +1637,6 @@ def samples_to_coeff_nn (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1768,9 +1678,6 @@ def samples_to_coeff_nn (
     p = pole(degree)
     p0 = len(data)
     if 0 == len(p):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_nn(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
@@ -1909,8 +1816,7 @@ def pad_nw (
 def samples_to_coeff_nw (
     data: np.ndarray[tuple[int], np.dtype[np.float64]],
     *,
-    degree: int,
-    pure_python: bool = False
+    degree: int
 ) -> None:
 
     r"""
@@ -1938,8 +1844,6 @@ def samples_to_coeff_nw (
         Data to convert from samples to coefficients.
     degree : int
         Nonnegative degree of the polynomial B-spline.
-    pure_python : bool
-        The directive that forces the computations to be performed in Python.
 
     Returns
     -------
@@ -1978,9 +1882,6 @@ def samples_to_coeff_nw (
     p = pole(degree)
     p0 = len(data)
     if 0 == len(p):
-        return
-    if (not _pure_python) and not pure_python:
-        _lib.get_samples_to_coeff_nw(data, p0, p, len(p))
         return
     for z in p:
         sigma1 = 0.0
