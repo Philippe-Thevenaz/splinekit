@@ -5,8 +5,8 @@ How to create a periodic one-dimensional spline that interpolates data samples.
 
 ----
 
-Periodic One-Dimensional Spline Objects
----------------------------------------
+Periodic One-Dimensional Splines
+--------------------------------
 
 The class ``PeriodicSpline1D`` of the ``splinekit`` library handles continuously defined real functions :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x).` As maintained by this class in the library, these functions have a few remarkable properties.
 

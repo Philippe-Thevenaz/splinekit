@@ -18,6 +18,7 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     :maxdepth: 0
     :caption: Contents:
 
+    plot
     random1d
     random2d
     constructors
