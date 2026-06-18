@@ -1755,7 +1755,7 @@ class PeriodicSpline1D:
         *   When ``plotdomain`` is :ref:`RR<RR>`, the diameter of the domain
             is assumed to be the main period of this spline augmented by a
             margin of length ``1`` on each side, which yields the open interval
-            :math:`(-1,K-1).`
+            :math:`(-1,K+1).`
         *   When ``plotdomain`` is a half-bounded interval, the diameter of
             the domain is taken to be the main period of this spline, without
             margin. The domain is open in the unbounded direction; whether it
