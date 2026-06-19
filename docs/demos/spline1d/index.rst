@@ -23,6 +23,7 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     random2d
     constructors
     simple_ops
+    stats
     polynomials
     evaluation
     bounds

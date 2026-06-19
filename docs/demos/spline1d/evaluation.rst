@@ -13,7 +13,7 @@ How to evaluate a periodic one-dimensional spline at just one argument or at a s
 Linear-Algebra Formulation
 --------------------------
 
-The obects that the class ``PeriodicSpline1D`` operates upon are mathematical functions and consist in descriptions of mappings :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x).` Oftentimes, the class allows one to obtain a new *mapping* from an existing one, for instance the gradient of a spline (not just a number but the whole function :math:`\dot{f}`) out of its original form :math:`f.` This is all good, but one is sometimes also interested in the more mundane goal of experimenting with a fixed mapping, typically to ask to what number :math:`f(x)\in{\mathbb{R}}` is the argument :math:`x\in{\mathbb{R}}` mapped to by :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}.` The ``splinekit`` library  offers two possibilities to address this goal.
+The objects that the class ``PeriodicSpline1D`` operates upon are mathematical functions and consist in descriptions of mappings :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x).` Oftentimes, the class allows one to obtain a new *mapping* from an existing one, for instance the gradient of a spline (not just a number but the whole function :math:`\dot{f}`) out of its original form :math:`f.` This is all good, but one is sometimes also interested in the more mundane goal of experimenting with a fixed mapping, typically to ask to what number :math:`f(x)\in{\mathbb{R}}` is the argument :math:`x\in{\mathbb{R}}` mapped to by :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}.` The ``splinekit`` library  offers two possibilities to address this goal.
 
 *   ``PeriodicSpline1D.at`` returns the value :math:`f(x)` of the spline :math:`f` evaluated at :math:`x.`
 *   ``PeriodicSpline1D.get_samples`` returns an array of values at arguments separated by a constant step.
@@ -21,7 +21,7 @@ The obects that the class ``PeriodicSpline1D`` operates upon are mathematical fu
 The two possibilities rely on the recipe followed by all one-dimensional uniform polynomial splines of nonnegative integer degree :math:`n\in{\mathbb{N}},` according to which an argument :math:`x` is mapped to the value
 
 ..  math::
-        f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\beta^{n}(x-\delta x -k),
+        f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\beta^{n}(x-\delta x-k),
 
 where :math:`K\in{\mathbb{N}}+1` is a positive integer period, :math:`c` is an arbitrary array of :math:`K` spline coefficients, :math:`\beta^{n}` is a B-spline whose degree :math:`n` is typeset in superscript (not a power), and :math:`\delta x\in{\mathbb{R}}` is an arbitrary delay. Put simply, a spline is a weighted sum of shifted B-splines.
 
