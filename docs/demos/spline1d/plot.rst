@@ -20,4 +20,4 @@ Very often, it is desired that such functions be represented as a plot that illu
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Plots <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_plot.ipynb>`_
+    `Plots <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/plot/spline_plot.ipynb&mode=single-document>`_

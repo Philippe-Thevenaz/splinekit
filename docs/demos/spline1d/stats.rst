@@ -44,4 +44,4 @@ We provide now a notebook where one can explore visually the notions we touched 
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Spline statistics <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_stats.ipynb>`_
+    `Spline statistics <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/stats/spline_stats.ipynb&mode=single-document>`_

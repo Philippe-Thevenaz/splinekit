@@ -44,7 +44,7 @@ To evaluate a one-dimensional periodic spline :math:`f` of positive degree :math
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Single argument <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_at_scalar.ipynb>`_
+    `Single argument <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/eval/spline_at_scalar.ipynb&mode=single-document>`_
 
 ----
 
@@ -55,7 +55,7 @@ We want now to evaluate :math:`f(x)` at the :math:`L\,M` arguments :math:`x\in\l
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Multiple arguments <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_at_array.ipynb>`_
+    `Multiple arguments <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/eval/spline_at_array.ipynb&mode=single-document>`_
 
 ----
 
@@ -76,7 +76,7 @@ To ascertain their benefit, we propose to time the determination of regularly sp
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Scalar vs array <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_evaluation_speed.ipynb>`_
+    `Scalar vs array <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/eval/spline_evaluation_speed.ipynb&mode=single-document>`_
 
 ..  hint::
     The notebook is available for download in compressed form from

@@ -56,7 +56,7 @@ We now propose a few lines of code that create and display a spline that interpo
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Interpolation <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_interpolation.ipynb>`_
+    `Interpolation <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/construct/spline_interpolation.ipynb&mode=single-document>`_
 
 From Noisy Samples
 """"""""""""""""""""""
@@ -65,4 +65,4 @@ We now propose a few lines of code that create and display a smooth spline that 
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Smoothed interpolation <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_approximation.ipynb>`_
+    `Smoothed interpolation <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/construct/spline_approximation.ipynb&mode=single-document>`_

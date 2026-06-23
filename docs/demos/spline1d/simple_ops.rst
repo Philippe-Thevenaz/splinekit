@@ -38,4 +38,4 @@ The spline coefficients of :math:`f,` along with its delay, can be manipulated s
 
 ..  admonition:: Jupyter Lab notebook
 
-    `Simple operations <https://splinekit.github.io/splinekit-jupyterlite/notebooks/index.html?path=spline_simple_ops.ipynb>`_
+    `Simple operations <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/ops/spline_simple_ops.ipynb&mode=single-document>`_
