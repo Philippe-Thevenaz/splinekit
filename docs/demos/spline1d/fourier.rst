@@ -13,12 +13,12 @@ Functions
 
 Let :math:`f:{\mathbb{X}}\rightarrow{\mathbb{Y}},x\mapsto f(x)` be some mapping from the *domain* :math:`{\mathbb{X}}` to the *codomain* :math:`{\mathbb{Y}}.` The domain is the set of all admissible elements being mapped, and the codomain is a superset of all the elements being mapped to. Typical relevant examples are the real functions :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}` and the vector-to-vector mappings :math:`{\mathbf{f}}:{\mathbb{R}}^{K}\rightarrow{\mathbb{R}}^{K}`.
 
-It is sometimes convenient to describe the mapping by a computational recipe. For instance, a quadratic monomial would be :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=x^{2}.` Observe that the codomain is announced here to be the whole of :math:`{\mathbb{R}},` while indeed only nonnegative values are mapped to. The exact set of elements being mapped to is called the *image* of the mapping; it is a subset of the codomain. For a quadratic monomial, this image would be :math:`{\mathbb{R}}_{\geq0}.`
+It is sometimes convenient to describe the mapping by a computational recipe. For instance, a quadratic monomial would be :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=x^{2}.` Observe that the codomain is announced here to be the whole of :math:`{\mathbb{R}},` while indeed only nonnegative values are mapped to. The actual set of elements being mapped to is called the *image* of the mapping; it is a subset of the codomain. For a quadratic monomial, this image would be :math:`{\mathbb{R}}_{\geq0}.`
 
 Transforms
 ^^^^^^^^^^
 
-With real functions, the domain and the codomain are made of real numbers. But nothing prevents us to let the elements of the domain and the codomain be themselves mappings. This would lead to
+With real functions, the domain and the codomain consist of real numbers. But nothing prevents us to let the elements of the domain and the codomain be themselves mappings. This would lead to
 
 ..  math::
     {\mathcal{T}}:\left({\mathbb{X}}_{1}\rightarrow{\mathbb{Y}}_{1}\right)\rightarrow\left({\mathbb{X}}_{2}\rightarrow{\mathbb{Y}}_{2}\right),
@@ -40,7 +40,7 @@ It proves to be an invaluable tool to make theoretical forays into the analysis 
 Discrete
 """"""""
 
-By nature, however, :math:`{\mathcal{F}}` is handling objects defined in the continuum, whereas experimental data are always discrete and finitely supported. Consequently, another tool has been designed to retain the flavor of the continuous-time Fourier transform, but in the finite-dimensional discrete world; it is called the *discrete Fourier transform*, even if this discrete version is not really a transform but truly a vector-to-vector function. Letting :math:`{\mathbf{x}}\in{\mathbb{R}}^{K}` be the vector of :math:`K` data samples, this function is expressed as
+By nature, however, :math:`{\mathcal{F}}` is handling objects defined in the continuum, whereas experimental data are always discrete and finitely supported. Consequently, another tool has been designed to retain the flavor of the continuous-time Fourier transform, but in the finite-dimensional discrete world; it is called the *discrete Fourier transform*, even if this discrete version is not a transform but is in fact just a classic vector-to-vector function. Letting :math:`{\mathbf{x}}\in{\mathbb{R}}^{K}` be the vector of :math:`K` data samples, this vector-to-vector function is expressed as
 
 ..  math::
     {\mathbf{F}}:{\mathbb{C}}^{K}\rightarrow{\mathbb{C}}^{K},{\mathbf{x}}\mapsto{\mathbf{F}}({\mathbf{x}})=\left(\sum_{k=0}^{K-1}\,x[k]\,{\mathrm{e}}^{-{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,k}\right)_{\nu=0}^{K-1}
@@ -66,7 +66,7 @@ Finally, a fourth brand of Fourier transform is the so-called *discrete-time Fou
 Inverses
 ^^^^^^^^
 
-The first three versions of the Fourier transform (continuous-time, discrete, and series) are invertible, so that there exist inverse transforms
+The first three versions of the Fourier transform (continuous-time, discrete, and series) are invertible, with respective inverses
 
 ..  math::
     {\mathcal{F}}^{-1}:\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right)\rightarrow\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right),\hat{f}\mapsto{\mathcal{F}}^{-1}\{\hat{f}\}=\frac{1}{2\,\pi}\,\int_{{\mathbb{R}}}\,\hat{f}(\omega)\,{\mathrm{e}}^{{\mathrm{j}}\,\omega\,\left(\cdot\right)}\,{\mathrm{d}}\omega
@@ -87,21 +87,26 @@ Convergence
 
 The expressions of the direct or inverse transforms sometimes involve either infinite integrals or infinite sums, which call for mathematical care about the proper treatment of convergence. Even in the absence of convergence in the classic sense, there are advanced mathematical theories that typically allow one to handle cases where :math:`\int_{{\mathbb{R}}}\,\left({\mathcal{F}}^{-1}\{{\mathcal{F}}\{f\}\}(x)-f(x)\right)^{2}\,{\mathrm{d}}x=0` even though it may happen that :math:`{\mathcal{F}}^{-1}\{{\mathcal{F}}\{f\}\}(x)\ne f(x)` for some :math:`x\in{\mathbb{R}}.`
 
-
-
-
-
 ----
 
 Truncated Fourier Series
 ------------------------
 
+The ``splinekit.PeriodicSpline1D`` class maintains periodic functions. Thus, the most appropriate Fourier tool is the Fourier series, and the library gives access to coefficients of any index :math:`\nu\in{\mathbb{Z}}.` These coefficients are ordered by level of detail, with coefficients of low absolute index providing coarse contributions and coefficients of high absolute index carrying the details of the function.
 
+Instead of considering the infinite sequence of Fourier coefficients :math:`c` to get the full signal recovery :math:`x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x},` we can approximate a periodic function as the partial reconstruction :math:`x\mapsto\sum_{\nu=-N}^{N}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}` obtained over a finite sum of :math:`2\,N+1` terms. This reconstruction will capture the overall shape of a periodic function when :math:`N` is small, and additional details will emerge when :math:`N` increases.
 
-
-
-
+We give now a piece of code that illustrates how a truncated Fourier-series reconstruction approximates a random periodic spline of specified period, degree, and delay.
 
 ..  admonition:: Jupyter Lab notebook
 
     `Truncated Fourier series <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/fourier/spline_fourier.ipynb&mode=single-document>`_
+
+----
+
+Fourier Smoothness
+------------------
+
+..  admonition:: Jupyter Lab notebook
+
+    `Fourier smoothness of periodic splines <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/fourier/spline_smoothness.ipynb&mode=single-document>`_
