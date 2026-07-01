@@ -77,7 +77,7 @@ The first three versions of the Fourier transform (continuous-time, discrete, an
 ..  math::
     F^{-1}:\left({\mathbb{Z}}\rightarrow{\mathbb{C}}\right)\rightarrow\left({\mathbb{R}}\rightarrow{\mathbb{C}}\right),\left(c[\nu]\right)_{\nu\in{\mathbb{Z}}}\mapsto\left(x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}\right).
 
-Meanwhile, the inspection of the definition of the discrete-time Fourier transform reveals that only samples of the continuously-defined function :math:`f` being transformed are taken into account. Consequently, in the absence of restrictions on :math:`f,` no inverse can be found that would recreate the whole of :math:`f:{\mathbb{R}}\rightarrow{\mathbb{C}}.` However, its samples can still be recovered from :math:`{\mathcal{F}}_{1/T}\{f\}` as
+Meanwhile, the inspection of the definition of the discrete-time Fourier transform reveals that only samples of the continuously defined function :math:`f` being transformed are taken into account. Consequently, in the absence of restrictions on :math:`f,` no inverse can be found that would recreate the whole of :math:`f:{\mathbb{R}}\rightarrow{\mathbb{C}}.` However, its samples can still be recovered from :math:`{\mathcal{F}}_{1/T}\{f\}` as
 
 ..  math::
     \left(f(k\,T)\right)_{k\in{\mathbb{Z}}}=\left(\frac{1}{2\,\pi}\,\int_{-\pi/T}^{\pi/T}\,{\mathcal{F}}_{1/T}\{f\}(\omega)\,{\mathrm{e}}^{{\mathrm{j}}\,\omega\,T\,k}\,{\mathrm{d}}\omega\right)_{k\in{\mathbb{Z}}}.
@@ -85,7 +85,7 @@ Meanwhile, the inspection of the definition of the discrete-time Fourier transfo
 Convergence
 ^^^^^^^^^^^
 
-The expressions of the direct or inverse transforms sometimes involve either infinite integrals or infinite sums, which call for mathematical care about the proper treatment of convergence. Even in the absence of convergence in the classic sense, there are advanced mathematical theories that typically allow one to handle cases where :math:`\int_{{\mathbb{R}}}\,\left({\mathcal{F}}^{-1}\{{\mathcal{F}}\{f\}\}(x)-f(x)\right)^{2}\,{\mathrm{d}}x=0` even though it may happen that :math:`{\mathcal{F}}^{-1}\{{\mathcal{F}}\{f\}\}(x)\ne f(x)` for some :math:`x\in{\mathbb{R}}.`
+The expressions of the direct or inverse transforms sometimes involve either infinite integrals or infinite sums, which call for mathematical care about the proper treatment of convergence. Even in the absence of convergence in the classic sense, there are advanced mathematical theories that typically allow one to handle cases where :math:`\int_{{\mathbb{R}}}\,\left|{\mathcal{F}}^{-1}\{{\mathcal{F}}\{f\}\}(x)-f(x)\right|^{2}\,{\mathrm{d}}x=0` even though it may happen that :math:`{\mathcal{F}}^{-1}\{{\mathcal{F}}\{f\}\}(x)\ne f(x)` for some :math:`x\in{\mathbb{R}}.`
 
 ----
 
@@ -94,7 +94,7 @@ Truncated Fourier Series
 
 The ``splinekit.PeriodicSpline1D`` class maintains periodic functions. Thus, the most appropriate Fourier tool is the Fourier series, and the library gives access to coefficients of any index :math:`\nu\in{\mathbb{Z}}.` These coefficients are ordered by level of detail, with coefficients of low absolute index providing coarse contributions and coefficients of high absolute index carrying the details of the function.
 
-Instead of considering the infinite sequence of Fourier coefficients :math:`c` to get the full signal recovery :math:`x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x},` we can approximate a periodic function as the partial reconstruction :math:`x\mapsto\sum_{\nu=-N}^{N}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}` obtained over a finite sum of :math:`2\,N+1` terms. This reconstruction will capture the overall shape of a periodic function when :math:`N` is small, and additional details will emerge when :math:`N` increases.
+Instead of considering the infinite sequence of Fourier coefficients :math:`c` to get the full signal recovery :math:`x\mapsto\sum_{\nu\in{\mathbb{Z}}}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x},` we can approximate a periodic function as the partial reconstruction :math:`x\mapsto\sum_{\nu=-N}^{N}\,c[\nu]\,{\mathrm{e}}^{{\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\,x}` obtained over a finite sum of :math:`2\,N+1` terms, with :math:`N\in{\mathbb{N}}.` This reconstruction will capture the overall shape of a periodic function when :math:`N` is small, and additional details will emerge when :math:`N` increases. Moreover, when the fonction being transformed is real, it turns out that its Fourier-series coefficients, although complex, are organized in such a way that the proposed partial reconstruction, with symmetric upper and lower limits, is also real.
 
 We give now a piece of code that illustrates how a truncated Fourier-series reconstruction approximates a random periodic spline of specified period, degree, and delay.
 
@@ -106,6 +106,17 @@ We give now a piece of code that illustrates how a truncated Fourier-series reco
 
 Fourier Smoothness
 ------------------
+
+It is easy to verify that the partial reconstruction obtained with :math:`N=0` is nothing but a constant-valued function that takes as value the average of the continuously defined periodic function. Then, for larger :math:`N,` the partial reconstruction :math:`\tilde{f}_{N-1}` with :math:`\left(N-1\right)` terms can be refined one term at a time to obtain :math:`\tilde{f}_{N}.` Because :math:`c[N]=\left(c[-N]\right)^{*}` for the real :math:`f` that we consider here, such a refinement can be expressed as
+
+..  math::
+    \tilde{f}_{N}(x)-\tilde{f}_{N-1}(x)=2\,\Re(c[N])\,\cos(N\,\frac{2\,\pi}{K}\,x)-2\,\Im(c[N])\,\sin(N\,\frac{2\,\pi}{K}\,x).
+
+This refinement term is a continuously defined periodic function in :math:`x,` with rational period :math:`K/N` that dwindles as :math:`N` increases. Thus, the more Fourier terms are taken into account in the partial reconstruction, the more agitated the reconstruction becomes. The phase and the amplitude of the refining terms is governed jointly by the real and imaginary parts of the corresponding Fourier-series coefficient.
+
+It follows that a function that is very agitated will have a Fourier-series representation with coefficients (at high absolute indices) that will tend to be large. A smoother function will have tamer coefficients at the same high absolute indices. For instance, a spline of degree :math:`0` is discontinuous and much rougher than a spline of higher degree.
+
+We give now a piece of code that illustrates this behavior. We synthesize a set of random splines of a specified degree, period, and delay. The randomness is achieved by letting the spline coefficients be independent and identically distributed realizations of a random variable that follows a normal Gaussian probability density function. Then, we compute a few terms of the Fourier series of these random splines and establish per-Fourier-coefficient empirical statistics. We verify visually that, at high absolute Fourier-series indices, rough splines (low degree) need larger contributions than smooth splines (high degree).
 
 ..  admonition:: Jupyter Lab notebook
 
