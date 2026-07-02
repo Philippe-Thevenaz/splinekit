@@ -25,6 +25,7 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     simple_ops
     stats
     polynomials
+    signum
     evaluation
     bounds
     fourier

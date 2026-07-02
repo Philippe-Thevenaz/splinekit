@@ -3336,7 +3336,7 @@ class PeriodicSpline1D:
             :ref:`splinekit.interval.Singleton<Singleton>` or
             :ref:`splinekit.interval.Closed<Closed>`.
         *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
-            of all returned intervals is smaller than the period of this
+            of all returned intervals is not larger than the period of this
             spline.
 
         Parameters
@@ -3449,7 +3449,7 @@ class PeriodicSpline1D:
             :ref:`splinekit.interval.Singleton<Singleton>` or
             :ref:`splinekit.interval.Closed<Closed>`.
         *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
-            of all returned intervals is smaller than the period of this
+            of all returned intervals is not larger than the period of this
             spline.
 
         Parameters
@@ -3806,7 +3806,7 @@ class PeriodicSpline1D:
             :ref:`splinekit.interval.Singleton<Singleton>` or
             :ref:`splinekit.interval.Closed<Closed>`.
         *   The :ref:`diameter<diameter>` of the :ref:`enclosure<enclosure>`
-            of all returned intervals is smaller than the period of this
+            of all returned intervals is not larger than the period of this
             spline.
 
         Parameters
