@@ -1,5 +1,5 @@
-Sign of Splines
-===============
+Signs, Zeros, and Zero-Crossings
+================================
 
 How to access the signed pieces of a piecewise-polynomial periodic one-dimensional spline and how to take advantage of them.
 
@@ -35,9 +35,34 @@ Spline Zeros
 
 Given a periodic spline of period :math:`K,` we want to establish a set of intervals of largest diameter over which the spline vanishes. We enforce that the diameter of the enclosure of all returned intervals is not larger than the period of this spline. For ease of use, the set is returned as a list.
 
-We now propose a few lines of code that create and display a curated spline over which we illustrate several configurations of zeros, represented by a mixture of degenerate and proper intervals.
+We now propose a few lines of code that create and display a curated spline over which we illustrate and discuss several configurations of zeros, represented by a mixture of degenerate and proper intervals. In our control of the configurations, we retain the same spline coefficients but we let the degree of the spline vary.
 
 ..  admonition:: Jupyter Lab notebook
 
     `Zeros of a curated spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/sgn/spline_curated_zeros.ipynb&mode=single-document>`_
 
+In the next notebook, we examine the zeros of random splines of specified period, degree, and delay. Here, it is the values of the spline samples that we maintain across configurations.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Zeros of a random spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/sgn/spline_zeros.ipynb&mode=single-document>`_
+
+----
+
+Spline Zero-Crossings
+---------------------
+
+Terminology
+^^^^^^^^^^^
+
+Consider the polynomial spline :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}` of nonnegative integer degree :math:`n.` If an interval :math:`{\mathbb{X}}` can be found such that it is of maximal diameter and such that :math:`\forall x\in{\mathbb{X}}:f(x)=0,` then it is said to be a *zero* of the spline.
+
+Assume that :math:`n=0.` If a proper interval :math:`{\mathbb{X}}` can be found such that :math:`\forall x\in{\mathbb{X}}:f(x)=0` and such that :math:`f(\inf{\mathbb{X}})\,f(\sup{\mathbb{X}})<0,` then it is said to be a *zero-crossing* of the spline.
+
+Assume that :math:`n=0.` If two proper intervals :math:`{\mathbb{A}}` and :math:`{\mathbb{B}}` can be found such that they are mutually disjoint, such that :math:`\sup{\mathbb{A}}=\inf{\mathbb{B}},` and such that :math:`\forall a\in{\mathbb{A}},\forall b\in{\mathbb{B}}:f(a)\,f(b)<0,` then, the degenerate interval :math:`{\mathbb{X}}=\{x\in{\mathbb{R}}:\sup{\mathbb{A}}\leq x\leq\inf{\mathbb{B}}\}` is said to be a *zero-crossing* of the spline.
+
+Assume that :math:`n>0.` If three intervals :math:`{\mathbb{A}},` :math:`{\mathbb{X}},` and :math:`{\mathbb{B}}` can be found such that they are mutually disjoint, such that :math:`\left(\sup{\mathbb{A}}=\inf{\mathbb{X}}\right)\wedge\left(\sup{\mathbb{X}}=\inf{\mathbb{B}}\right),` such that :math:`\forall x\in{\mathbb{X}}:{\mathrm{sgn}}(f(x))=0,` and such that :math:`\forall a\in{\mathbb{A}},\forall b\in{\mathbb{B}}:f(a)\,f(b)<0,` then, :math:`{\mathbb{X}}` is said to be a *zero-crossing* of the spline.
+
+An *ascending* zero-crossing is such that :math:`\lim_{x\uparrow\inf{\mathbb{X}}}{\mathrm{sgn}}(f(x))<\lim_{x\downarrow\sup{\mathbb{X}}}{\mathrm{sgn}}(f(x)).`
+
+A *descending* zero-crossing is a zero-crossing that is not ascending.
