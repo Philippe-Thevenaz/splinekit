@@ -59,10 +59,19 @@ We now propose a few lines of code that create and display a spline that interpo
     `Interpolation <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/construct/spline_interpolation.ipynb&mode=single-document>`_
 
 From Noisy Samples
-""""""""""""""""""""""
+""""""""""""""""""
 
 We now propose a few lines of code that create and display a smooth spline that performs the approximate interpolation of random samples.
 
 ..  admonition:: Jupyter Lab notebook
 
     `Smoothed interpolation <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/construct/spline_approximation.ipynb&mode=single-document>`_
+
+From Spline Coefficients
+""""""""""""""""""""""""
+
+We now propose a few lines of code that create a pair of splines by specifying their spline coefficients explicitly. With a flourish, we then take each of the two splines to be the Cartesian component of a two-dimensional curve and display it.
+
+..  admonition:: Jupyter Lab notebook
+
+    `From explicit spline coefficients <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/construct/spline_from_c.ipynb&mode=single-document>`_
