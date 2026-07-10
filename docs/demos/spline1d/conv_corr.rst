@@ -48,12 +48,32 @@ Autocorrelation
 
 The crosscorrelation :math:`R_{ff}=f\star f` is called the autocorrelation of :math:`f.`
 
+Periodic Normalized Crosscorrelation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Crosscorrelation measures how well :math:`f` matches :math:`g` in terms of their relative shift. Unfortunately, the measure is not easy to interpret because it depends on the units in which the functions are expressed. By contrast, the *normalized crosscorrelation* proposes a closely related measure that returns values in the interval :math:`[-1,1]` when the functions :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}` and :math:`g:{\mathbb{R}}\rightarrow{\mathbb{R}}` are real. For periodic functions, the *periodic normalized crosscorrelation* is defined as the function
+
+..  math::
+    \rho_{fg}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto \rho_{fg}(x)=\frac{1}{K}\,\int_{0}^{K}\,\frac{f(y)-E\{f\}}{\sqrt{{\mathrm{Var}}\{f\}}}\,\frac{g(x+y)}{\sqrt{{\mathrm{Var}}\{g\}}}\,{\mathrm{d}}y,
+
+where the mean value is defined as :math:`{\mathrm{E}}\{f\}=\frac{1}{K}\,\int_{0}^{K}\,f(x)\,{\mathrm{d}}x` and where the variance is defined as :math:`{\mathrm{Var}}\{f\}=\frac{1}{K}\,\int_{0}^{K}\,\left(f(x)-{\mathrm{E}}\{f\}\right)^{2}\,{\mathrm{d}}x.`
+
+It is easy to verify that the normalized crosscorrelation computed as above is indeed identical to two competing definitions, a first one in which no mean value is subtracted from :math:`f(y)` but the mean value :math:`E\{g\}` is subtracted from :math:`g(x+y),` and a second one in which appropriate mean values are subtracted at the same time from :math:`f(y)` and from :math:`g(x+y).`
+
+When compared to crosscorrelation, one downside of the normalized crosscorrelation is that it is not well-defined when :math:`{\mathrm{Var}}\{f\}\,{\mathrm{Var}}\{g\}=0.`
+
+Pearson Correlation Coefficient
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Pearson correlation coefficient is the normalized crosscorrelation evaluated at the origin, as :math:`\rho_{fg}(0).`
+
 Convolution *vs.* Crosscorrelation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The superscript :math:`\mbox{}^{*}` indicates a complex conjugate.
+*   The superscript :math:`\mbox{}^{*}` indicates a complex conjugate.
+*   The superscript :math:`\mbox{}^{\vee}` indicates a mirroring operation, with :math:`\forall x\in{\mathbb{R}}:f^{\vee}(x):=f(-x).`
+*   The rules below apply to true functions. Do exert caution with generalized functions (a.k.a. distributions).
 
-The superscript :math:`\mbox{}^{\vee}` indicates a mirror, with :math:`\forall x\in{\mathbb{R}}:f^{\vee}(x):=f(-x).`
 
 Symmetries
 """"""""""
@@ -96,25 +116,6 @@ Convolutions Expressed as Crosscorrelations
     \hspace{1in}&
     \color{blue}{f^{*\vee}*g}&\color{blue}{=}&\color{blue}{f\star g}
     \end{array}
-
-Periodic Normalized Crosscorrelation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Crosscorrelation measures how well :math:`f` matches :math:`g` in terms of their relative shift. Unfortunately, the measure is not easy to interpret because it depends on the units in which the functions are expressed. By contrast, the *normalized crosscorrelation* proposes a closely related measure that returns values in the interval :math:`[-1,1]` when the functions :math:`f:{\mathbb{R}}\rightarrow{\mathbb{R}}` and :math:`g:{\mathbb{R}}\rightarrow{\mathbb{R}}` are real. For periodic functions, the *periodic normalized crosscorrelation* is defined as the function
-
-..  math::
-    \rho_{fg}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto \rho_{fg}(x)=\frac{1}{K}\,\int_{0}^{K}\,\frac{f(y)-E\{f\}}{\sqrt{{\mathrm{Var}}\{f\}}}\,\frac{g(x+y)}{\sqrt{{\mathrm{Var}}\{g\}}}\,{\mathrm{d}}y,
-
-where the mean value is defined as :math:`{\mathrm{E}}\{f\}=\frac{1}{K}\,\int_{0}^{K}\,f(x)\,{\mathrm{d}}x` and where the variance is defined as :math:`{\mathrm{Var}}\{f\}=\frac{1}{K}\,\int_{0}^{K}\,\left(f(x)-{\mathrm{E}}\{f\}\right)^{2}\,{\mathrm{d}}x.`
-
-It is easy to verify that the normalized crosscorrelation computed as above is indeed identical to two competing definitions, a first one in which no mean value is subtracted from :math:`f(y)` but the mean value :math:`E\{g\}` is subtracted from :math:`g(x+y),` and a second one in which appropriate mean values are subtracted at the same time from :math:`f(y)` and from :math:`g(x+y).`
-
-When compared to crosscorrelation, one downside of the normalized crosscorrelation is that it is not well-defined when :math:`{\mathrm{Var}}\{f\}\,{\mathrm{Var}}\{g\}=0.`
-
-Pearson Correlation Coefficient
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The Pearson correlation coefficient is the normalized crosscorrelation evaluated at the origin, as :math:`\rho_{fg}(0).`
 
 ----
 
