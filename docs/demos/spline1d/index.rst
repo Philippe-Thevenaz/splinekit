@@ -30,4 +30,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     bounds
     fourier
     conv_corr
+    calculus
 

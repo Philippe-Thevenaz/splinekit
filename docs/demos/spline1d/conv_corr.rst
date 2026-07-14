@@ -138,12 +138,11 @@ We finally propose a few lines of code that create and display a random spline :
 
 It is noteworthy to make a few observations.
 
-*   The autocorrelation (whether normalized or not) is independent of the delay of :math:`f.`
-*   The autocorrelation (whether normalized or not) has a central symmetry, with :math:`\rho_{ff}=\rho_{ff}^{\vee}` and :math:`R_{ff}=R_{ff}^{\vee};` combined with :math:`K`-periodicity, this implies that the continuously defined autocorrelation is also necessarily symmetric around :math:`\frac{K}{2}.`
-*   In general, the normalized autocorrelation takes a unit value at the origin (*i.e.*, :math:`\rho_{ff}(0)=1` unless :math:`f` vanishes everywhere).
+*   The autocorrelation (whether normalized or not) is independent of the delay of the spline.
+*   The autocorrelation (whether normalized or not) has a central symmetry, with :math:`\rho_{ff}=\rho_{ff}^{\vee}` and :math:`R_{ff}=R_{ff}^{\vee}.` Combined with :math:`K`-periodicity, the central symmetry implies that the continuously defined autocorrelation is also necessarily symmetric around :math:`\frac{K}{2}.`
+*   In general, the normalized autocorrelation takes a unit value at the origin (*i.e.*, :math:`\rho_{ff}(0)=1` unless :math:`{\mathrm{Var}}\{f\}=0`).
 
 ..  admonition:: Jupyter Lab notebook
 
     `Autocorrelation of a periodic spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/conv_corr/spline_autocorr.ipynb&mode=single-document>`_
-
 
