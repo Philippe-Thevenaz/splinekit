@@ -40,3 +40,28 @@ We provide now a few lines of code that first create a random spline of specifie
 ..  admonition:: Jupyter Lab notebook
 
     `Anti-gradient of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/calculus/spline_antigrad.ipynb&mode=single-document>`_
+
+----
+
+Gradient
+--------
+
+Consider the :math:`K`-periodic spline
+
+..  math::
+    f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\beta^{n}(x-\delta x-k),
+
+with :math:`n\in{\mathbb{N}}+1` a positive degree. The spline gradient is its first derivative
+
+..  math::
+    \dot{f}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto \dot{f}(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\dot{\beta}^{n}(x-\delta x-k).
+
+Because B-splines of positive degree satisfy the relation :math:`\dot{\beta}^{n}(x)=\left(\beta^{n-1}(x+\frac{1}{2})-\beta^{n-1}(x-\frac{1}{2})\right)` for all :math:`x\in{\mathbb{R}},` the gradient of a spline is again a spline, albeit one whose degree is smaller and whose delay is offset by :math:`\frac{1}{2}.` As such, the gradient can be handled by the ``splinekit`` library.
+
+The *centered finite difference* of a function :math:`f` is parameterized by a step :math:`h\in{\mathbb{R}}\setminus\{0\}` and is defined as the quantity :math:`\frac{1}{2\,h}\,\left(f(x+h)-f(x-h)\right).` At those arguments :math:`x\in{\mathbb{R}}` where the function is differentiable, one has that :math:`\dot{f}(x)=\lim_{h\rightarrow0}\frac{1}{2\,h}\,\left(f(x+h)-f(x-h)\right).`
+
+We provide now a few lines of code that first create a random spline of specified period, degree, and delay, and then show its true gradient, along with the approximation of the gradient provided by centered finite differences of rational step :math:`h=\frac{1}{m},` with :math:`m\in{\mathbb{N}}+1` a positive integer.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Gradient of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/calculus/spline_gradient.ipynb&mode=single-document>`_
