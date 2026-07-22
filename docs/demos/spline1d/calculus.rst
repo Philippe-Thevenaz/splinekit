@@ -65,3 +65,28 @@ We provide now a few lines of code that first create a random spline of specifie
 ..  admonition:: Jupyter Lab notebook
 
     `Gradient of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/calculus/spline_gradient.ipynb&mode=single-document>`_
+
+----
+
+Derivative of Positive Integer Order
+------------------------------------
+
+Given the spline :math:`f` as above, we want now to compute its derivative of order :math:`m,` with :math:`m\in{\mathbb{N}}+1.` This derivative will be a true function whenever the degree of the spline is large enough, with :math:`n\in{\mathbb{N}}+m;` more precisely, it is going to be a spline of degree :math:`\left(n-m\right).` To do so, we choose here to proceed with the linear-algebra equivalent representation of the spline as
+
+..  math::
+    f:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,\beta^{n}(x-\delta x-k)={\mathbf{c}}_{r}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,{\mathbf{v}}^{n}(\chi(x)).
+
+There, the partial vector of coefficients :math:`{\mathbf{c}}_{r}\in{\mathbb{R}}^{n+1}` is defined as :math:`{\mathbf{c}}_{r}=\left(c[{\left(k-r\right)\bmod K}]\right)_{k=0}^{n},` where :math:`r=\left\lceil\xi(x)\right\rceil\in{\mathbb{Z}}` with :math:`\xi(x)=\left(\frac{n-1}{2}-x-\delta x\right)\in{\mathbb{R}}.` The spline evaluation matrix :math:`{\mathbf{W}}^{n}\in{\mathbb{R}}^{\left(n+1\right)\times\left(n+1\right)}` depends on :math:`n` only. Finally, the Vandermonde vector :math:`{\mathbf{v}}^{n}(\chi(x))\in{\mathbb{R}}^{n+1}` is computed as :math:`{\mathbf{v}}^{n}(\chi(x))=\left(1,\left(\chi^{k}(x)\right)_{k=1}^{n}\right),` with :math:`\chi(x)=\left(r-\xi(x)\right)\in[0,1).`
+
+With these definitions, the derivative of order :math:`m` is
+
+..  math::
+    \frac{{\mathrm{d}}^{m}f(x)}{{\mathrm{d}}x^{m}}={\mathbf{c}}_{r}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,{\mathbf{\Lambda}}_{m}^{n}\,\left(\left(0\right)_{k=0}^{m-1},\left([{\mathbf{v}}^{n}(\chi(x))]_{k-m+1}\right)_{k=m}^{n}\right),
+
+where :math:`{\mathbf{\Lambda}}_{m}^{n}={\mathbf{diag}}(\left(\frac{k!}{\left(k-m\right)!}\right)_{k=0}^{n}).` This allows one to precompute :math:`{\mathbf{W}}^{n}\,{\mathbf{\Lambda}}_{m}^{n}` since it depends neither on the delay of the spline nor on the spline coefficients. Furthermore, the fact that there are leading zeros in the vector :math:`\left(\left(0\right)_{k=0}^{m-1},\left([{\mathbf{v}}^{n}(\chi(x))]_{k-m+1}\right)_{k=m}^{n}\right)\in{\mathbb{R}}^{n+1}` gives the opportunity of additional computational savings.
+
+We provide now a few lines of code that create a random spline of specified period, degree, and delay, and show its derivative of arbitrary order.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Derivatives of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/calculus/spline_derivative.ipynb&mode=single-document>`_
