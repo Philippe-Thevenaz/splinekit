@@ -88,7 +88,7 @@ There, the partial vector of coefficients :math:`{\mathbf{c}}_{r}\in{\mathbb{R}}
 With these definitions, the derivative of order :math:`m` is
 
 ..  math::
-    \frac{{\mathrm{d}}^{m}f(x)}{{\mathrm{d}}x^{m}}={\mathbf{c}}_{r}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,{\mathbf{\Lambda}}_{m}^{n}\,\left(\left(0\right)_{k=0}^{m-1},{\mathbf{v}}^{n-m}(\chi(x))\right),
+    {\mathrm{D}}^{m}\{f\}(x)=\frac{{\mathrm{d}}^{m}f(x)}{{\mathrm{d}}x^{m}}={\mathbf{c}}_{r}^{{\mathsf{T}}}\,{\mathbf{W}}^{n}\,{\mathbf{\Lambda}}_{m}^{n}\,\left(\left(0\right)_{k=0}^{m-1},{\mathbf{v}}^{n-m}(\chi(x))\right),
 
 where :math:`{\mathbf{\Lambda}}_{m}^{n}={\mathbf{diag}}(\left(\frac{k!}{\left(k-m\right)!}\right)_{k=0}^{n}).` This allows one to precompute :math:`{\mathbf{W}}^{n}\,{\mathbf{\Lambda}}_{m}^{n}` since it depends neither on the delay of the spline nor on the spline coefficients. Furthermore, the fact that there are leading zeros in the vector :math:`\left(\left(0\right)_{k=0}^{m-1},{\mathbf{v}}^{n-m}(\chi(x))\right)\in{\mathbb{R}}^{n+1}` gives the opportunity of additional computational savings.
 
@@ -98,7 +98,7 @@ Derivative as a Function
 The gradient of a polynomial B-spline of positive integer degree :math:`n\in{\mathbb{N}}+1` turns out to be the function :math:`\dot{\beta}^{n}:{\mathbb{R}}\rightarrow{\mathbb{R}},x\mapsto\left(\beta^{n-1}(x+\frac{1}{2})-\beta^{n-1}(x-\frac{1}{2})\right).` This recursive relation between a B-spline of degree :math:`n` and shifted B-splines of degree :math:`\left(n-1\right)` can be taken advantage of to express derivatives of higher order, for instance :math:`\ddot{\beta}^{n}` or :math:`\dddot{\beta}^{n}.` After some algebraic manipulations, it leads one to express the derivative of order :math:`m` of a :math:`K`-periodic spline as
 
 ..  math::
-    \frac{{\mathrm{d}}^{m}f(x)}{{\mathrm{d}}x^{m}}=\sum_{k\in{\mathbb{Z}}}\,\Delta_{K}^{m}\{{\mathbf{c}}\}[{k\bmod K}]\,\beta^{n-m}(x-\left(\delta x-\frac{m}{2}\right)-k),
+    {\mathrm{D}}^{m}\{f\}(x)=\frac{{\mathrm{d}}^{m}f(x)}{{\mathrm{d}}x^{m}}=\sum_{k\in{\mathbb{Z}}}\,\Delta_{K}^{m}\{{\mathbf{c}}\}[{k\bmod K}]\,\beta^{n-m}(x-\left(\delta x-\frac{m}{2}\right)-k),
 
 where the periodic finite-difference operator :math:`\Delta_{K}^{m},` applied to the vector :math:`{\mathbf{c}}=\left(c[k]\right)_{k=0}^{K-1}` of the spline coefficients, is defined by
 
