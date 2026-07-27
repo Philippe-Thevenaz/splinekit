@@ -105,6 +105,8 @@ where the periodic finite-difference operator :math:`\Delta_{K}^{m},` applied to
 ..  math::
     \forall k\in{\mathbb{Z}}:\Delta_{K}^{m}\{{\mathbf{c}}\}[k]=\sum_{q=0}^{m}\,\left(-1\right)^{q}\,{m\choose q}\,c[{\left(k-q\right)\bmod K}].
 
+By identification of terms, it can be seen that the derivative of a periodic spline is indeed a periodic spline of period :math:`K,` of degree :math:`\left(n-m)\right),` of delay :math:`\left(\delta x-\frac{m}{2}\right),` and of spline coefficients :math:`\left(\Delta_{K}^{m}\{{\mathbf{c}}\}[k]\right)_{k=0}^{K-1}.`
+
 Jupyter Notebook
 ^^^^^^^^^^^^^^^^
 
@@ -113,3 +115,19 @@ We provide now a few lines of code that create a random spline of specified peri
 ..  admonition:: Jupyter Lab notebook
 
     `Derivatives of a spline <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/calculus/spline_derivative.ipynb&mode=single-document>`_
+
+----
+
+Derivatives and Fourier Coefficients
+------------------------------------
+
+Suppose we have at our disposal the spline :math:`g={\mathrm{D}}^{m}\{f\}` that results from the :math:`m`-th order differentiation of the spline :math:`f.` On one hand, we know that the function ``splinekit.PeriodicSpline1D.fourier_coeff`` provides us with a direct access to the Fourier coefficients :math:`F\{g\}.` On the other hand, the theory asserts that they are related to :math:`F\{f\}` as
+
+..  math::
+    \forall\nu\in{\mathbb{Z}}:F\{g\}[\nu]=\left({\mathrm{j}}\,\nu\,\frac{2\,\pi}{K}\right)^{m}\,F\{f\}[\nu].
+
+We provide now a few lines of code that create a random spline of specified period, degree, and delay, and illustrate the practical validity of the mathematical relation between the Fourier coefficients, for arbitrary orders of differentiation.
+
+..  admonition:: Jupyter Lab notebook
+
+    `Fourier coefficients of spline derivatives <https://splinekit.github.io/splinekit-jupyterlite/lab/?path=periodic-spline/calculus/spline_fourier_diff.ipynb&mode=single-document>`_
