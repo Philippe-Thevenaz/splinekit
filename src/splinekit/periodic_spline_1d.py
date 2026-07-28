@@ -3838,14 +3838,14 @@ class PeriodicSpline1D:
             return [
                 [
                     PeriodicSpline1D.Extremum(
-                        domain = ex,
+                        domain = ex.closure,
                         value = self.at(ex.midpoint)
                     )
                     for ex in zc[1]
                 ],
                 [
                     PeriodicSpline1D.Extremum(
-                        domain = ex,
+                        domain = ex.closure,
                         value = self.at(ex.midpoint)
                     )
                     for ex in zc[0]

@@ -63,7 +63,7 @@ We now propose a few lines of code that create and display a random spline and e
 Spline Zeros and Zero-Crossings
 -------------------------------
 
-Given a periodic spline of period :math:`K,` we want to establish a set of intervals of largest diameter that give either its zeros or its zero-crossings. We enforce that the diameter of the enclosure of all returned intervals is not larger than the period of this spline. For ease of use, the set is returned as a list.
+Given a periodic spline, we want to establish a set of intervals of largest diameter that give either its zeros or its zero-crossings. We enforce that the diameter of the enclosure of all returned intervals is not larger than the period of this spline. For ease of use, the set is returned as a list.
 
 We now propose a few lines of code that create and display a curated spline over which we illustrate and discuss several configurations, represented by a mixture of degenerate and proper intervals. In our control of the configurations, we retain the same spline coefficients but we let the degree of the spline vary.
 
