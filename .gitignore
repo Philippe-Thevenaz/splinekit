@@ -9,6 +9,9 @@ __pycache__/
 # C extensions
 *.so
 
+# CMake
+ansi_c/
+
 # macOS
 .DS_Store
 
@@ -93,6 +96,9 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# Jupyterlite
+_output/
 
 # IPython
 profile_default/
