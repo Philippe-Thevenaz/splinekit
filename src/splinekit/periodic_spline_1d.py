@@ -1196,7 +1196,7 @@ class PeriodicSpline1D:
 
     #---------------
     @classmethod
-    def add_projected (
+    def add_projected0 (
         cls,
         augend: PeriodicSpline1D,
         addend: PeriodicSpline1D,
@@ -1297,6 +1297,119 @@ class PeriodicSpline1D:
         return PeriodicSpline1D.add(
             augend.projected(degree = degree, delay = delay),
             addend.projected(degree = degree, delay = delay)
+        )
+
+    #---------------
+    @classmethod
+    def add_projected (
+        cls,
+        augend: PeriodicSpline1D,
+        addend: PeriodicSpline1D,
+        *,
+        degree: int,
+        delay: float = 0.0
+    ) -> PeriodicSpline1D:
+
+        r"""
+        .. _periodic_spline_1d-add_projected:
+
+        Create a spline of arbitrary degree and delay from the sum of two
+        splines.
+
+        Given two ``PeriodicSpline1D`` objects of identical period :math:`K,`
+        independent degree :math:`(n_{1}, n_{2}),` and independent delay
+        :math:`(\delta x_{1}, \delta x_{2}),` this constructor
+        returns a new ``PeriodicSpline1D`` spline that represents the
+        continuous least-squares approximation of their sum by a
+        ``PeriodicSpline1D`` spline of period :math:`K,`
+        :ref:`nonnegative<def-negative>` degree :math:`n,` and delay
+        :math:`\delta x\in{\mathbb{R}}.`
+
+        With
+
+        ..  math::
+
+            \begin{array}{rcl}
+            s_{1}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{1}[{k\bmod K}]\,
+            \beta^{n_{1}}(x-\delta x_{1}-k)\\
+            s_{2}(x)&=&\sum_{k\in{\mathbb{Z}}}\,c_{2}[{k\bmod K}]\,
+            \beta^{n_{2}}(x-\delta x_{2}-k),
+            \end{array}
+
+        the created sum
+
+        ..  math::
+
+            f(x)=\sum_{k\in{\mathbb{Z}}}\,c[{k\bmod K}]\,
+            \beta^{n}(x-\delta x-k)
+
+        minimizes the criterion :math:`J=\int_{0}^{K}\,\left(f(x)-s_{1}(x)-
+        s_{2}(x)\right)^{2}\,{\mathrm{d}}x` in terms of the coefficients
+        :math:`c.`
+
+        Parameters
+        ----------
+        augend : PeriodicSpline1D
+            A ``PeriodicSpline1D`` spline.
+        addend : PeriodicSpline1D
+            A ``PeriodicSpline1D`` spline.
+        degree : int
+            The :ref:`nonnegative<def-negative>` degree of the created
+            polynomial spline.
+        delay : float
+            The delay of the created spline.
+
+        Returns
+        -------
+        PeriodicSpline1D
+            The spline of degree ``degree`` and delay ``delay`` that best
+            approximates the sum of ``augend`` and ``addend``.
+
+        Examples
+        --------
+        Load the libraries.
+            >>> import numpy as np
+            >>> import splinekit as sk
+        Create two splines and sum them.
+            >>> c1 = np.array([1, 9, -7], dtype = float)
+            >>> s1 = sk.PeriodicSpline1D.from_spline_coeff(c1, degree = 3, delay = 8.4)
+            >>> c2 = np.array([6, -3, -2], dtype = float)
+            >>> s2 = sk.PeriodicSpline1D.from_spline_coeff(c2, degree = 1, delay = 0.1)
+            >>> sk.PeriodicSpline1D.add_projected(s1, s2, degree = 0, delay = -4.25)
+            PeriodicSpline1D([-4.72426875  6.28725     2.43701875], degree = 0, delay = -4.25)
+
+        Raises
+        ------
+        ValueError
+            Raised when ``augend.period != addend.period``.
+        ValueError
+            Raised when ``degree`` is :ref:`negative<def-negative>`.
+
+
+        ----
+
+        """
+
+        if augend.period != addend.period:
+            raise ValueError("The periods must match")
+        if 0 > degree:
+            raise ValueError("Degree must be nonnegative")
+        if (
+            (augend.degree == addend.degree) and
+                (augend.delay == addend.delay)
+        ):
+            return PeriodicSpline1D.add(augend, addend)
+        augend.degree = augend.degree + degree + 1
+        addend.degree = addend.degree + degree + 1
+        c = (augend.get_samples(delay, support_length = augend.period) +
+            addend.get_samples(delay, support_length = addend.period))
+        samples_to_coeff_p(c, degree = 2 * degree + 1)
+        augend.degree = augend.degree - degree - 1
+        addend.degree = addend.degree - degree - 1
+        return PeriodicSpline1D.from_spline_coeff(
+            c,
+            degree = degree,
+            delay = delay
         )
 
     #---------------
