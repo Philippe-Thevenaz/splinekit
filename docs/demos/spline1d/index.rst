@@ -33,4 +33,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     signum
     extrema
     projection
+    addition
 
