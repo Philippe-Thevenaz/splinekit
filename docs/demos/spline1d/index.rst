@@ -34,4 +34,5 @@ The demos rely on the Jupyter Lab deployment of Python. They run in-browser and 
     extrema
     projection
     addition
+    multires
 
