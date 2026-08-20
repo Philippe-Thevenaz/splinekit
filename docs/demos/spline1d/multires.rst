@@ -51,6 +51,20 @@ We now propose a few lines of code that first create a random spline of specifie
 Projected
 ^^^^^^^^^
 
+..  math::
+    \left(c_{M}^{n}\right)'[k]=\frac{1}{M^{n}}\,\sum_{q=\left\lceil\frac{{k\bmod\left(M\,K\right)}-\left(M-1\right)\,\left(n+1\right)}{M}\right\rceil}^{\left\lfloor\frac{{k\bmod\left(M\,K\right)}}{M}\right\rfloor}\,c[{q\bmod K}]\,h_{M}^{n}[k-M\,q]
+
+..  math::
+    \left(c_{M}^{n}\right)''[k]=\left(\left(b^{2\,n+1}\right)^{-1}*\left(c_{M}^{n}\right)'\right)[{k\bmod M\,K}]
+
+..  math::
+    c_{M}^{n}[k]=\sum_{q=\left\lceil-x_{0}-\frac{n_{0}+n+2}{2}\right\rceil}^{\left\lfloor-x_{0}+\frac{n_{0}+n+2}{2}\right\rfloor}\,\beta^{n_{0}+n+1}(q+x_{0})\,\left(c_{M}^{n}\right)''[{\left(k-q\right)\bmod M\,K}]
+
+:math:`x_{0}=\left(\delta x-M\,\delta x_{0}+\frac{\left(M-1\right)\,\left(n_{0}+1\right)}{2}\right)`
+
+``f.upscaled(M).projected(degree = degree, delay = delay)``
+
+
 ----
 
 Downscaling

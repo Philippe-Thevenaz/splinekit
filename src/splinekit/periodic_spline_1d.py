@@ -1298,11 +1298,20 @@ class PeriodicSpline1D:
         addend.degree = addend.degree + degree + 1
         c = (augend.get_samples(delay, support_length = augend.period) +
             addend.get_samples(delay, support_length = addend.period))
-        samples_to_coeff_p(c, degree = 2 * degree + 1)
+        samples_to_coeff_p(
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                c,
+            ),
+            degree = 2 * degree + 1
+        )
         augend.degree = augend.degree - degree - 1
         addend.degree = addend.degree - degree - 1
         return PeriodicSpline1D.from_spline_coeff(
-            c,
+            cast(
+                np.ndarray[tuple[int], np.dtype[np.float64]],
+                c,
+            ),
             degree = degree,
             delay = delay
         )
@@ -5790,7 +5799,7 @@ class PeriodicSpline1D:
         h0 = len(h)
         x0 = delay - magnification * self._delay + 0.5 * (h0 - 1)
         n0 = self._degree + degree + 1
-        k0 = -floor(x0 + 0.5 * (n0 + 1))
+        k0 = floor(x0 + 0.5 * (n0 + 1))
         c = cast(
             np.ndarray[tuple[int], np.dtype[np.float64]],
             np.fromiter(
@@ -5811,7 +5820,7 @@ class PeriodicSpline1D:
         )
         samples_to_coeff_p(c, degree = 2 * degree + 1)
         b = np.fromiter(
-            (b_spline(x0 + k0 + k, n0) for k in range(n0 + 1)),
+            (b_spline(q + x0, n0) for q in range(-k0, n0 - k0 + 1)),
             dtype = float,
             count = n0 + 1
         )
@@ -5820,7 +5829,7 @@ class PeriodicSpline1D:
             np.fromiter(
                 (
                     fsum(bq * c[(k - q) % p0] for (q, bq) in enumerate(b))
-                    for k in range(p0)
+                    for k in range(k0, k0 + p0 + 1)
                 ),
                 dtype = float,
                 count = p0
@@ -5829,7 +5838,7 @@ class PeriodicSpline1D:
         return PeriodicSpline1D.from_spline_coeff(
             cast(
                 np.ndarray[tuple[int], np.dtype[np.float64]],
-                np.roll(c, k0)
+                c
             ),
             degree = degree,
             delay = delay
