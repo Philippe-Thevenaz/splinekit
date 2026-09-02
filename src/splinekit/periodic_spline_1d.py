@@ -5943,20 +5943,8 @@ class PeriodicSpline1D:
             np.fromiter(
                 (
                     fsum(bq * c[(k - q) % p0] for (q, bq) in enumerate(b))
-                    for k in range(p0)
+                    for k in range(-k0, p0 - k0, minification)
                 ),
-                dtype = float,
-                count = p0
-            )
-        )
-        c = cast(
-            np.ndarray[tuple[int], np.dtype[np.float64]],
-            np.roll(c, k0)
-        )
-        c = cast(
-            np.ndarray[tuple[int], np.dtype[np.float64]],
-            np.fromiter(
-                (c[k * minification] for k in range(p0 // minification)),
                 dtype = float,
                 count = p0 // minification
             )
